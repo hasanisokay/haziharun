@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 
 export const serverErrorResponse = (message = "Internal Server Error") => {
-  return NextResponse.json({ error: message }, { status: 500 });
+  return NextResponse.json({ error: message, status: 500 });
 };
 
 export const successResponse = (data = {}, message = "Request successful") => {
-  return NextResponse.json({ message, data }, { status: 200 });
+
+  return NextResponse.json({ message, data, status: 200 },);
 };
 
 export const badRequestResponse = (message = "Bad Request") => {

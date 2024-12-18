@@ -1,0 +1,7 @@
+business/projects->
+1. Mudaraba: percentage, 
+2. Bai Muajjal: fixed amount, 
+expiry date, amount invested, members involved
+
+
+savings->

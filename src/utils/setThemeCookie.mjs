@@ -3,8 +3,9 @@
 import { THEME_COOKIE } from "@/constants/constantNames.mjs";
 import { cookies } from "next/headers";
 
-const setThemeCookie = (theme) => {
-  cookies().set({
+const setThemeCookie = async (theme) => {
+  const cookieStore  = await cookies();
+  cookieStore.set({
     name: THEME_COOKIE,
     value: theme,
     maxAge: 24 * 60 * 60 * 365,

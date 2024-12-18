@@ -8,7 +8,7 @@ import {
 import dbConnect from "@/services/dbConnect.mjs";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
-
+import bcrypt from 'bcrypt';
 export const POST = async (req) => {
   try {
     const body = await req.json();
@@ -61,7 +61,7 @@ export const POST = async (req) => {
       maxAge: 24 * 60 * 60 * 365,
     });
     delete user.password;
-    return successResponse(user, "Login Success");
+    return successResponse(user, "Login Success.");
   } catch (e) {
     return serverErrorResponse(e.message);
   }

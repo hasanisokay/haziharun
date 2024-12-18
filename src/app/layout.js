@@ -1,13 +1,15 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/nav/Navbar";
-import { Toaster } from "@/components/ui/toaster";
 import StoreProvider from "@/store/StoreProvider";
 import getThemeCookie from "@/utils/getThemeCookie.mjs";
 import { verifyToken } from "@/utils/verifyToken.mjs";
 import { makeStore } from "@/store/store";
 import { setUserData } from "@/store/slices/authSlice";
 import { setTheme } from "@/store/slices/themeSlice";
+// import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ThemeProvider from "@/components/providers/ThemeProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,15 +36,16 @@ export default async function RootLayout({ children }) {
   const initialReduxState = store.getState();
   return (
     <StoreProvider initialReduxState={initialReduxState}>
-      <html lang="en" data-theme={storedTheme}>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <Navbar />
-          {children}
-          <Toaster />
-        </body>
-      </html>
+      <ThemeProvider>
+        <html lang="en" data-theme={storedTheme}>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <Navbar />
+            {children}
+          </body>
+        </html>
+      </ThemeProvider>
     </StoreProvider>
   );
 }
