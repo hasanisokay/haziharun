@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 const memberFormSchema = z.object({
     name: z.string().min(1, "নাম লাগবে।"),
+    type: z.boolean(),
     father: z.string().min(1, "পিতার নাম দেয়া হয়নি।"),
     mother: z.string().min(1, "মায়ের নাম দেয়া হয়নি।"),
     village: z.string().min(1, "গ্রাম উল্লেখ করুন।"),

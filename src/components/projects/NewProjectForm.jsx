@@ -251,7 +251,7 @@ const NewProjectForm = ({ id }) => {
             <label className="block text-lg font-medium text-gray-700 dark:text-white mb-2">চুক্তি শুরুর তারিখ</label>
             <CustomDatePicker
               width={"100%"}
-              classNames={'text-black'}
+              classNames={'bg-inherit'}
               defaultValue={watch("startDate") || new Date()}
               onDateChange={(e) => setValue('startDate', e)}
               placeholder="Select Start Date"
@@ -263,7 +263,7 @@ const NewProjectForm = ({ id }) => {
             <CustomDatePicker
               defaultValue={watch("expiryDate") || new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())}
               width={"100%"}
-              classNames={'text-black'}
+              classNames={'bg-inherit'}
               onDateChange={(e) => setValue('expiryDate', e)}
               placeholder="Select Expiry Date"
             />

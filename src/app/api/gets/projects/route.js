@@ -15,6 +15,7 @@ export const GET = async (req) => {
     const endDate = endDateStr ? new Date(endDateStr) : null;
     const keyword = searchParams.get("keyword");
     const sort = searchParams.get("sort") || "all"; // Default to 'all' if no sort parameter
+    const filter = searchParams.get("filter") || "";
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 10;
     const skip = (page - 1) * limit;
@@ -27,30 +28,26 @@ export const GET = async (req) => {
       matchStage.$or = [
         { note: { $regex: keyword, $options: "i" } },
         { projectName: { $regex: keyword, $options: "i" } },
-        { "$members.name": { $regex: keyword, $options: "i" } },
+        { "members.name": { $regex: keyword, $options: "i" } },
       ];
     }
-
     if (startDate || endDate) {
       matchStage.expiryDate = {};
       if (startDate) matchStage.expiryDate.$gte = startDate;
       if (endDate) matchStage.expiryDate.$lte = endDate;
     }
 
-    // Determine sort field and order
-    let sortField = null;
-    let sortOrder = 1; // Ascending by default
-    if (sort === "expired_items_only") {
-      sortField = "expiryDate";
-      sortOrder = 1; // Expired items sorted by oldest expiry date first
-      matchStage.expiryDate = { $lt: new Date() }; // Only expired items
-    } else if (sort === "non_expired") {
-      sortField = "expiryDate";
-      sortOrder = 1; // Active items sorted by nearest expiry date first
-      matchStage.expiryDate = { $gte: new Date() }; // Only non-expired items
-    } else if (sort === "all") {
-      sortField = "expiryDate";
-      sortOrder = 1; 
+    let sortOrder = -1;
+    let sortField = "addedOn";
+    if (sort === "newest") {
+      sortOrder = -1;
+    } else if (sort === "oldest") {
+      sortOrder = 1;
+    }
+    if (filter === "expired_items_only") {
+      matchStage.expiryDate = { $lt: new Date() };
+    } else if (filter === "active_only") {
+      matchStage.expiryDate = { $gte: new Date() };
     }
 
     const projectCollection = await db.collection("projects");

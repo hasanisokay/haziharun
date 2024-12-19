@@ -14,7 +14,6 @@ export const GET = async (req) => {
     const page = parseInt(searchParams.get("page"));
     const limit = parseInt(searchParams.get("limit")) || 10;
     const skip = (page - 1) * limit;
-
     const matchStage = {};
     
     if (keyword) {

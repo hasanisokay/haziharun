@@ -9,8 +9,8 @@ export const PUT = async (req) => {
   try {
     const body = await req.json();
     const db = await dbConnect();
-    const { projectId, memberId, amount } = body;
-    const paymentInfo = { amount, date: new Date() };
+    const { projectId, memberId, amount, paymentDate } = body;
+    const paymentInfo = { amount, date: new Date(paymentDate) };
     const projectCollection = await db.collection("projects");
     const result = await projectCollection.updateOne(
       {

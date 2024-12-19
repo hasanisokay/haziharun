@@ -2,10 +2,12 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Select from "react-select";
+import CustomDatePicker from "../datepicker/DatePicker";
 
 const PaymentModal = ({ isOpen, onClose, members, onSubmit }) => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [paymentAmount, setPaymentAmount] = useState(0);
+  const [paymentDate, setPaymentDate] = useState(new Date());
 
   const theme = useSelector((state) => state.theme.mode);
 
@@ -32,7 +34,7 @@ const PaymentModal = ({ isOpen, onClose, members, onSubmit }) => {
 
   const handleSubmit = () => {
     if (selectedMember) {
-      onSubmit(selectedMember.value, paymentAmount);
+      onSubmit(selectedMember.value, paymentAmount, paymentDate);
     }
   };
 
@@ -68,8 +70,8 @@ const PaymentModal = ({ isOpen, onClose, members, onSubmit }) => {
           ? "#F9FAFB"
           : "#1F2937"
         : theme === "dark"
-        ? "#D1D5DB"
-        : "#4B5563",
+          ? "#D1D5DB"
+          : "#4B5563",
       "&:hover": {
         backgroundColor: theme === "dark" ? "#4B5563" : "#F3F4F6",
         color: theme === "dark" ? "#F9FAFB" : "#1F2937",
@@ -108,7 +110,7 @@ const PaymentModal = ({ isOpen, onClose, members, onSubmit }) => {
         {/* Member Selection */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            সদস্য নির্বাচন করুন:
+            সদস্য নির্বাচন করুনঃ
           </label>
           <Select
             value={selectedMember}
@@ -118,11 +120,17 @@ const PaymentModal = ({ isOpen, onClose, members, onSubmit }) => {
             className="w-full"
           />
         </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            তারিখঃ
+          </label>
+          <CustomDatePicker width={"100%"} showDateIcon={false} classNames={'bg-inherit'} defaultValue={paymentDate} onDateChange={(e) => setPaymentDate(e)} />
+        </div>
 
         {/* Payment Amount */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            পরিমাণ:
+            পরিমাণঃ
           </label>
           <input
             type="number"

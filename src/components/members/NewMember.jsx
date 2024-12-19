@@ -7,12 +7,15 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import memberFormSchema from "../schemas/newMemberFormSchema.mjs";
-import { Slide, toast, ToastContainer, Zoom } from 'react-toastify';
+import { Slide, toast, ToastContainer } from 'react-toastify';
 
 const NewMemberForm = ({ id }) => {
 
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
         resolver: zodResolver(memberFormSchema),
+        defaultValues: {
+            type: true, 
+        },
     });
 
     const [loading, setLoading] = useState(false);
@@ -21,6 +24,7 @@ const NewMemberForm = ({ id }) => {
         setLoading(true);
 
         try {
+            data.type = data.type ? "permanent" : "temporary";
             let method = "POST"
             let apiRoute = '/api/posts/add-new-member'
             if (updateable) {
@@ -75,16 +79,17 @@ const NewMemberForm = ({ id }) => {
         if (data.status === 200) {
             setUpdateable(true);
             const m = data?.data?.member;
-            setValue('name', m.name)
-            setValue('father', m.father)
-            setValue('mother', m.mother)
-            setValue('nationalId', m.nationalId)
-            setValue('email', m.email)
-            setValue('district', m.district)
-            setValue('village', m.village)
-            setValue('policeStation', m.policeStation)
-            setValue('post', m.post)
-            setValue('mobileNumber', m.mobileNumber)
+            setValue('name', m?.name)
+            setValue('type', m?.type === "permanent");
+            setValue('father', m?.father)
+            setValue('mother', m?.mother)
+            setValue('nationalId', m?.nationalId)
+            setValue('email', m?.email)
+            setValue('district', m?.district)
+            setValue('village', m?.village)
+            setValue('policeStation', m?.policeStation)
+            setValue('post', m?.post)
+            setValue('mobileNumber', m?.mobileNumber)
         } else {
             setUpdateable(false)
         }
@@ -130,6 +135,22 @@ const NewMemberForm = ({ id }) => {
                             )}
                         </div>
                     ))}
+                    <div>
+                        <Label htmlFor="type" className="block text-sm font-medium mb-1">
+                            সদস্যের ধরণ
+                        </Label>
+                        <input
+                            id="type"
+                            type="checkbox"
+                            {...register('type')}
+                            defaultChecked
+                            className="mr-2 dark:bg-gray-700 bg-white dark:text-gray-100 text-black border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500"
+                        />
+                        <span>{watch("type") ? `স্থায়ী সদস্য` : "অস্থায়ী সদস্য"}</span>
+                        {errors.type && (
+                            <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>
+                        )}
+                    </div>
 
                     {/** Submit Button */}
                     <div className="mt-6">

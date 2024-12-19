@@ -26,7 +26,7 @@ const CustomDatePicker = ({ showDateIcon = true, onDateChange, placeholder, widt
                 onChange={handleChange}
                 // dateFormat="dd/MM/yyyy"
                 dateFormat="dd/MM/yyyy"
-                className="w-full"
+                className={classNames}
                 placeholderText={placeholder || "Select a Date"}
                 icon={
                     <svg

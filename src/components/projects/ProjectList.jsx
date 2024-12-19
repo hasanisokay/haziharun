@@ -3,18 +3,22 @@ import formatDate from "@/utils/formatDate.mjs";
 import getRemainingDays from "@/utils/getRemainingDays.mjs";
 import SearchBox from "../forms/SearchBox";
 import Link from "next/link";
-import SortInProjects from "../selects/SortInProjects";
+import DefaultSorting from "../selects/DefaultSoring";
 import Edit from "../svg/Edit";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PaymentModal from "../modal/PaymentModal";
 import { Flip, toast, ToastContainer } from "react-toastify";
 
 
-const ProjectList = ({ projects }) => {
+const ProjectList = ({ p }) => {
   const getProjectName = (p) => {
     if (p === "mudaraba") return "মুদারাবা";
     if (p === "baiMuajjal") return "বাইয়ে মুয়াজ্জাল";
   };
+  const [projects, setProjects] = useState(p)
+  useEffect(() => { setProjects(p) }, [p])
+  const memorizedProjects = useMemo(() => projects, [projects]);
+
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMembers, setModalMembers] = useState([]);
@@ -31,7 +35,7 @@ const ProjectList = ({ projects }) => {
     setModalMembers([]);
     setModalProjectId(null);
   };
-  const handlePaymentSubmit = async (memberId, a) => {
+  const handlePaymentSubmit = async (memberId, a, date) => {
     let amount = parseFloat(a);
     if (amount < 0 || amount === 0 || loading) return;
 
@@ -43,16 +47,32 @@ const ProjectList = ({ projects }) => {
           projectId: modalProjectId,
           memberId,
           amount,
+          paymentDate: date
         }),
       });
       const data = await res.json();
-      console.log(data)
-      closeModal();
       if (data.status === 200) {
         toast.success(`${data?.message}`, {
           position: "top-right",
           autoClose: 2000
         });
+        setProjects((prevProjects) =>
+          prevProjects.map((project) =>
+            project._id === modalProjectId
+              ? {
+                ...project,
+                members: project.members.map((member) =>
+                  member.memberId === memberId
+                    ? {
+                      ...member,
+                      payments: [...(member.payments || []), { amount, date }],
+                    }
+                    : member
+                ),
+              }
+              : project
+          )
+        );
       } else {
         toast.error(data?.message)
       }
@@ -60,14 +80,27 @@ const ProjectList = ({ projects }) => {
       toast.error(error.message);
     }
     finally {
+      closeModal();
       setLoading(false);
     }
   };
+  const filterOptions = [
+    { value: "expired_items_only", label: "শুধু মেয়াদোত্তীর্ণ" },
+    { value: "all", label: "সবগুলো" },
+    { value: "active_only", label: "মেয়াদ আছে এমন" },
+  ];
+  const sortOptions = [
+    { value: "newest", label: "নতুন" },
+    { value: "oldest", label: "পুরাতন" },
+  ];
   return (
-    <div className="space-y-6 ">
+    <div className="space-y-6 mt-4 ">
       <SearchBox placeholder={"নাম, মেম্বার, বর্ণনা অনুযায়ী সার্চ করুন"} />
-      <SortInProjects />
-      {projects?.map((project) => {
+      <div className="flex flex-wrap lg:gap-10 md:gap-4 gap-2 items-center">
+        <DefaultSorting sortingOptionsProps={filterOptions} field="filter" />
+        <DefaultSorting sortingOptionsProps={sortOptions} field="sort" />
+      </div>
+      {memorizedProjects?.map((project) => {
         const remainingDays = getRemainingDays(project.expiryDate);
         return (
           <div
@@ -144,28 +177,28 @@ const ProjectList = ({ projects }) => {
               <table className="w-full mt-2 border-collapse">
                 <thead>
                   <tr className="text-left border-b border-gray-300 dark:border-gray-600">
-                    <th className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400">
+                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                       নাম
                     </th>
-                    <th className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400">
+                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                       বিনিয়োগ
                     </th>
-                    <th className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400">
+                    <th className="px-4 py-2 min-w-[160px] font-medium text-gray-600 dark:text-gray-400">
                       পেয়েছেন
                     </th>
-                    <th className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400">
+                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                       বাকি আছে
                     </th>
-                    <th className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400">
+                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                       মোট পাবেন
                     </th>
-                    <th className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400">
+                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                       {project.projectType === "mudaraba"
                         ? "লাভ/লস পাবেন"
                         : "লাভ পাবেন"}
                     </th>
                     {project.projectType === "mudaraba" && (
-                      <th className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400">
+                      <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                         পার্সেন্টেজ
                       </th>
                     )}
@@ -190,7 +223,8 @@ const ProjectList = ({ projects }) => {
                             {member?.payments?.map((p, index) => <div key={index}>
                               <p>{formatDate(p.date)} তারিখে ৳{p.amount.toLocaleString()}</p>
                             </div>)}
-                            <p className="py-1 font-semibold">মোটঃ <span className="font-semibold">৳{totalPaid.toLocaleString()}</span></p>
+                            {totalPaid > 0 ? <p className="py-1 font-semibold">মোটঃ <span className="font-semibold">৳{totalPaid.toLocaleString()}</span></p> : <p>0</p>
+                            }
                           </div> : <p>0</p>}
                         </td>
                         <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
@@ -198,7 +232,7 @@ const ProjectList = ({ projects }) => {
                           ৳{(member.amountInvested + member.willGetAmount - totalPaid).toLocaleString()}
                         </td>
                         <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
-                         
+
                           {
                             project.projectType === 'mudaraba' ? <p> ৳{member.amountInvested.toLocaleString()} ± {member.willGetAmount.toLocaleString()}</p> : <p> ৳{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
                           }
@@ -226,7 +260,7 @@ const ProjectList = ({ projects }) => {
         members={modalMembers}
         onSubmit={handlePaymentSubmit}
       />
-               <ToastContainer transition={Flip} />
+      <ToastContainer transition={Flip} />
     </div>
   );
 };

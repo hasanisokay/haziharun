@@ -8,12 +8,13 @@ const projectsPage = async ({ searchParams }) => {
   const page = parseInt((await searchParams)?.page) || 1;
   const limit = parseInt((await searchParams)?.limit) || 10;
   const sort = (await searchParams)?.sort || "newest";
+  const filter = (await searchParams)?.filter || "";
   const keyword = (await searchParams)?.keyword || "";
   let projects;
   let totalCount;
 
   try {
-    const d = await getProjects(page, limit, sort, keyword);
+    const d = await getProjects(page, limit, sort, keyword, filter);
     if (d.status === 200) {
       projects = d?.data?.projects;
       totalCount = d?.data?.totalCount || 0;
@@ -28,7 +29,7 @@ const projectsPage = async ({ searchParams }) => {
   if (!projects) return <NotFound />;
   return (
     <>
-      <ProjectList projects={projects} />
+      <ProjectList p={projects} />
       {totalCount > limit && <PaginationDefault p={page} totalPages={totalPages}/>}
     </>
   );

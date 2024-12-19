@@ -95,14 +95,24 @@ const Navbar = () => {
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <Link href="/" className={getLinkClass("/")}>Home</Link>
-                <Link href="/about" className={getLinkClass("/about")}>About</Link>
+                <Link href="/" className={getLinkClass("/")}>হোম</Link>
+                <div className={`${currentPath.includes('/deposits')
+                  ? "text-white bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+                  : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
+       flex gap-4 `}>
+                  <Link href="/deposits" className="">
+                    সঞ্চয়
+                  </Link>
+                  <Link href="/deposits/new">
+                    +
+                  </Link>
+                </div>
                 <div className={`${currentPath.includes('/members')
                   ? "text-white bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
                   : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
        flex gap-4 `}>
                   <Link href="/members" className="">
-                    Members
+                    সদস্য
                   </Link>
                   <Link href="/members/new">
                     +
@@ -113,14 +123,13 @@ const Navbar = () => {
                   : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
        flex gap-4 `}>
                   <Link className="text-inherit" href="/projects">
-                    Projects
+                    প্রজেক্ট
                   </Link>
                   <Link className="text-inherit" href="/projects/new">
                     +
                   </Link>
                 </div>
-                <Link href="/contact" className={getLinkClass("/contact")}>Contact</Link>
-                {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>Log Out</button>}
+                {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>লগ আউট</button>}
                 {themeSwitch}
               </div>
             </div>
