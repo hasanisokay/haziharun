@@ -1,20 +1,27 @@
 'use client'
 import formatDate from "@/utils/formatDate.mjs";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Edit from "../svg/Edit";
 import DefaultSorting from "../selects/DefaultSoring";
+import SearchBox from "../forms/SearchBox";
+import Report from "../svg/Report";
+import MemberReportModal from "./MemberReportModal";
 
 const MembersList = ({ m = [] }) => {
+    const [selectedMember, setSelectedMember] = useState(null);
     const memorizedMembers = useMemo(() => m, [m])
-    console.log(m)
+
     const s = [
         { value: "permanent_members_only", label: "স্থায়ী সদস্য" },
         { value: "all", label: "সব সদস্য" },
         { value: "temporary_members_only", label: "অস্থায়ী সদস্য" },
     ];
+    const closeModal = () => setSelectedMember(null);
+console.log(m)
     return (
         <div className="mt-4">
+            <SearchBox placeholder={'সদস্যের নাম, পিতা/মাতার নাম, মোবাইল নাম্বার ইত্যাদি দিয়ে সার্চ করুন'} />
             <DefaultSorting sortingOptionsProps={s} field="filter" />
             <div className="space-y-6">
                 {memorizedMembers.map((member) => (
@@ -32,10 +39,15 @@ const MembersList = ({ m = [] }) => {
                                     {member.village}, {member.post}, {member.policeStation}, {member.district}
                                 </p>
                             </div>
-                            <button
-                            >
-                                <Link href={`/members/new?id=${member?._id}`}><Edit /> </Link>
-                            </button>
+                            <div className="flex gap-4">
+                                <button onClick={() => setSelectedMember(member)}>
+                                    <Report />
+                                </button>
+                                <button
+                                >
+                                    <Link href={`/members/new?id=${member?._id}`}><Edit /> </Link>
+                                </button>
+                            </div>
                         </div>
 
                         {/* Contact Details */}
@@ -115,6 +127,12 @@ const MembersList = ({ m = [] }) => {
                     </div>
                 ))}
             </div>
+            {selectedMember && (
+                <MemberReportModal
+                    member={selectedMember}
+                    onClose={closeModal}
+                />
+            )}
         </div>
     );
 };

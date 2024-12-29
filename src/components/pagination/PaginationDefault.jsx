@@ -48,7 +48,7 @@ const PaginationDefault = ({ p, totalPages }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
     return (
-        <div className="flex flex-wrap h-auto mt-4 mb-1 items-center mx-auto">
+        <div className="flex bg-inherit flex-wrap h-auto mt-4 mb-1 items-center mx-auto">
             { renderPageNumbers()}
         </div>
     );

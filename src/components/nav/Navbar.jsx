@@ -101,7 +101,7 @@ const Navbar = () => {
                   : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
        flex gap-4 `}>
                   <Link href="/deposits" className="">
-                    সঞ্চয়
+                    আমানত
                   </Link>
                   <Link href="/deposits/new">
                     +

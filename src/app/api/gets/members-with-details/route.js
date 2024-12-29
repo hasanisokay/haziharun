@@ -46,73 +46,149 @@ export const GET = async (req) => {
     }
 
     const membersCollection = db.collection("members");
+    // const members = await membersCollection
+    //   .aggregate([
+    //     { $match: matchStage },
+    //     {
+    //       $lookup: {
+    //         from: "projects",
+    //         localField: "_id",
+    //         foreignField: "members.memberId",
+    //         as: "projectsInfo",
+    //       },
+    //     },
+    //     {
+    //       $addFields: {
+    //         projectCount: { $size: "$projectsInfo" },
+    //         totalAmountInvested: {
+    //           $sum: {
+    //             $map: {
+    //               input: "$projectsInfo",
+    //               as: "project",
+    //               in: {
+    //                 $sum: {
+    //                   $map: {
+    //                     input: {
+    //                       $filter: {
+    //                         input: "$$project.members",
+    //                         as: "member",
+    //                         cond: { $eq: ["$$member.memberId", "$_id"] },
+    //                       },
+    //                     },
+    //                     as: "memberDetail",
+    //                     in: "$$memberDetail.amountInvested",
+    //                   },
+    //                 },
+    //               },
+    //             },
+    //           },
+    //         },
+    //         totalWillGetAmount: {
+    //           $sum: {
+    //             $map: {
+    //               input: "$projectsInfo",
+    //               as: "project",
+    //               in: {
+    //                 $sum: {
+    //                   $map: {
+    //                     input: {
+    //                       $filter: {
+    //                         input: "$$project.members",
+    //                         as: "member",
+    //                         cond: { $eq: ["$$member.memberId", "$_id"] },
+    //                       },
+    //                     },
+    //                     as: "memberDetail",
+    //                     in: "$$memberDetail.willGetAmount",
+    //                   },
+    //                 },
+    //               },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //     { $sort: sortStage },
+    //     { $skip: skip },
+    //     { $limit: limit },
+    //   ])
+    //   .toArray();
     const members = await membersCollection
-      .aggregate([
-        { $match: matchStage },
-        {
-          $lookup: {
-            from: "projects",
-            localField: "_id",
-            foreignField: "members.memberId",
-            as: "projectsInfo",
-          },
-        },
-        {
-          $addFields: {
-            projectCount: { $size: "$projectsInfo" },
-            totalAmountInvested: {
-              $sum: {
-                $map: {
-                  input: "$projectsInfo",
-                  as: "project",
-                  in: {
-                    $sum: {
-                      $map: {
-                        input: {
-                          $filter: {
-                            input: "$$project.members",
-                            as: "member",
-                            cond: { $eq: ["$$member.memberId", "$_id"] },
-                          },
-                        },
-                        as: "memberDetail",
-                        in: "$$memberDetail.amountInvested",
+  .aggregate([
+    { $match: matchStage },
+    {
+      $lookup: {
+        from: "projects",
+        localField: "_id",
+        foreignField: "members.memberId",
+        as: "projectsInfo",
+      },
+    },
+    {
+      $lookup: {
+        from: "deposits",
+        localField: "_id",
+        foreignField: "member.memberId",
+        as: "depositsInfo",
+      },
+    },
+    {
+      $addFields: {
+        projectCount: { $size: "$projectsInfo" },
+        totalAmountInvested: {
+          $sum: {
+            $map: {
+              input: "$projectsInfo",
+              as: "project",
+              in: {
+                $sum: {
+                  $map: {
+                    input: {
+                      $filter: {
+                        input: "$$project.members",
+                        as: "member",
+                        cond: { $eq: ["$$member.memberId", "$_id"] },
                       },
                     },
-                  },
-                },
-              },
-            },
-            totalWillGetAmount: {
-              $sum: {
-                $map: {
-                  input: "$projectsInfo",
-                  as: "project",
-                  in: {
-                    $sum: {
-                      $map: {
-                        input: {
-                          $filter: {
-                            input: "$$project.members",
-                            as: "member",
-                            cond: { $eq: ["$$member.memberId", "$_id"] },
-                          },
-                        },
-                        as: "memberDetail",
-                        in: "$$memberDetail.willGetAmount",
-                      },
-                    },
+                    as: "memberDetail",
+                    in: "$$memberDetail.amountInvested",
                   },
                 },
               },
             },
           },
         },
-        { $sort: sortStage },
-        { $skip: skip },
-        { $limit: limit },
-      ])
-      .toArray();
+        totalWillGetAmount: {
+          $sum: {
+            $map: {
+              input: "$projectsInfo",
+              as: "project",
+              in: {
+                $sum: {
+                  $map: {
+                    input: {
+                      $filter: {
+                        input: "$$project.members",
+                        as: "member",
+                        cond: { $eq: ["$$member.memberId", "$_id"] },
+                      },
+                    },
+                    as: "memberDetail",
+                    in: "$$memberDetail.willGetAmount",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    { $sort: sortStage },
+    { $skip: skip },
+    { $limit: limit },
+  ])
+  .toArray();
+
     const totalCount = await membersCollection.countDocuments(matchStage);
 
     return successResponse({ members, totalCount }, "Members Found");

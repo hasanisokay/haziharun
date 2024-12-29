@@ -125,7 +125,7 @@ const NewDeposit = () => {
                             render={({ field }) => (
                                 <CustomDatePicker
                                     {...field}
-                                    classNames="w-full dark:bg-gray-700"
+                                classNames="w-full dark:bg-gray-700 px-1 rounded-md"
                                     onDateChange={(date) => field.onChange(date)}
                                     showDateIcon={false}
                                     width="120px"
