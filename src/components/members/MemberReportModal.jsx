@@ -5,7 +5,7 @@ import Print from "../svg/Print";
 
 const MemberReportModal = ({ member, onClose }) => {
     const iframeRef = useRef(null);
-console.log(member)
+    console.log(member)
     const handlePrint = () => {
         const printContent = iframeRef.current.contentDocument;
         printContent.body.innerHTML = document.getElementById("printable-content").innerHTML;
@@ -181,155 +181,155 @@ console.log(member)
                                         সদস্যের অবদান
                                     </h5>
                                     {project.members.length > 0 && (
-  <>
-    {/* Matched Member */}
-    {project.members
-      .filter((projMember) => projMember.name === member.name)
-      .map((matchedMember) => (
-        <div
-          key={matchedMember.memberId}
-          style={{
-            fontSize: "14px",
-            paddingLeft: "16px",
-            marginBottom: "8px",
-            color: "#555",
-          }}
-        >
-          <p>
-            <strong>নাম:</strong>{" "}
-            <span
-              style={{
-                fontWeight: "600",
-                color: "#000000",
-              }}
-            >
-              {matchedMember.name}
-            </span>
-          </p>
-          <p>
-            <strong>ইনভেস্ট করেছেন:</strong> ৳
-            {matchedMember.amountInvested.toLocaleString()}
-          </p>
-          <p>
-            <strong>লাভ:</strong> ৳
-            {matchedMember.willGetAmount.toLocaleString()} (
-            {matchedMember.willGetPercentage}%)
-          </p>
-        </div>
-      ))}
+                                        <>
+                                            {/* Matched Member */}
+                                            {project.members
+                                                .filter((projMember) => projMember.name === member.name)
+                                                .map((matchedMember) => (
+                                                    <div
+                                                        key={matchedMember.memberId}
+                                                        style={{
+                                                            fontSize: "14px",
+                                                            paddingLeft: "16px",
+                                                            marginBottom: "8px",
+                                                            color: "#555",
+                                                        }}
+                                                    >
+                                                        <p>
+                                                            <strong>নাম:</strong>{" "}
+                                                            <span
+                                                                style={{
+                                                                    fontWeight: "600",
+                                                                    color: "#000000",
+                                                                }}
+                                                            >
+                                                                {matchedMember.name}
+                                                            </span>
+                                                        </p>
+                                                        <p>
+                                                            <strong>ইনভেস্ট করেছেন:</strong> ৳
+                                                            {matchedMember.amountInvested.toLocaleString()}
+                                                        </p>
+                                                        <p>
+                                                            <strong>লাভ:</strong> ৳
+                                                            {matchedMember.willGetAmount.toLocaleString()} (
+                                                            {matchedMember.willGetPercentage}%)
+                                                        </p>
+                                                    </div>
+                                                ))}
 
-    {/* Other Members */}
-    {project.members.some((projMember) => projMember.name !== member.name) && (
-      <div
-        style={{
-          marginTop: "16px",
-          paddingTop: "12px",
-          borderTop: "1px solid #ddd",
-        }}
-      >
-        <h5
-          style={{
-            fontSize: "14px",
-            fontWeight: "500",
-            marginBottom: "8px",
-            color: "#444",
-          }}
-        >
-         প্রকল্পের অন্যান্য সদস্যঃ
-        </h5>
-        {project?.members
-          ?.filter((projMember) => projMember.name !== member.name)
-          ?.map((otherMember) => (
-            <div
-              key={otherMember.memberId}
-              style={{
-                fontSize: "14px",
-                paddingLeft: "16px",
-                marginBottom: "8px",
-                color: "#555",
-              }}
-            >
-              <p>
-                <strong>নাম:</strong>{" "}
-                <span
-                  style={{
-                    fontWeight: "500",
-                    color: "#555",
-                  }}
-                >
-                  {otherMember.name}
-                </span>
-              </p>
-              <p>
-                <strong>ইনভেস্ট করেছেন:</strong> ৳
-                {otherMember.amountInvested.toLocaleString()}
-              </p>
-              <p>
-                <strong>লাভ:</strong> ৳
-                {otherMember.willGetAmount.toLocaleString()} (
-                {otherMember.willGetPercentage}%)
-              </p>
-            </div>
-          ))}
-      </div>
-    )}
-  </>
-)}
+                                            {/* Other Members */}
+                                            {project.members.some((projMember) => projMember.name !== member.name) && (
+                                                <div
+                                                    style={{
+                                                        marginTop: "16px",
+                                                        paddingTop: "12px",
+                                                        borderTop: "1px solid #ddd",
+                                                    }}
+                                                >
+                                                    <h5
+                                                        style={{
+                                                            fontSize: "14px",
+                                                            fontWeight: "500",
+                                                            marginBottom: "8px",
+                                                            color: "#444",
+                                                        }}
+                                                    >
+                                                        প্রকল্পের অন্যান্য সদস্যঃ
+                                                    </h5>
+                                                    {project?.members
+                                                        ?.filter((projMember) => projMember.name !== member.name)
+                                                        ?.map((otherMember) => (
+                                                            <div
+                                                                key={otherMember.memberId}
+                                                                style={{
+                                                                    fontSize: "14px",
+                                                                    paddingLeft: "16px",
+                                                                    marginBottom: "8px",
+                                                                    color: "#555",
+                                                                }}
+                                                            >
+                                                                <p>
+                                                                    <strong>নাম:</strong>{" "}
+                                                                    <span
+                                                                        style={{
+                                                                            fontWeight: "500",
+                                                                            color: "#555",
+                                                                        }}
+                                                                    >
+                                                                        {otherMember.name}
+                                                                    </span>
+                                                                </p>
+                                                                <p>
+                                                                    <strong>ইনভেস্ট করেছেন:</strong> ৳
+                                                                    {otherMember.amountInvested.toLocaleString()}
+                                                                </p>
+                                                                <p>
+                                                                    <strong>লাভ:</strong> ৳
+                                                                    {otherMember.willGetAmount.toLocaleString()} (
+                                                                    {otherMember.willGetPercentage}%)
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
 
                                 </div>
                             ))}
                         </>
                     )}
                     {member.depositsInfo && member.depositsInfo.length > 0 && (
-    <>
-        <h3
-            style={{
-                fontSize: "18px",
-                fontWeight: "500",
-                color: "#444",
-                marginTop: "24px",
-                marginBottom: "12px",
-                borderBottom: "1px solid #ddd",
-                paddingBottom: "8px",
-            }}
-        >
-            আমানতের বিবরণ
-        </h3>
-        <div
-            style={{
-                display: "grid",
-                gap: "12px",
-                marginBottom: "16px",
-            }}
-        >
-            {member.depositsInfo.map((deposit) => (
-                <div
-                    key={deposit._id}
-                    style={{
-                        backgroundColor: "#f9f9f9",
-                        borderRadius: "6px",
-                        padding: "12px",
-                        border: "1px solid #ddd",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                    }}
-                >
-                    <p style={{ fontSize: "14px", color: "#555" }}>
-                        <strong>পরিমাণঃ</strong> ৳{deposit.amount.toLocaleString()}
-                    </p>
-                    <p style={{ fontSize: "14px", color: "#555" }}>
-                        <strong>জমার তারিখঃ</strong>{" "}
-                        {new Date(deposit.depositDate).toLocaleDateString()}
-                    </p>
-                    {/* <p style={{ fontSize: "14px", color: "#555" }}>
+                        <>
+                            <h3
+                                style={{
+                                    fontSize: "18px",
+                                    fontWeight: "500",
+                                    color: "#444",
+                                    marginTop: "24px",
+                                    marginBottom: "12px",
+                                    borderBottom: "1px solid #ddd",
+                                    paddingBottom: "8px",
+                                }}
+                            >
+                                আমানতের বিবরণ
+                            </h3>
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gap: "12px",
+                                    marginBottom: "16px",
+                                }}
+                            >
+                                {member.depositsInfo.map((deposit) => (
+                                    <div
+                                        key={deposit._id}
+                                        style={{
+                                            backgroundColor: "#f9f9f9",
+                                            borderRadius: "6px",
+                                            padding: "12px",
+                                            border: "1px solid #ddd",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: "8px",
+                                        }}
+                                    >
+                                        <p style={{ fontSize: "14px", color: "#555" }}>
+                                            <strong>পরিমাণঃ</strong> ৳{deposit.amount.toLocaleString()}
+                                        </p>
+                                        <p style={{ fontSize: "14px", color: "#555" }}>
+                                            <strong>জমার তারিখঃ</strong>{" "}
+                                            {new Date(deposit.depositDate).toLocaleDateString()}
+                                        </p>
+                                        {/* <p style={{ fontSize: "14px", color: "#555" }}>
                         <strong>সদস্যঃ</strong> {deposit.member.name}
                     </p> */}
-                </div>
-            ))}
-        </div>
-    </>
-)}
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
 
                 </div>
 

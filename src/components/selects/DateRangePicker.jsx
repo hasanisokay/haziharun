@@ -54,7 +54,8 @@ const CustomDateRangePicker = ({ startDateParam, endDateParam, defaultStartDate,
                             placeholderText="শুরুর তারিখ"
                             dateFormat="dd/MM/yyyy"
                             className="w-full p-3 border rounded-md shadow-sm dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 bg-white text-gray-900 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                       
+                       />
                     </div>
 
                     {/* End Date Picker */}

@@ -8,17 +8,18 @@ import Edit from "../svg/Edit";
 import { useEffect, useMemo, useState } from "react";
 import PaymentModal from "../modal/PaymentModal";
 import { Flip, toast, ToastContainer } from "react-toastify";
+import ProjectDetailsModal from "./ProjectDetailsModal";
+import getProjectName from "@/utils/getProjectName.mjs";
+import calculateDurationInDays from "@/utils/calculateDurationInDays.mjs";
+import Report from "../svg/Report";
 
 
 const ProjectList = ({ p }) => {
-  const getProjectName = (p) => {
-    if (p === "mudaraba") return "মুদারাবা";
-    if (p === "baiMuajjal") return "বাইয়ে মুয়াজ্জাল";
-  };
   const [projects, setProjects] = useState(p)
   useEffect(() => { setProjects(p) }, [p])
   const memorizedProjects = useMemo(() => projects, [projects]);
-
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMembers, setModalMembers] = useState([]);
@@ -35,6 +36,17 @@ const ProjectList = ({ p }) => {
     setModalMembers([]);
     setModalProjectId(null);
   };
+
+  const openDetailsModal = (project) => {
+    setSelectedProject(project);
+    setIsDetailsModalOpen(true);
+  };
+
+  const closeDetailsModal = () => {
+    setIsDetailsModalOpen(false);
+    setSelectedProject(null);
+  };
+
   const handlePaymentSubmit = async (memberId, a, date) => {
     let amount = parseFloat(a);
     if (amount < 0 || amount === 0 || loading) return;
@@ -113,6 +125,7 @@ const ProjectList = ({ p }) => {
                 <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                   {project.projectName}
                 </h2>
+
                 <span
                   className={`text-sm mt-2 ${remainingDays <= 0
                     ? "text-red-500"
@@ -137,13 +150,20 @@ const ProjectList = ({ p }) => {
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {getProjectName(project.projectType)}
                 </p>
-                <button
-                  className="rounded-lg shadow-md"
-                >
-                  <Link href={`/projects/new?id=${project?._id}`}>
-                    <Edit />
-                  </Link>
-                </button>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => openDetailsModal(project)}
+                  >
+                    <Report />
+                  </button>
+                  <button
+                    className="rounded-lg shadow-md"
+                  >
+                    <Link href={`/projects/new?id=${project?._id}`}>
+                      <Edit />
+                    </Link>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -158,6 +178,9 @@ const ProjectList = ({ p }) => {
                   বর্ণনাঃ
                 </span>{" "}
                 {project.note || "N/A"}
+              </p>
+              <p>
+                <span className="font-medium">স্থায়িত্বকালঃ </span> {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
               </p>
               <p>
                 <span className="font-medium">শুরুর তারিখঃ</span>{" "}
@@ -254,6 +277,13 @@ const ProjectList = ({ p }) => {
           </div>
         );
       })}
+      {selectedProject && (
+        <ProjectDetailsModal
+          isOpen={isDetailsModalOpen}
+          onClose={closeDetailsModal}
+          project={selectedProject}
+        />
+      )}
       <PaymentModal
         isOpen={isModalOpen}
         onClose={closeModal}
