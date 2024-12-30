@@ -36,3 +36,10 @@ const membersPage = async ({ searchParams }) => {
   );
 };
 export default membersPage;
+
+export async function generateMetadata() {
+  return {
+    title: "সদস্যরা | হাজী হারুন এন্টারপ্রাইজ",
+    description: "হাজী হারুন এন্টারপ্রাইজের সদস্যদের একটি তালিকা, যারা আমাদের ইনভেস্টমেন্ট ম্যানেজমেন্ট প্রক্রিয়ায় গুরুত্বপূর্ণ ভূমিকা পালন করেন।",
+  };
+}

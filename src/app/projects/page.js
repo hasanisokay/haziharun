@@ -1,7 +1,6 @@
 import NotFound from "@/components/not-found/NotFound";
 import PaginationDefault from "@/components/pagination/PaginationDefault";
 import ProjectList from "@/components/projects/ProjectList";
-import hostname from "@/constants/hostname.mjs";
 import getProjects from "@/utils/getProjects.mjs";
 
 const projectsPage = async ({ searchParams }) => {
@@ -35,3 +34,10 @@ const projectsPage = async ({ searchParams }) => {
   );
 };
 export default projectsPage;
+
+export async function generateMetadata() {
+  return {
+    title: "প্রকল্পসমূহ | হাজী হারুন এন্টারপ্রাইজ",
+    description: "হাজী হারুন এন্টারপ্রাইজের সফল প্রকল্পসমূহের সংগ্রহ, যা আমাদের শক্তিশালী ইনভেস্টমেন্ট ম্যানেজমেন্ট দক্ষতা এবং প্রফেশনালিজমকে প্রতিফলিত করে।",
+  };
+}

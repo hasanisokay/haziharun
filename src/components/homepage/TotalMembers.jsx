@@ -29,8 +29,8 @@ const TotalMembers = () => {
 
     const toggleExpand = () => setIsExpanded(!isExpanded);
 
-    const permanentCount = membersList.filter(member => member.type === "permanent").length;
-    const temporaryCount = membersList.filter(member => member.type === "temporary").length;
+    const permanentCount = membersList?.filter(member => member.type === "permanent")?.length;
+    const temporaryCount = membersList?.filter(member => member.type === "temporary")?.length;
 
     return (
         <div className="p-6">

@@ -37,3 +37,10 @@ const depositsPage = async ({ searchParams }) => {
   );
 };
 export default depositsPage;
+
+export async function generateMetadata() {
+  return {
+    title: "আমানত | হাজী হারুন এন্টারপ্রাইজ",
+    description: "হাজী হারুন এন্টারপ্রাইজে আপনার ডিপোজিট পরিচালনা করুন এবং আপনার আর্থিক লক্ষ্য অর্জনে সহায়তা পান।",
+  };
+}

@@ -5,7 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "@/store/slices/themeSlice";
 import logOut from "@/utils/logOut.mjs";
-
+import Image from "next/image";
+import logo from "./../../../public/hazi_harun_logo1.png";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const currentPath = usePathname()
@@ -89,8 +90,8 @@ const Navbar = () => {
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
-              <Link href="/" className="text-2xl font-bold text-white">
-                Logo
+              <Link href="/" className="text-2xl font-bold">
+                <Image src={logo} width={140} height={100} alt="logo" className="dark:bg-white dark:bg-opacity-70 " />
               </Link>
             </div>
             <div className="hidden sm:block sm:ml-6">
@@ -140,20 +141,44 @@ const Navbar = () => {
       {/* Mobile menu */}
       <div className={`${isOpen ? "block" : "hidden"} sm:hidden`} id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link href="/" className={getLinkClass("/")}>Home</Link>
-          <div className={`${getLinkClass("/members")} ${getLinkClass("/members/new")} flex gap-4 `}>
-            <Link href="/members">
-              Members
+          <Link href="/" className={getLinkClass("/")}>হোম</Link>
+          <div className={`${currentPath.includes('/deposits')
+            ? "text-white bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+            : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
+       flex gap-4 `}>
+            <Link href="/deposits" className="">
+              আমানত
+            </Link>
+            <Link href="/deposits/new">
+              +
+            </Link>
+          </div>
+          <div className={`${currentPath.includes('/members')
+            ? "text-white bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+            : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
+       flex gap-4 `}>
+            <Link href="/members" className="">
+              সদস্য
             </Link>
             <Link href="/members/new">
               +
             </Link>
           </div>
-          <Link href="/about" className={getLinkClass("/about")}>About</Link>
-          <Link href="/services" className={getLinkClass("/services")}>Services</Link>
-          <Link href="/contact" className={getLinkClass("/contact")}>Contact</Link>
-          {user && <button className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>Log Out</button>}
-          {themeSwitch}
+          <div className={`${currentPath.includes('/projects')
+            ? "text-white bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+            : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
+       flex gap-4 `}>
+            <Link className="text-inherit" href="/projects">
+              প্রজেক্ট
+            </Link>
+            <Link className="text-inherit" href="/projects/new">
+              +
+            </Link>
+          </div>
+          {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>লগ আউট</button>}
+          <p>
+            {themeSwitch}
+          </p>
         </div>
       </div>
     </div>

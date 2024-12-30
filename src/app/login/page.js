@@ -12,3 +12,11 @@ const loginPage = async ({ searchParams }) => {
 };
 
 export default loginPage;
+
+export async function generateMetadata() {
+    return {
+      title: "লগইন | হাজী হারুন এন্টারপ্রাইজ",
+      description: "হাজী হারুন এন্টারপ্রাইজে আপনার অ্যাকাউন্টে প্রবেশ করতে লগইন করুন। আপনার ইনভেস্টমেন্ট ম্যানেজমেন্টের তথ্য এবং আপডেট পেতে এখান থেকে শুরু করুন।",
+    };
+  }
+  

@@ -29,16 +29,16 @@ const CurrentProjects = ({ p }) => {
     return (
         <div className="p-6 font-sans">
             <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-                চলমান ব্যবসা ({p.length})
+                চলমান ব্যবসা ({p?.length || 0})
             </h2>
             <div className="mt-4 space-y-4">
-                {p.map((project) => {
-                    const remainingDays = getRemainingDays(project.expiryDate);
+                {p?.map((project) => {
+                    const remainingDays = getRemainingDays(project?.expiryDate);
                     // const totalPaid = project?.member?.payments?.reduce((sum, payment) => sum + payment.amount, 0);
                     // const unpaidAmount = project?.member?.willGetAmount - totalPaid;
                     return (<div
                         key={project._id}
-                        className="border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 shadow-md"
+                        className="border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 shadow-md "
                     >
                         <div
                             onClick={() => toggleAccordion(project._id)}
@@ -64,7 +64,7 @@ const CurrentProjects = ({ p }) => {
                             </span>
                         </div>
                         {expandedProjectId === project._id && (
-                            <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-b-lg">
+                            <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-b-lg ">
                                 <p className="text-gray-700 dark:text-gray-300">
                                     <span className="font-semibold">মোট টাকা:</span> {project.totalAmount} টাকা
                                 </p>
@@ -79,22 +79,6 @@ const CurrentProjects = ({ p }) => {
                                     সদস্য
                                 </h4>
                                 <div className="space-y-2">
-                                    {/* {project.members.map((member) => (
-                                        <div
-                                            key={member.memberId}
-                                            className="p-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800"
-                                        >
-                                            <p className="text-gray-700 dark:text-gray-300">
-                                                <span className="font-semibold">নাম:</span> {member.name}
-                                            </p>
-                                            <p className="text-gray-700 dark:text-gray-300">
-                                                <span className="font-semibold">বিনিয়োগ:</span> {member.amountInvested} টাকা
-                                            </p>
-                                            <p className="text-gray-700 dark:text-gray-300">
-                                                <span className="font-semibold">লাভের হার:</span> {member.willGetPercentage}%
-                                            </p>
-                                        </div>
-                                    ))} */}
                                     {project.members.map((member) => {
                                         const totalPaid = member.payments.reduce((sum, payment) => sum + payment.amount, 0);
                                         const unpaidAmount = member.willGetAmount + member.amountInvested - totalPaid;
