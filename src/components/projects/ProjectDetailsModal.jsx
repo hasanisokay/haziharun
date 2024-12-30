@@ -43,6 +43,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                     autoClose: 2000,
                 });
                 onClose();
+                window.location.reload();
             } else {
                 toast.error(data?.message);
             }
@@ -111,28 +112,28 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
     return (
         <>
             <div
-                className="modal-overlay"
+                className={`modal-overlay ${isOpen ? 'opacity-1 visible' : 'invisible opacity-0'} inset-0 bg-black/20 backdrop-blur-sm`}
                 style={{
                     position: "fixed",
                     top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
                     zIndex: 9999,
                 }}
                 onClick={onClose}
             ></div>
 
             <div
-                className="modal-content"
+                className="modal-content text-black"
                 style={{
                     position: "fixed",
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                     backgroundColor: "#fff",
-                    padding: "20px",
+                    // padding: "20px",
                     borderRadius: "8px",
                     width: "80%",
                     maxWidth: "800px",
@@ -142,9 +143,9 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                     maxHeight: "90vh", // Ensure the modal doesn't overflow vertically
                 }}
             >
-                <div key={project._id} className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-custom1">
+                <div key={project._id} className="p-6 bg-white  rounded-lg shadow-custom1">
                     {/* Top buttons */}
-                    <div className="flex justify-between items-center mb-4">
+                    <div className="flex justify-between items-center mb-2">
                         <button
                             onClick={handlePrint}
                             className="flex gap-2"
@@ -158,15 +159,26 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                             বন্ধ করুন
                         </button>
                     </div>
+                    <div className="mb-2">
+                        {showPaymentOption && (
+                            <button
+                                onClick={() => openModal(project.members, project._id)}
+                                className="bg-blue-500 my-2 text-white px-4 py-1 text-sm rounded-lg"
+                            >
+                                পেমেন্ট দিন
+                            </button>
+                        )}
+                    </div>
 
                     {/* Printable area */}
                     <div ref={printAreaRef}>
-                        <div className="flex justify-between items-center">
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }} className="md:flex-row flex-col">
                             <div className="flex flex-col">
-                                <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                <h2 className="text-lg font-semibold text-gray-800 ">
                                     {project.projectName}
                                 </h2>
-                                <span
+
+                                <p
                                     className={`text-sm mt-2 ${remainingDays <= 0
                                         ? "text-red-500"
                                         : remainingDays <= 7
@@ -177,54 +189,54 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                     {remainingDays > 0
                                         ? `মেয়াদ উত্তীর্ণের বাকি ${remainingDays} দিন`
                                         : `মেয়াদ উত্তীর্ণ হয়েছে ${remainingDays * -1} দিন আগে`}
-                                </span>
-                                {showPaymentOption && (
-                                    <button
-                                        onClick={() => openModal(project.members, project._id)}
-                                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
-                                    >
-                                        পেমেন্ট দিন
-                                    </button>
-                                )}
+                                </p>
+                                <div style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                    <p style={{ marginBottom: '0.25rem' }}>
+                                        <span style={{ fontWeight: '500' }}>মোটঃ</span> ৳
+                                        {project.totalAmount.toLocaleString()}
+                                    </p>
+                                    <p style={{ marginBottom: '0.25rem' }}>
+                                        <span style={{ fontWeight: '500', maxWidth: '200px', whiteSpace: 'pre' }}>বর্ণনাঃ</span> {project.note || "N/A"}
+                                    </p>
+
+                                </div>
+
                             </div>
+                            <div style={{ fontSize: '0.875rem', lineHeight: '1.25rem', color: '#4B5563' }}>
+                                <p style={{ marginBottom: '0.25rem' }}>{getProjectName(project.projectType)}</p>
+
+                                <p style={{ marginBottom: '0.25rem' }}>
+                                    <span style={{ fontWeight: '500' }}>স্থায়িত্বকালঃ </span>
+                                    {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
+                                </p>
+                                <p style={{ marginBottom: '0.25rem' }}>
+                                    <span style={{ fontWeight: '500' }}>শুরুর তারিখঃ</span> {formatDate(project.startDate)}
+                                </p>
+                                <p>
+                                    <span style={{ fontWeight: '500' }}>মেয়াদ উত্তীর্ণ</span> {formatDate(project.expiryDate)}
+                                </p>
+                            </div>
+
                         </div>
 
-                        {/* Project Details */}
-                        <div className="mt-4 text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                            <p>
-                                <span className="font-medium">মোটঃ</span> ৳
-                                {project.totalAmount.toLocaleString()}
-                            </p>
-                            <p>
-                                <span className="font-medium max-w-[200px] whitespace-pre">বর্ণনাঃ</span> {project.note || "N/A"}
-                            </p>
-                            <p>
-                                <span className="font-medium">স্থায়িত্বকালঃ </span> {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
-                            </p>
-                            <p>
-                                <span className="font-medium">শুরুর তারিখঃ</span> {formatDate(project.startDate)}
-                            </p>
-                            <p>
-                                <span className="font-medium">মেয়াদ উত্তীর্ণের তারিখঃ</span> {formatDate(project.expiryDate)}
-                            </p>
-                        </div>
+
                         {/* Members Table */}
                         <div className="mt-4 overflow-x-auto">
-                            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">সদস্যঃ</h3>
+                            <h3 className="text-sm font-medium text-gray-700 dark:text-black">সদস্যঃ</h3>
                             <table className="w-full mt-2 border-collapse">
                                 <thead>
                                     <tr className="text-left border-b border-gray-300 dark:border-gray-600">
-                                        <th className="px-4 py-2 min-w-[60px] font-medium text-gray-600 dark:text-gray-400">ক্রমিক</th>
-                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">নাম</th>
-                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">বিনিয়োগ</th>
-                                        <th className="px-4 py-2 min-w-[160px] font-medium text-gray-600 dark:text-gray-400">পেয়েছেন</th>
-                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">বাকি আছে</th>
-                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">মোট পাবেন</th>
-                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
+                                        <th className="px-4 py-2 min-w-[60px] font-medium text-gray-600 dark:text-black">ক্রমিক</th>
+                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">নাম</th>
+                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">বিনিয়োগ</th>
+                                        <th className="px-4 py-2 min-w-[160px] font-medium text-gray-600 dark:text-black">পেয়েছেন</th>
+                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">বাকি আছে</th>
+                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">মোট পাবেন</th>
+                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">
                                             {project.projectType === "mudaraba" ? "লাভ/লস পাবেন" : "লাভ পাবেন"}
                                         </th>
                                         {project.projectType === "mudaraba" && (
-                                            <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
+                                            <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">
                                                 পার্সেন্টেজ
                                             </th>
                                         )}
@@ -237,14 +249,13 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                             : 0;
                                         return (
                                             <tr key={member.memberId} className="border-b border-gray-300 dark:border-gray-600">
-                                                {/* Serial Number */}
-                                                <td className="px-4 py-2 text-gray-700 dark:text-gray-300">{index + 1}</td> {/* Serial number */}
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">{index + 1}</td>
 
-                                                <td className="px-4 py-2 text-gray-700 dark:text-gray-300">{member.name}</td>
-                                                <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">{member.name}</td>
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     ৳{member.amountInvested.toLocaleString()}
                                                 </td>
-                                                <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     {member?.payments ? (
                                                         <div>
                                                             {member?.payments?.map((p, index) => (
@@ -264,10 +275,10 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                                         <p>0</p>
                                                     )}
                                                 </td>
-                                                <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     ৳{(member.amountInvested + member.willGetAmount - totalPaid).toLocaleString()}
                                                 </td>
-                                                <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     {project.projectType === "mudaraba" ? (
                                                         <p>
                                                             ৳{member.amountInvested.toLocaleString()} ±{" "}
@@ -277,11 +288,11 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                                         <p>৳{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
                                                     )}
                                                 </td>
-                                                <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     ৳{member.willGetAmount.toLocaleString()}
                                                 </td>
                                                 {project.projectType === "mudaraba" && (
-                                                    <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                         {member.willGetPercentage}%
                                                     </td>
                                                 )}

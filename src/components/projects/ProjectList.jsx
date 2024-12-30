@@ -12,7 +12,9 @@ import ProjectDetailsModal from "./ProjectDetailsModal";
 import getProjectName from "@/utils/getProjectName.mjs";
 import calculateDurationInDays from "@/utils/calculateDurationInDays.mjs";
 import Report from "../svg/Report";
-
+import { Button } from '@/components/ui/button';
+import Delete from "../svg/Delete";
+import ConfirmModal from "../modal/ConfirmModal";
 
 const ProjectList = ({ p }) => {
   const [projects, setProjects] = useState(p)
@@ -25,6 +27,51 @@ const ProjectList = ({ p }) => {
   const [modalMembers, setModalMembers] = useState([]);
   const [modalProjectId, setModalProjectId] = useState(null);
 
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null);
+
+  const handleDeleteClick = (projectId) => {
+    setProjectToDelete(projectId);
+    setIsConfirmModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (projectToDelete) {
+      deleteProject(projectToDelete);
+      setIsConfirmModalOpen(false);
+      setProjectToDelete(null);
+    }
+  };
+
+  const deleteProject = async (projectId) => {
+    try {
+      const res = await fetch("/api/deletes/delete-project", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: projectId }),
+      });
+      const data = await res.json();
+      if (data.status === 200) {
+        setProjects((prevProjects) =>
+          prevProjects.filter((project) => project._id !== projectId)
+        );
+        toast.success(data.message, {
+          position: "top-right",
+          autoClose: 2000
+        });
+      } else {
+        toast.error(data.message, {
+          position: "top-right",
+          autoClose: 2000
+        });
+      }
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000
+      });
+    }
+  }
   const openModal = (members, projectId) => {
     setModalMembers(members);
     setModalProjectId(projectId);
@@ -274,6 +321,15 @@ const ProjectList = ({ p }) => {
                 </tbody>
               </table>
             </div>
+            
+            <Button
+ onClick={() => handleDeleteClick(project._id)}
+              className="mt-4 text-black dark:bg-gray-300"
+              variant="outline"
+            >
+              ডিলিট করুন
+              <Delete />
+            </Button>
           </div>
         );
       })}
@@ -284,6 +340,13 @@ const ProjectList = ({ p }) => {
           project={selectedProject}
         />
       )}
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        onConfirm={confirmDelete}
+        // message="Are you sure you want to delete this project? This action cannot be undone."
+        message={'আপনি কি নিশ্চিত যে আপনি এই প্রজেক্ট ডিলিট করতে চান? ডিলিট করার পর এটা পুনরুদ্ধার করা যাবে না।'}
+      />
       <PaymentModal
         isOpen={isModalOpen}
         onClose={closeModal}

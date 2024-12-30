@@ -18,7 +18,7 @@ const MembersList = ({ m = [] }) => {
         { value: "temporary_members_only", label: "অস্থায়ী সদস্য" },
     ];
     const closeModal = () => setSelectedMember(null);
-console.log(m)
+    console.log(m)
     return (
         <div className="mt-4">
             <SearchBox placeholder={'সদস্যের নাম, পিতা/মাতার নাম, মোবাইল নাম্বার ইত্যাদি দিয়ে সার্চ করুন'} />
@@ -97,8 +97,9 @@ console.log(m)
                                 {member?.projectsInfo?.length > 0 && 'ব্যবসার বর্ণনাঃ'}
                             </h3>
                             <div className="space-y-4">
-                                {member?.projectsInfo?.map((project) => (
-                                    <div
+                                {member?.projectsInfo?.map((project) => {
+                                    const currentMember = project.members.filter(m => m.memberId === member._id)[0];
+                                    return (<div
                                         key={project?._id}
                                         className="p-4 bg-gray-100 dark:bg-gray-900 rounded-md border border-gray-200 dark:border-gray-700"
                                     >
@@ -111,17 +112,17 @@ console.log(m)
                                                 : "বাইয়ে মুয়াজ্জাল"}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">ইনভেস্ট করেছেনঃ </span> ৳{project.members[0].amountInvested.toLocaleString()}
+                                            <span className="font-medium">ইনভেস্ট করেছেনঃ </span> ৳{currentMember.amountInvested.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">পাবেনঃ </span> ৳{project.members[0].willGetAmount.toLocaleString()} (
-                                            {project.members[0].willGetPercentage}%)
+                                            <span className="font-medium">পাবেনঃ </span> ৳{currentMember.willGetAmount.toLocaleString()} (
+                                            {currentMember.willGetPercentage}%)
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">মেয়াদ উত্তীর্ণের তারিখঃ </span> {formatDate(project.expiryDate)}
                                         </p>
-                                    </div>
-                                ))}
+                                    </div>)
+                                })}
                             </div>
                         </div>
                     </div>

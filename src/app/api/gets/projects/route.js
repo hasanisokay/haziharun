@@ -16,10 +16,10 @@ export const GET = async (req) => {
     const keyword = searchParams.get("keyword");
     const sort = searchParams.get("sort") || "all"; // Default to 'all' if no sort parameter
     const filter = searchParams.get("filter") || "";
+    const currentProjectsOnly = searchParams.get("current_projects_only");
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 10;
     const skip = (page - 1) * limit;
-
     const db = await dbConnect();
     if (!db) return serverErrorResponse("Database error");
 
@@ -42,6 +42,11 @@ export const GET = async (req) => {
     if (sort === "newest") {
       sortOrder = -1;
     } else if (sort === "oldest") {
+      sortOrder = 1;
+    }
+    if(currentProjectsOnly){
+      matchStage.expiryDate = { $gte: new Date() };
+      sortField = "expiryDate";
       sortOrder = 1;
     }
     if (filter === "expired_items_only") {

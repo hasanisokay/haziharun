@@ -124,7 +124,7 @@ const PaymentModal = ({ isOpen, onClose, members, onSubmit }) => {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             তারিখঃ
           </label>
-          <CustomDatePicker width={"100%"} showDateIcon={false} classNames={'bg-inherit'} defaultValue={paymentDate} onDateChange={(e) => setPaymentDate(e)} />
+          <CustomDatePicker width={"100%"} showDateIcon={false} classNames={'bg-inherit text-black dark:text-white '} defaultValue={paymentDate} onDateChange={(e) => setPaymentDate(e)} />
         </div>
 
         {/* Payment Amount */}

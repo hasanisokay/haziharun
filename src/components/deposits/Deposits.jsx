@@ -5,16 +5,30 @@ import { useEffect, useState } from "react";
 import { Flip, toast, ToastContainer } from "react-toastify";
 import DateRangePicker from "../selects/DateRangePicker";
 import LimitSelect from "../selects/LimitSelect";
+import ConfirmModal from "../modal/ConfirmModal";
 
 const Deposits = ({ d, limit }) => {
     const [deposits, setDeposits] = useState(d);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [depositToDelete, setDepositToDelete] = useState(null);
+
     useEffect(() => {
         setDeposits(d)
     }, [d])
-    const handleDelete = async (id) => {
-        const confirm = window.confirm("Are you sure to delete this?");
-        if (!confirm) return;
+    const handleDeleteClick = (id) => {
+        setDepositToDelete(id);
+        setIsConfirmModalOpen(true);
+      };
+    
+      const confirmDelete = () => {
+        if (depositToDelete) {
+          handleDelete(depositToDelete);
+          setIsConfirmModalOpen(false);
+          setDepositToDelete(null);
+        }
+      };
 
+    const handleDelete = async (id) => {
         const res = await fetch("/api/deletes/deposit", {
             method: "DELETE",
             body: JSON.stringify({ id }),
@@ -57,13 +71,20 @@ const Deposits = ({ d, limit }) => {
                             </div>
                         </div>
                         <button
-                            onClick={() => handleDelete(deposit._id)}
+                            onClick={() => handleDeleteClick(deposit._id)}
                             className="ml-4 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600">
                             Delete
                         </button>
                     </div>
                 ))}
             </div>
+            <ConfirmModal
+                isOpen={isConfirmModalOpen}
+                onClose={() => setIsConfirmModalOpen(false)}
+                onConfirm={confirmDelete}
+                // message="Are you sure you want to delete this project? This action cannot be undone."
+                message={'আপনি কি নিশ্চিত যে আপনি এই এন্ট্রি ডিলিট করতে চান? ডিলিট করার পর এটা পুনরুদ্ধার করা যাবে না।'}
+            />
             <ToastContainer transition={Flip} />
         </div>
     );
