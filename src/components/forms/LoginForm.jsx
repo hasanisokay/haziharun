@@ -36,7 +36,7 @@ const router = useRouter()
                 autoClose: 2000
               });
             dispatch(setUserData(data.data))
-            router.replace(redirectTo)
+            window.location.href = redirectTo;
         }else{
             toast.error(`${data?.message}` , {
                 position: "top-center",
