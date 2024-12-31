@@ -253,20 +253,23 @@ const ProjectList = ({ p }) => {
                     <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                       বিনিয়োগ
                     </th>
+
+                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
+                      {project.projectType === "mudaraba"
+                        ? "লাভ/লস পাবেন"
+                        : "লাভ পাবেন"}
+                    </th>
+                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
+                      মোট পাবেন
+                    </th>
                     <th className="px-4 py-2 min-w-[160px] font-medium text-gray-600 dark:text-gray-400">
                       পেয়েছেন
                     </th>
                     <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                       বাকি আছে
                     </th>
-                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
-                      মোট পাবেন
-                    </th>
-                    <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
-                      {project.projectType === "mudaraba"
-                        ? "লাভ/লস পাবেন"
-                        : "লাভ পাবেন"}
-                    </th>
+
+
                     {project.projectType === "mudaraba" && (
                       <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-gray-400">
                         পার্সেন্টেজ
@@ -289,6 +292,15 @@ const ProjectList = ({ p }) => {
                           ৳{member.amountInvested.toLocaleString()}
                         </td>
                         <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                          ৳{member.willGetAmount.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
+
+                          {
+                            project.projectType === 'mudaraba' ? <p> ৳{member.amountInvested.toLocaleString()} ± {member.willGetAmount.toLocaleString()}</p> : <p> ৳{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
+                          }
+                        </td>
+                        <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
                           {member?.payments ? <div>
                             {member?.payments?.map((p, index) => <div key={index}>
                               <p>{formatDate(p.date)} তারিখে ৳{p.amount.toLocaleString()}</p>
@@ -301,15 +313,8 @@ const ProjectList = ({ p }) => {
                           {/* ৳{member.willGetAmount.toLocaleString()} */}
                           ৳{(member.amountInvested + member.willGetAmount - totalPaid).toLocaleString()}
                         </td>
-                        <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
 
-                          {
-                            project.projectType === 'mudaraba' ? <p> ৳{member.amountInvested.toLocaleString()} ± {member.willGetAmount.toLocaleString()}</p> : <p> ৳{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
-                          }
-                        </td>
-                        <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
-                          ৳{member.willGetAmount.toLocaleString()}
-                        </td>
+
                         {project.projectType === "mudaraba" && (
                           <td className="px-4 py-2 text-gray-700 dark:text-gray-300">
                             {member.willGetPercentage}%
@@ -321,9 +326,9 @@ const ProjectList = ({ p }) => {
                 </tbody>
               </table>
             </div>
-            
+
             <Button
- onClick={() => handleDeleteClick(project._id)}
+              onClick={() => handleDeleteClick(project._id)}
               className="mt-4 text-black dark:bg-gray-300"
               variant="outline"
             >
