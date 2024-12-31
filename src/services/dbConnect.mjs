@@ -14,7 +14,7 @@ const dbConnect = async () => {
         deprecationErrors: true,
       },
     });
-    db = client.db("inventify");
+    db = client.db("haziharun_test");
     await client.db("admin").command({ ping: 1 });
     return db;
   } catch (e) {

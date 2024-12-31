@@ -130,6 +130,7 @@ const Navbar = () => {
                     +
                   </Link>
                 </div>
+                <Link href="/profile" className={getLinkClass("/profile")}>প্রোফাইল</Link>
                 {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>লগ আউট</button>}
                 {themeSwitch}
               </div>
@@ -175,6 +176,7 @@ const Navbar = () => {
               +
             </Link>
           </div>
+          <Link href="/profile" className={getLinkClass("/profile")}>প্রোফাইল</Link>
           {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>লগ আউট</button>}
           <p>
             {themeSwitch}
