@@ -24,10 +24,12 @@ const geistMono = localFont({
 
 export const metadata = {
   title: "হাজী হারুন এন্টারপ্রাইজ",
-  description: "হাজী হারুন এন্টারপ্রাইজ একটি নির্ভরযোগ্য ইনভেস্টমেন্ট ম্যানেজমেন্ট কোম্পানি যা আপনার বিনিয়োগের জন্য সর্বোচ্চ রিটার্ন নিশ্চিত করতে পেশাদারী সেবা প্রদান করে।",
+  description:
+    "হাজী হারুন এন্টারপ্রাইজ একটি নির্ভরযোগ্য ইনভেস্টমেন্ট ম্যানেজমেন্ট কোম্পানি যা আপনার বিনিয়োগের জন্য সর্বোচ্চ রিটার্ন নিশ্চিত করতে পেশাদারী সেবা প্রদান করে।",
   openGraph: {
     title: "হাজী হারুন এন্টারপ্রাইজ",
-    description: "হাজী হারুন এন্টারপ্রাইজ একটি শীর্ষস্থানীয় ইনভেস্টমেন্ট ম্যানেজমেন্ট কোম্পানি যা গ্রাহকদের আর্থিক সুরক্ষা এবং সফল বিনিয়োগের জন্য কৌশলগত পরামর্শ প্রদান করে।",
+    description:
+      "হাজী হারুন এন্টারপ্রাইজ একটি শীর্ষস্থানীয় ইনভেস্টমেন্ট ম্যানেজমেন্ট কোম্পানি যা গ্রাহকদের আর্থিক সুরক্ষা এবং সফল বিনিয়োগের জন্য কৌশলগত পরামর্শ প্রদান করে।",
     images: [
       {
         url: "https://i.ibb.co.com/QmT02QB/hazi-harun-enterprise-logo.png",
@@ -40,11 +42,11 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "হাজী হারুন এন্টারপ্রাইজ",
-    description: "হাজী হারুন এন্টারপ্রাইজ আপনার বিনিয়োগের জন্য নির্ভরযোগ্য পেশাদার সেবা প্রদান করে, যা আপনার আর্থিক লক্ষ্য পূরণে সাহায্য করে।",
+    description:
+      "হাজী হারুন এন্টারপ্রাইজ আপনার বিনিয়োগের জন্য নির্ভরযোগ্য পেশাদার সেবা প্রদান করে, যা আপনার আর্থিক লক্ষ্য পূরণে সাহায্য করে।",
     image: "https://i.ibb.co.com/QmT02QB/hazi-harun-enterprise-logo.png",
   },
 };
-
 
 export default async function RootLayout({ children }) {
   let storedTheme = await getThemeCookie();
@@ -61,7 +63,7 @@ export default async function RootLayout({ children }) {
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
             <Navbar />
-            {children}
+            <main className="pt-[64px] bg-[#f9fafc] min-h-full dark:bg-[#111828]">{children}</main>
           </body>
         </html>
       </ThemeProvider>

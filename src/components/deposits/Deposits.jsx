@@ -50,7 +50,7 @@ const Deposits = ({ d, limit }) => {
         <div className="py-6 px-4 bg-gray-50 dark:bg-gray-900 ">
             <LimitSelect limit={limit} />
             <DateRangePicker endDateParam={'end_date'} startDateParam={'start_date'} />
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">আমানত রেকর্ড</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white my-4">আমানত রেকর্ড</h2>
             <div className="space-y-4">
                 {deposits?.map((deposit) => (
                     <div key={deposit._id} className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 flex justify-between items-center">

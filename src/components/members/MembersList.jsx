@@ -13,9 +13,9 @@ const MembersList = ({ m = [] }) => {
     const memorizedMembers = useMemo(() => m, [m])
 
     const s = [
-        { value: "permanent_members_only", label: "স্থায়ী সদস্য" },
+        { value: "permanent_members_only", label: "আমানতসহ সদস্য" },
         { value: "all", label: "সব সদস্য" },
-        { value: "temporary_members_only", label: "অস্থায়ী সদস্য" },
+        { value: "temporary_members_only", label: "আমানতহীন সদস্য" },
     ];
     const closeModal = () => setSelectedMember(null);
     console.log(m)

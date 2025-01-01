@@ -96,7 +96,7 @@ useEffect(() => {
               aria-expanded={menuOpen ? "true" : "false"}
             >
               <span className="sr-only">Open main menu</span>
-              <svg
+{menuOpen ? <span className="text-red-500 block h-6 w-6">&#10006;</span> :              <svg
                 className="block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -110,7 +110,7 @@ useEffect(() => {
                   strokeWidth="2"
                   d="M4 6h16M4 12h16M4 18h16"
                 ></path>
-              </svg>
+              </svg>}
             </button>
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
@@ -166,7 +166,7 @@ useEffect(() => {
 
       {/* Mobile menu */}
       <div
-  className={`${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"} duration-500 transition-all absolute top-[64px] right-0 w-[200px] sm:hidden ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'} rounded-lg shadow-lg backdrop-blur-lg`}
+  className={`${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"} duration-500 transition-all absolute top-[64px] right-0 w-[200px] sm:hidden ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} rounded-lg shadow-lg backdrop-blur-lg`}
   id="mobile-menu"
 >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
@@ -204,8 +204,8 @@ useEffect(() => {
               +
             </Link>
           </div>}
-          <div className="">
-            {user && <Link href="/profile" className={getLinkClass("/profile")}>প্রোফাইল</Link>}
+          <div className={getLinkClass("/profile")}>
+            {user && <Link href="/profile" >প্রোফাইল</Link>}
           </div>
           {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>লগ আউট</button>}
           <p>

@@ -144,9 +144,9 @@ const ProjectList = ({ p }) => {
     }
   };
   const filterOptions = [
-    { value: "expired_items_only", label: "শুধু মেয়াদোত্তীর্ণ" },
+    { value: "expired_items_only", label: "সমাপ্ত হয়েছে" },
     { value: "all", label: "সবগুলো" },
-    { value: "active_only", label: "মেয়াদ আছে এমন" },
+    { value: "active_only", label: "চলমান আছে" },
   ];
   const sortOptions = [
     { value: "newest", label: "নতুন" },

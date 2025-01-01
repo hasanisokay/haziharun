@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 const DefaultSorting = ({ sortingOptionsProps, field = "sort" }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const sortOption = searchParams.get(field) || "all";
+  const [sortOption, setSortOption] = useState('all');
   const [sortingOptions, setSortingOptions] = useState(sortingOptionsProps)
   useEffect(() => {
     setSortingOptions(sortingOptionsProps)
-  }, [sortingOptionsProps])
+    if (searchParams) {
+      setSortOption(searchParams.get(field) || "all");
+    }
+  }, [sortingOptionsProps, searchParams, field]);
 
   const handleSortChange = (option) => {
     const params = new URLSearchParams(searchParams);
@@ -18,7 +21,6 @@ const DefaultSorting = ({ sortingOptionsProps, field = "sort" }) => {
     params.set("page", 1);
     router.push(`?${params.toString()}`);
   };
-
   return (
     <div className="flex justify-center">
       <div className="flex items-center space-x-2 bg-gray-100 dark:bg-gray-800 p-2 rounded-lg shadow-md">
