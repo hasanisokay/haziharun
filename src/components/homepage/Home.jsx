@@ -22,7 +22,7 @@ const Home = ({ d }) => {
                     defaultStartDate={getStartOfMonth()}
                 />
                 <div className="mt-6 text-center text-xl font-bold text-gray-900 dark:text-gray-100">
-                    মোট আমানতঃ ৳ {Number(totalDeposit.toFixed(2)).toLocaleString()}
+                    মোট আমানতঃ &#2547; {Number(totalDeposit.toFixed(2)).toLocaleString()}
                 </div>
                 {/* Members without Deposits */}
                 <div className="mt-10">
@@ -80,13 +80,13 @@ const Home = ({ d }) => {
                                                     {new Date(deposit.depositDate).toLocaleDateString()}
                                                 </span>
                                                 <span className="text-green-600 dark:text-green-400 font-semibold">
-                                                    ৳ {deposit.amount.toLocaleString()}
+                                                    &#2547; {deposit.amount.toLocaleString()}
                                                 </span>
                                             </li>
                                         ))}
                                     </ul>
                                     <div className="mt-4 text-right text-gray-800 dark:text-gray-200 font-semibold">
-                                        মোটঃ ৳ {memberTotalDeposit.toLocaleString()}
+                                        মোটঃ &#2547; {memberTotalDeposit.toLocaleString()}
                                     </div>
                                 </div>
                             );

@@ -361,7 +361,7 @@ const NewProjectForm = ({ id }) => {
                                 <span>তারিখে{" "}</span>
                               </div>
                               <div className="flex items-center">
-                                <span>৳</span>
+                                <span>&#2547;</span>
                                 <Input
                                   type="number"
                                   id={`paidAmount${paymentsIndex}`}

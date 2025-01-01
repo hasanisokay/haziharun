@@ -5,7 +5,6 @@ import Print from "../svg/Print";
 
 const MemberReportModal = ({ member, onClose }) => {
     const iframeRef = useRef(null);
-    console.log(member)
     const handlePrint = () => {
         const printContent = iframeRef.current.contentDocument;
         printContent.body.innerHTML = document.getElementById("printable-content").innerHTML;
@@ -119,8 +118,8 @@ const MemberReportModal = ({ member, onClose }) => {
                         }}
                     >
                         <p><strong>মোট ব্যবসায় বিনিয়োগঃ</strong> {member.projectCount}</p>
-                        <p><strong>বিনিয়োগের পরিমাণঃ</strong> ৳{member.totalAmountInvested.toLocaleString()}</p>
-                        <p><strong>মোট লাভঃ</strong> ৳{member.totalWillGetAmount.toLocaleString()}</p>
+                        <p><strong>বিনিয়োগের পরিমাণঃ</strong> &#2547;{member.totalAmountInvested.toLocaleString()}</p>
+                        <p><strong>মোট লাভঃ</strong> &#2547;{member.totalWillGetAmount.toLocaleString()}</p>
                     </div>
 
                     {member.projectsInfo.length > 0 && (
@@ -164,7 +163,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                         {project.projectType === "mudaraba" ? "মুদারাবা" : "বাইয়ে মুয়াজ্জাল"}
                                     </p>
                                     <p style={{ fontSize: "14px" }}>
-                                        <strong>মোট পরিমাণঃ</strong> ৳{project.totalAmount.toLocaleString()}
+                                        <strong>মোট পরিমাণঃ</strong> &#2547;{project.totalAmount.toLocaleString()}
                                     </p>
                                     <p style={{ fontSize: "14px" }}>
                                         <strong>মেয়াদ উত্তীর্ণঃ</strong>{" "}
@@ -207,11 +206,11 @@ const MemberReportModal = ({ member, onClose }) => {
                                                             </span>
                                                         </p>
                                                         <p>
-                                                            <strong>ইনভেস্ট করেছেন:</strong> ৳
+                                                            <strong>ইনভেস্ট করেছেন:</strong> &#2547;
                                                             {matchedMember.amountInvested.toLocaleString()}
                                                         </p>
                                                         <p>
-                                                            <strong>লাভ:</strong> ৳
+                                                            <strong>লাভ:</strong> &#2547;
                                                             {matchedMember.willGetAmount.toLocaleString()} (
                                                             {matchedMember.willGetPercentage}%)
                                                         </p>
@@ -261,11 +260,11 @@ const MemberReportModal = ({ member, onClose }) => {
                                                                     </span>
                                                                 </p>
                                                                 <p>
-                                                                    <strong>ইনভেস্ট করেছেন:</strong> ৳
+                                                                    <strong>ইনভেস্ট করেছেন:</strong> &#2547;
                                                                     {otherMember.amountInvested.toLocaleString()}
                                                                 </p>
                                                                 <p>
-                                                                    <strong>লাভ:</strong> ৳
+                                                                    <strong>লাভ:</strong> &#2547;
                                                                     {otherMember.willGetAmount.toLocaleString()} (
                                                                     {otherMember.willGetPercentage}%)
                                                                 </p>
@@ -316,7 +315,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                         }}
                                     >
                                         <p style={{ fontSize: "14px", color: "#555" }}>
-                                            <strong>পরিমাণঃ</strong> ৳{deposit.amount.toLocaleString()}
+                                            <strong>পরিমাণঃ</strong> &#2547;{deposit.amount.toLocaleString()}
                                         </p>
                                         <p style={{ fontSize: "14px", color: "#555" }}>
                                             <strong>জমার তারিখঃ</strong>{" "}

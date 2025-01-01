@@ -192,7 +192,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                 </p>
                                 <div style={{ fontSize: '0.875rem', color: '#4B5563' }}>
                                     <p style={{ marginBottom: '0.25rem' }}>
-                                        <span style={{ fontWeight: '500' }}>মোটঃ</span> ৳
+                                        <span style={{ fontWeight: '500' }}>মোটঃ</span> &#2547;
                                         {project.totalAmount.toLocaleString()}
                                     </p>
                                     <p style={{ marginBottom: '0.25rem' }}>
@@ -253,19 +253,19 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
 
                                                 <td className="px-4 py-2 text-gray-700 dark:text-black">{member.name}</td>
                                                 <td className="px-4 py-2 text-gray-700 dark:text-black">
-                                                    ৳{member.amountInvested.toLocaleString()}
+                                                    &#2547;{member.amountInvested.toLocaleString()}
                                                 </td>
                                                 <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     {member?.payments ? (
                                                         <div>
                                                             {member?.payments?.map((p, index) => (
                                                                 <div key={index}>
-                                                                    <p>{formatDate(p.date)} তারিখে ৳{p.amount.toLocaleString()}</p>
+                                                                    <p>{formatDate(p.date)} তারিখে &#2547;{p.amount.toLocaleString()}</p>
                                                                 </div>
                                                             ))}
                                                             {totalPaid > 0 ? (
                                                                 <p className="py-1 font-semibold">
-                                                                    মোটঃ <span className="font-semibold">৳{totalPaid.toLocaleString()}</span>
+                                                                    মোটঃ <span className="font-semibold">&#2547;{totalPaid.toLocaleString()}</span>
                                                                 </p>
                                                             ) : (
                                                                 <p>0</p>
@@ -276,20 +276,20 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-2 text-gray-700 dark:text-black">
-                                                    ৳{(member.amountInvested + member.willGetAmount - totalPaid).toLocaleString()}
+                                                    &#2547;{(member.amountInvested + member.willGetAmount - totalPaid).toLocaleString()}
                                                 </td>
                                                 <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     {project.projectType === "mudaraba" ? (
                                                         <p>
-                                                            ৳{member.amountInvested.toLocaleString()} ±{" "}
+                                                            &#2547;{member.amountInvested.toLocaleString()} ±{" "}
                                                             {member.willGetAmount.toLocaleString()}
                                                         </p>
                                                     ) : (
-                                                        <p>৳{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
+                                                        <p>&#2547;{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-2 text-gray-700 dark:text-black">
-                                                    ৳{member.willGetAmount.toLocaleString()}
+                                                    &#2547;{member.willGetAmount.toLocaleString()}
                                                 </td>
                                                 {project.projectType === "mudaraba" && (
                                                     <td className="px-4 py-2 text-gray-700 dark:text-black">

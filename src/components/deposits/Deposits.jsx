@@ -6,11 +6,31 @@ import { Flip, toast, ToastContainer } from "react-toastify";
 import DateRangePicker from "../selects/DateRangePicker";
 import LimitSelect from "../selects/LimitSelect";
 import ConfirmModal from "../modal/ConfirmModal";
+import { Button } from "../ui/button";
+import getDeposits from "@/utils/getDeposits.mjs";
+import AllDepositsModal from "../modal/AllDepositsModal";
 
 const Deposits = ({ d, limit }) => {
     const [deposits, setDeposits] = useState(d);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [depositToDelete, setDepositToDelete] = useState(null);
+    const [allDeposits, setAllDeposits] = useState([]);
+    const [loadingAllDeposits, setLoadingAllDeposits] = useState(false);
+    const [isAllDepositsModalOpen, setIsAllDepositsModalOpen] = useState(false);
+    const handleAllDepositsClick = async () => {
+        setLoadingAllDeposits(true)
+        if (allDeposits.length > 0) {
+            setLoadingAllDeposits(false)
+            setIsAllDepositsModalOpen(true);
+            return;
+        }
+        const d = await getDeposits(1, 999999999, "newest", '', '', '', '');
+        if (d.status === 200) {
+            setAllDeposits(d?.data?.deposits);
+        }
+        setLoadingAllDeposits(false)
+        setIsAllDepositsModalOpen(true);
+    };
 
     useEffect(() => {
         setDeposits(d)
@@ -18,15 +38,15 @@ const Deposits = ({ d, limit }) => {
     const handleDeleteClick = (id) => {
         setDepositToDelete(id);
         setIsConfirmModalOpen(true);
-      };
-    
-      const confirmDelete = () => {
+    };
+
+    const confirmDelete = () => {
         if (depositToDelete) {
-          handleDelete(depositToDelete);
-          setIsConfirmModalOpen(false);
-          setDepositToDelete(null);
+            handleDelete(depositToDelete);
+            setIsConfirmModalOpen(false);
+            setDepositToDelete(null);
         }
-      };
+    };
 
     const handleDelete = async (id) => {
         const res = await fetch("/api/deletes/deposit", {
@@ -48,6 +68,11 @@ const Deposits = ({ d, limit }) => {
 
     return (
         <div className="py-6 px-4 bg-gray-50 dark:bg-gray-900 ">
+            <div className="mb-2">
+                <Button onClick={handleAllDepositsClick} className="bg-blue-500 text-white">
+                    {loadingAllDeposits ? "লোড হচ্ছে..." : "সকল আমানতের রিপোর্ট দেখুন"}
+                </Button>
+            </div>
             <LimitSelect limit={limit} />
             <DateRangePicker endDateParam={'end_date'} startDateParam={'start_date'} />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white my-4">আমানত রেকর্ড</h2>
@@ -61,7 +86,7 @@ const Deposits = ({ d, limit }) => {
                         </div>
                         <div className="space-y-1 text-right">
                             <div className="text-xl font-medium text-green-600 dark:text-green-400">
-                                ৳ {deposit.amount.toFixed(2)}
+                                &#2547; {deposit.amount.toFixed(2)}
                             </div>
                             <div className="text-xs text-gray-500 dark:text-gray-400">
                                 আমানতের তারিখঃ {formatDate(deposit.depositDate)}
@@ -78,6 +103,10 @@ const Deposits = ({ d, limit }) => {
                     </div>
                 ))}
             </div>
+            {isAllDepositsModalOpen && allDeposits.length > 0 && <AllDepositsModal
+                deposits={allDeposits}
+                onClose={() => setIsAllDepositsModalOpen(false)}
+            />}
             <ConfirmModal
                 isOpen={isConfirmModalOpen}
                 onClose={() => setIsConfirmModalOpen(false)}

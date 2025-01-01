@@ -7,10 +7,30 @@ import DefaultSorting from "../selects/DefaultSoring";
 import SearchBox from "../forms/SearchBox";
 import Report from "../svg/Report";
 import MemberReportModal from "./MemberReportModal";
+import { Button } from "../ui/button";
+import getMembersWithDetails from "@/utils/getMembersWithDetails.mjs";
+import AllMemberReportModal from "./AllMemberReposrtModal";
 
 const MembersList = ({ m = [] }) => {
     const [selectedMember, setSelectedMember] = useState(null);
     const memorizedMembers = useMemo(() => m, [m])
+    const [allMembers, setAllMembers] = useState([]);
+    const [loadingAllMembers, setLoadingAllMembers] = useState(false);
+    const [isAllProjectsModalOpen, setIsAllProjectsModalOpen] = useState(false);
+    const handleAllMembersClick = async () => {
+        setLoadingAllMembers(true)
+        if (allMembers.length > 0) {
+            setLoadingAllMembers(false)
+            setIsAllProjectsModalOpen(true);
+            return;
+        }
+        const d = await getMembersWithDetails(1, 999999999, "newest", '', '');
+        if (d.status === 200) {
+            setAllMembers(d?.data?.members);
+        }
+        setLoadingAllMembers(false)
+        setIsAllProjectsModalOpen(true);
+    };
 
     const s = [
         { value: "permanent_members_only", label: "আমানতসহ সদস্য" },
@@ -18,9 +38,13 @@ const MembersList = ({ m = [] }) => {
         { value: "temporary_members_only", label: "আমানতহীন সদস্য" },
     ];
     const closeModal = () => setSelectedMember(null);
-    console.log(m)
     return (
         <div className="mt-4">
+            <div >
+                <Button onClick={handleAllMembersClick} className="bg-blue-500 text-white">
+                    {loadingAllMembers ? "লোড হচ্ছে..." : "সকল সদস্যের রিপোর্ট দেখুন"}
+                </Button>
+            </div>
             <SearchBox placeholder={'সদস্যের নাম, পিতা/মাতার নাম, মোবাইল নাম্বার ইত্যাদি দিয়ে সার্চ করুন'} />
             <DefaultSorting sortingOptionsProps={s} field="filter" />
             <div className="space-y-6">
@@ -83,10 +107,10 @@ const MembersList = ({ m = [] }) => {
                                     <span className="font-medium">মোট ব্যবসায় বিনিয়োগ:</span> {member?.projectCount}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">মোট বিনিয়োগ:</span> ৳{member?.totalAmountInvested.toLocaleString()}
+                                    <span className="font-medium">বিনিয়োগের পরিমাণ:</span> &#2547;{member?.totalAmountInvested.toLocaleString()}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">মোট লাভ পাবেন:</span> ৳{member?.totalWillGetAmount.toLocaleString()}
+                                    <span className="font-medium">মোট লাভ পাবেন:</span> &#2547;{member?.totalWillGetAmount.toLocaleString()}
                                 </p>
                             </div>
                         </div>
@@ -112,10 +136,10 @@ const MembersList = ({ m = [] }) => {
                                                 : "বাইয়ে মুয়াজ্জাল"}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">ইনভেস্ট করেছেনঃ </span> ৳{currentMember.amountInvested.toLocaleString()}
+                                            <span className="font-medium">ইনভেস্ট করেছেনঃ </span> &#2547;{currentMember.amountInvested.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">পাবেনঃ </span> ৳{currentMember.willGetAmount.toLocaleString()} (
+                                            <span className="font-medium">পাবেনঃ </span> &#2547;{currentMember.willGetAmount.toLocaleString()} (
                                             {currentMember.willGetPercentage}%)
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -128,6 +152,11 @@ const MembersList = ({ m = [] }) => {
                     </div>
                 ))}
             </div>
+            {allMembers.length > 0 && isAllProjectsModalOpen && (<AllMemberReportModal
+                membersFromParent={allMembers}
+                onClose={() => setIsAllProjectsModalOpen(false)}
+
+            />)}
             {selectedMember && (
                 <MemberReportModal
                     member={selectedMember}

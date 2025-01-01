@@ -18,21 +18,21 @@ const Navbar = () => {
 
   const handleScroll = () => {
     if (window.scrollY > lastScrollY) {
-        setVisible(false);
-        setMenuOpen(false)
+      setVisible(false);
+      setMenuOpen(false)
     } else {
-        setVisible(true);
+      setVisible(true);
     }
     setLastScrollY(window.scrollY);
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
-        window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [lastScrollY]);
+  }, [lastScrollY]);
 
   const handleLogOut = () => {
     logOut()
@@ -82,11 +82,14 @@ useEffect(() => {
   return (
     <div className="dark:bg-[#0c0c0e]  sticky top-0 z-50 w-full bg-gray-700 supports-[backdrop-filter]:bg-background/60 dark:border-border shadow-lg">
       {/* <nav className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8"> */}
-      <nav           className={`fixed top-0 left-0 w-full  mx-auto px-2 sm:px-6 lg:px-8 z-50 transition-transform
+      <nav className={`fixed top-0 left-0 w-full  mx-auto px-2 sm:px-6 lg:px-8 z-50 transition-transform
                 bg-opacity-85 backdrop-blur-sm 
                 duration-300 ${visible ? 'transform-none border-b border-border/40 shadow-md' : '-translate-y-full'
-                }`}  aria-label="Global">
+        }`} aria-label="Global">
         <div className="relative flex items-center justify-between h-16">
+        <p className="md:hidden block">
+            {themeSwitch}
+          </p>
           <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
             <button
               type="button"
@@ -96,7 +99,7 @@ useEffect(() => {
               aria-expanded={menuOpen ? "true" : "false"}
             >
               <span className="sr-only">Open main menu</span>
-{menuOpen ? <span className="text-red-500 block h-6 w-6">&#10006;</span> :              <svg
+              {menuOpen ? <span className="text-red-500 block h-6 w-6">&#10006;</span> : <svg
                 className="block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -166,9 +169,9 @@ useEffect(() => {
 
       {/* Mobile menu */}
       <div
-  className={`${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"} duration-500 transition-all absolute top-[64px] right-0 w-[200px] sm:hidden ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} rounded-lg shadow-lg backdrop-blur-lg`}
-  id="mobile-menu"
->
+        className={`${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"} duration-500 transition-all absolute top-[64px] right-0 w-[200px] sm:hidden ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} rounded-lg shadow-lg backdrop-blur-lg`}
+        id="mobile-menu"
+      >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
           <Link href="/" className={getLinkClass("/")}>হোম</Link>
           {user && <div className={`flex items-center justify-start ${currentPath.includes('/deposits')
@@ -208,9 +211,7 @@ useEffect(() => {
             {user && <Link href="/profile" >প্রোফাইল</Link>}
           </div>
           {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>লগ আউট</button>}
-          <p>
-            {themeSwitch}
-          </p>
+ 
         </div>
       </div>
     </div>
