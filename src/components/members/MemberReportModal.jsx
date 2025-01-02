@@ -41,7 +41,7 @@ const MemberReportModal = ({ member, onClose }) => {
         printWindow.onload = () => {
             printWindow.focus();
             printWindow.print();
-            printWindow.close();
+            // printWindow.close();
         };
     };
 

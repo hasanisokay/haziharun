@@ -39,7 +39,7 @@ const AllDepositsModal = ({ deposits, onClose }) => {
         printWindow.onload = () => {
             printWindow.focus();
             printWindow.print();
-            printWindow.close();
+            // printWindow.close();
         };
     };
     const totalDepositAmount = deposits.reduce((acc, deposit) => acc + deposit.amount, 0);

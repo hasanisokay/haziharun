@@ -50,7 +50,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
         printWindow.onload = () => {
             printWindow.focus();
             printWindow.print();
-            printWindow.close();
+            // printWindow.close();
         };
     };
     let tdStyle = {
