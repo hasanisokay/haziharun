@@ -115,7 +115,7 @@ const MembersList = ({ m = [] }) => {
                         key={member._id}
                         className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
                     >
-                              <span style={{ fontSize: '14px', color: '#374151', marginBottom:'6px', textAlign:'center', display: 'block' }}>সদস্য নং- {convertToBanglaNumber(index + 1)}</span>
+                        <span style={{ fontSize: '14px', color: '#374151', marginBottom: '6px', textAlign: 'center', display: 'block' }}>সদস্য নং- {convertToBanglaNumber(index + 1)}</span>
                         {/* Header Section */}
                         <div className="flex justify-between items-center mb-4">
                             <div>
@@ -191,7 +191,7 @@ const MembersList = ({ m = [] }) => {
                                         key={project?._id}
                                         className="p-4 bg-gray-100 dark:bg-gray-900 rounded-md border border-gray-200 dark:border-gray-700"
                                     >
-                                        <span style={{ fontSize: '14px', color: '#374151', marginBottom:'6px', display: 'block' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
+                                        <span style={{ fontSize: '14px', color: '#374151', marginBottom: '6px', display: 'block' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
 
                                         <h4 className="text-md font-semibold text-gray-800 dark:text-gray-100">
                                             {project.projectName}
@@ -205,16 +205,19 @@ const MembersList = ({ m = [] }) => {
                                             <span className="font-medium">বিনিয়োগঃ </span> &#2547;{currentMember.amountInvested.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">লাভ পাবেনঃ </span> &#2547;{currentMember.willGetAmount.toLocaleString()}
+                                            <span className="font-medium">লাভঃ </span> &#2547;{currentMember.willGetAmount.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">মোট পাবেনঃ </span> &#2547; {(currentMember.amountInvested + currentMember.willGetAmount).toLocaleString()}
+                                            <span className="font-medium">মোটঃ </span> &#2547; {(currentMember.amountInvested + currentMember.willGetAmount).toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">পেয়েছেনঃ </span> &#2547; {totalPaid.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">পার্সেন্টেজঃ </span> &#2547; {currentMember.willGetPercentage}%
+                                        </p>
+                                        <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                            <span style={{ fontWeight: '500' }}>বাকিঃ </span> &#2547; {(currentMember.willGetAmount + currentMember.amountInvested - totalPaid).toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">মেয়াদ উত্তীর্ণের তারিখঃ </span> {formatDate(project.expiryDate)}

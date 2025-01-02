@@ -140,19 +140,20 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSumma
 
                             {/* Members Table */}
                             <div className="mt-4 overflow-x-auto project_table">
-                                <h3 className="text-sm font-medium text-gray-700 dark:text-black">সদস্যঃ</h3>
+                                <h3 className="text-sm font-medium text-gray-700 dark:text-black" style={{pageBreakAfter:'avoid'}}>সদস্যঃ</h3>
                                 <table className="w-full mt-2 border-collapse">
                                     <thead>
                                         <tr className="text-left border-b border-gray-300 dark:border-gray-600">
                                             <th className="px-4 py-2 min-w-[60px] font-medium text-gray-600 dark:text-black">ক্রমিক</th>
                                             <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">নাম</th>
                                             <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">বিনিয়োগ</th>
-                                            <th className="px-4 py-2 min-w-[160px] font-medium text-gray-600 dark:text-black">পেয়েছেন</th>
-                                            <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">বাকি আছে</th>
-                                            <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">মোট পাবেন</th>
                                             <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">
                                                 {project.projectType === "mudaraba" ? "লাভ/লস পাবেন" : "লাভ পাবেন"}
                                             </th>
+                                            <th className="px-4 py-2 min-w-[160px] font-medium text-gray-600 dark:text-black">মোট পাবেন</th>
+                                            <th className="px-4 py-2 min-w-[160px] font-medium text-gray-600 dark:text-black">পেয়েছেন</th>
+                                            <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">বাকি আছে</th>
+                                            {/* <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">মোট পাবেন</th> */}
                                             <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">
                                                 পার্সেন্টেজ
                                             </th>
@@ -166,11 +167,24 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSumma
                                                 : 0;
                                             return (
                                                 <tr key={member.memberId} className="border-b border-gray-300 dark:border-gray-600">
-                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">{index + 1}</td>
+                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">{convertToBanglaNumber(index + 1)}</td>
 
                                                     <td className="px-4 py-2 text-gray-700 dark:text-black">{member.name}</td>
                                                     <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                         &#2547;{member.amountInvested.toLocaleString()}
+                                                    </td>
+                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">
+                                                        &#2547;{member.willGetAmount.toLocaleString()}
+                                                    </td>
+                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">
+                                                        {project.projectType === "mudaraba" ? (
+                                                            <p>
+                                                                &#2547;{member.amountInvested.toLocaleString()} ±{" "}
+                                                                {member.willGetAmount.toLocaleString()}
+                                                            </p>
+                                                        ) : (
+                                                            <p>&#2547;{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
+                                                        )}
                                                     </td>
                                                     <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                         {member?.payments ? (
@@ -195,20 +209,6 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSumma
                                                     <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                         &#2547;{(member.amountInvested + member.willGetAmount - totalPaid).toLocaleString()}
                                                     </td>
-                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">
-                                                        {project.projectType === "mudaraba" ? (
-                                                            <p>
-                                                                &#2547;{member.amountInvested.toLocaleString()} ±{" "}
-                                                                {member.willGetAmount.toLocaleString()}
-                                                            </p>
-                                                        ) : (
-                                                            <p>&#2547;{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
-                                                        )}
-                                                    </td>
-                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">
-                                                        &#2547;{member.willGetAmount.toLocaleString()}
-                                                    </td>
-
                                                     <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                         {member.willGetPercentage}%
                                                     </td>
