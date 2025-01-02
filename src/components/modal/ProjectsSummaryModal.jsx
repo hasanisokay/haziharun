@@ -4,7 +4,6 @@ import formatDate from "@/utils/formatDate.mjs";
 import getRemainingDays from "@/utils/getRemainingDays.mjs";
 import Print from "../svg/Print";
 import getProjectName from "@/utils/getProjectName.mjs";
-import SummaryCard from "../homepage/SummaryCard";
 import ProjectSummaryFooter from "../projects/ProjectSummaryFoorter";
 
 const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
@@ -13,34 +12,51 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
 
     if (!isOpen) return null;
     const handlePrint = () => {
-        const iframe = iframeRef.current;
-        const iframeDocument = iframe.contentWindow.document;
-
-        const styles = `
-            body { font-family: Arial, sans-serif; margin: 20px; background-color: white; }
-            .text-lg { font-size: 1.125rem; font-weight: 600; }
-            .font-semibold { font-weight: 600; }
-            .text-gray-800 { color: #2d3748; }
-            .text-gray-600 { color: #718096; }
-            .single_project { margin-bottom: 100px; }
-            .project_header {         page-break-inside: avoid; }
-            table { width: 100%; border-collapse: collapse; }
-               tr {
-        page-break-inside: avoid;
-    }
-            th, td { padding: 8px; border: 0.1px solid #e2e8f0; text-align: left; }
-        `;
-
+        // Get the content to be printed
         const content = printAreaRef.current.innerHTML;
+    
+        // Create a new window for printing
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+    
+        // Define the styles to be applied to the printed content
+        const styles = `
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; background-color: white; }
+                .text-lg { font-size: 1.125rem; font-weight: 600; }
+                .font-semibold { font-weight: 600; }
+                .text-gray-800 { color: #2d3748; }
+                .text-gray-600 { color: #718096; }
+                .single_project { margin-bottom: 100px; }
+                .project_header { page-break-inside: avoid; }
+                table { width: 100%; border-collapse: collapse; }
+                tr { page-break-inside: avoid; }
+                th, td { padding: 8px; border: 0.1px solid #e2e8f0; text-align: left; }
+            </style>
+        `;
+    
+        // Open the new window and write content and styles
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print</title>
+                    ${styles}  <!-- Inject styles -->
+                </head>
+                <body>
+                    ${content}  <!-- Inject content -->
+                </body>
+            </html>
+        `);
+        printWindow.document.close(); 
 
-        iframeDocument.open();
-        iframeDocument.write(`<style>${styles}</style>${content}`);
-        iframeDocument.close();
-
-        iframe.contentWindow.focus();
-        iframe.contentWindow.print();
+        printWindow.onload = function () {
+            printWindow.print();  // Trigger the print dialog
+            printWindow.close();  // Close the print window after printing
+        };
     };
+    
 
+    
     return (
         <>
             <div
