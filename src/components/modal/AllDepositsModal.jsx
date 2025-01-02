@@ -9,6 +9,7 @@ const AllDepositsModal = ({ deposits, onClose }) => {
         printContent.body.innerHTML = document.getElementById("printable-content").innerHTML;
         iframeRef.current.contentWindow.print();
     };
+    const totalDepositAmount = deposits.reduce((acc, deposit) => acc + deposit.amount, 0);
 
     return (
         <div
@@ -96,6 +97,12 @@ const AllDepositsModal = ({ deposits, onClose }) => {
                             </div>
                         </div>
                     ))}
+                    <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent:'end' }}>
+                        <div>
+                            <div style={{ color: '#6B7280' }}>মোট আমানত</div>
+                            <div style={{ fontSize: '1.25rem', color: '#38A169', fontWeight: '600' }}>{totalDepositAmount} টাকা</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="mt-4 flex justify-center items-center gap-8 text-center">
