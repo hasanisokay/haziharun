@@ -17,6 +17,8 @@ const MembersList = ({ m = [] }) => {
     const [allMembers, setAllMembers] = useState([]);
     const [loadingAllMembers, setLoadingAllMembers] = useState(false);
     const [isAllProjectsModalOpen, setIsAllProjectsModalOpen] = useState(false);
+    const [permanentMemberCount, setPermantMemberCount] = useState(0);
+    const [temopraryMemberCount, setTemporaryMemberCount] = useState(0);
     const handleAllMembersClick = async () => {
         setLoadingAllMembers(true)
         if (allMembers.length > 0) {
@@ -28,6 +30,15 @@ const MembersList = ({ m = [] }) => {
         if (d.status === 200) {
             setAllMembers(d?.data?.members);
         }
+        const permanentMembers = d?.data?.members.reduce((count, m) => {
+            if (m.type === "permanent") {
+                return count + 1;
+            }
+            return count;
+        }, 0);
+        setPermantMemberCount(permanentMembers || 0);   
+        setTemporaryMemberCount(d?.data?.members?.length - permanentMembers || 0);
+
         setLoadingAllMembers(false)
         setIsAllProjectsModalOpen(true);
     };
@@ -77,7 +88,7 @@ const MembersList = ({ m = [] }) => {
                         {/* Contact Details */}
                         <div className="grid md:grid-cols-2 grid-cols-1 gap-4 text-sm text-gray-600 dark:text-gray-300">
                             <p>
-                                <span className="font-medium"></span> {member?.type === "permanent" ? "স্থায়ী সদস্য" : "অস্থায়ী সদস্য"}
+                                <span className="font-medium"></span> {member?.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"}
                             </p>
                             <p>
                                 <span className="font-medium">মোবাইল:</span> {member?.mobileNumber}
@@ -155,6 +166,8 @@ const MembersList = ({ m = [] }) => {
             {allMembers.length > 0 && isAllProjectsModalOpen && (<AllMemberReportModal
                 membersFromParent={allMembers}
                 onClose={() => setIsAllProjectsModalOpen(false)}
+                permanentMemberCount={permanentMemberCount}
+                tempMemberCount={temopraryMemberCount}
 
             />)}
             {selectedMember && (

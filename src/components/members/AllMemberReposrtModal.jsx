@@ -4,8 +4,9 @@ import { useRef } from "react";
 import Print from "../svg/Print";
 import getProjectName from "@/utils/getProjectName.mjs";
 import formatDate from "@/utils/formatDate.mjs";
+import MemberSummaryFooter from "./MemberSummaryFooter";
 
-const AllMemberReportModal = ({ membersFromParent, onClose }) => {
+const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount, tempMemberCount }) => {
     const iframeRef = useRef(null);
 
     const handlePrint = () => {
@@ -14,7 +15,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose }) => {
         iframeRef.current.contentWindow.print();
     };
 
-
+    console.log(tempMemberCount)
 
     let tdStyle = {
         textAlign: 'center',
@@ -237,29 +238,29 @@ const AllMemberReportModal = ({ membersFromParent, onClose }) => {
                                             <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: '8px' }}>
                                                 <thead>
                                                     <tr style={{ borderBottom: '1px solid #ddd' }}>
-                                                        <th style={{...tdStyle, width:'150px'}} >
+                                                        <th style={{ ...tdStyle, width: '150px' }} >
                                                             প্রকল্প
                                                         </th>
-                                                        <th style={{...tdStyle, width:'100px'}} >
+                                                        <th style={{ ...tdStyle, width: '100px' }} >
                                                             বিনিয়োগ
                                                         </th>
 
-                                                        <th style={{...tdStyle, width:'80px'}}>
+                                                        <th style={{ ...tdStyle, width: '80px' }}>
                                                             {project.projectType === "mudaraba"
                                                                 ? "লাভ/লস"
                                                                 : "লাভ"}
                                                         </th>
-                                                        <th style={{...tdStyle, width:'110px'}}>
+                                                        <th style={{ ...tdStyle, width: '110px' }}>
                                                             মোট পাবেন
                                                         </th>
-                                                        <th style={{...tdStyle, width:'160px',}}>
+                                                        <th style={{ ...tdStyle, width: '160px', }}>
                                                             পেয়েছেন
                                                         </th>
-                                                        <th style={{...tdStyle, width:'100px'}}>
+                                                        <th style={{ ...tdStyle, width: '100px' }}>
                                                             বাকি আছে
                                                         </th>
 
-                                                        <th style={{...tdStyle, width:'90px'}}>
+                                                        <th style={{ ...tdStyle, width: '90px' }}>
                                                             পার্সেন্টেজ
                                                         </th>
                                                     </tr>
@@ -277,7 +278,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose }) => {
                                                             // className="border-b border-gray-300 "
                                                             >
                                                                 <td
-                                                                    style={{...tdStyle, width:'150px'}}>
+                                                                    style={{ ...tdStyle, width: '150px' }}>
                                                                     <span style={{ display: 'block' }}>                                                                    {project.projectName}</span>
 
                                                                     <span style={{ fontSize: '11px', display: 'block' }}>{getProjectName(project?.projectType)}</span>
@@ -294,19 +295,19 @@ const AllMemberReportModal = ({ membersFromParent, onClose }) => {
                                                                     </span>
                                                                 </td>
 
-                                                                <td style={{...tdStyle, width:'100px'}}>
+                                                                <td style={{ ...tdStyle, width: '100px' }}>
                                                                     &#2547;{member.amountInvested.toLocaleString()}
                                                                 </td>
-                                                                <td style={{...tdStyle, width:'80px'}}>
+                                                                <td style={{ ...tdStyle, width: '80px' }}>
                                                                     &#2547;{member.willGetAmount.toLocaleString()}
                                                                 </td>
-                                                                <td style={{...tdStyle, width:'110px'}}>
+                                                                <td style={{ ...tdStyle, width: '110px' }}>
 
                                                                     {
                                                                         project.projectType === 'mudaraba' ? <p> &#2547;{member.amountInvested.toLocaleString()} ± {member.willGetAmount.toLocaleString()}</p> : <p> &#2547;{(member.amountInvested + member.willGetAmount).toLocaleString()}</p>
                                                                     }
                                                                 </td>
-                                                                <td style={{...tdStyle, width:'160px'}}>
+                                                                <td style={{ ...tdStyle, width: '160px' }}>
                                                                     {member?.payments ? <div>
                                                                         {member?.payments?.map((p, index) => <div key={index}>
                                                                             <p >{formatDate(p.date)} - &#2547;{p.amount.toLocaleString()}</p>
@@ -315,11 +316,11 @@ const AllMemberReportModal = ({ membersFromParent, onClose }) => {
                                                                         }
                                                                     </div> : <p>0</p>}
                                                                 </td>
-                                                                <td style={{...tdStyle, width:'100px'}}>
+                                                                <td style={{ ...tdStyle, width: '100px' }}>
                                                                     {/* &#2547;{member.willGetAmount.toLocaleString()} */}
                                                                     &#2547;{(member.amountInvested + member.willGetAmount - totalPaid).toLocaleString()}
                                                                 </td>
-                                                                <td style={{...tdStyle, width:'90px'}}>
+                                                                <td style={{ ...tdStyle, width: '90px' }}>
                                                                     {member.willGetPercentage}%
                                                                 </td>
                                                             </tr>
@@ -335,6 +336,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose }) => {
                             )}
                         </div>
                     })}
+                    <MemberSummaryFooter permanentMemberCount={permanentMemberCount} tempMemberCount={tempMemberCount} />
                 </div>
 
                 <div

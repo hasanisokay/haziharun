@@ -49,7 +49,7 @@ const MemberReportModal = ({ member, onClose }) => {
                         }}
                     >
                         {member.name} -{" "}
-                        {member.type === "permanent" ? "স্থায়ী সদস্য" : "অস্থায়ী সদস্য"}
+                        {member.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"}
                     </h2>
                     <div className="flex gap-4">
 

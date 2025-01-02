@@ -146,7 +146,7 @@ const NewMemberForm = ({ id }) => {
                             defaultChecked
                             className="mr-2 dark:bg-gray-700 bg-white dark:text-gray-100 text-black border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500"
                         />
-                        <span>{watch("type") ? `স্থায়ী সদস্য` : "অস্থায়ী সদস্য"}</span>
+                        <span>{watch("type") ? `আমানতসহ সদস্য` : "আমানতহীন সদস্য"}</span>
                         {errors.type && (
                             <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>
                         )}
