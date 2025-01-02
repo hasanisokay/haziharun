@@ -187,7 +187,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                         border: "1px solid #ddd",
                                     }}
                                 >
-                                             <span style={{ fontSize: '14px', color: '#374151', textAlign:'center', display:'block' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
+                                    <span style={{ fontSize: '14px', color: '#374151', textAlign: 'center', display: 'block' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
                                     <div style={{ pageBreakInside: "avoid" }}>
                                         <h4
                                             style={{
@@ -226,8 +226,9 @@ const MemberReportModal = ({ member, onClose }) => {
                                             {/* Matched Member */}
                                             {project.members
                                                 .filter((projMember) => projMember.name === member.name)
-                                                .map((matchedMember) => (
-                                                    <div
+                                                .map((matchedMember) => {
+                                                    const totalPaid = matchedMember.payments.reduce((sum, payment) => sum + payment.amount, 0);
+                                                    return <div
                                                         key={matchedMember.memberId}
                                                         style={{
                                                             fontSize: "14px",
@@ -238,7 +239,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                                         }}
                                                     >
                                                         <p>
-                                                            <strong>নাম:</strong>{" "}
+                                                            <strong>নামঃ</strong>{" "}
                                                             <span
                                                                 style={{
                                                                     fontWeight: "600",
@@ -249,16 +250,24 @@ const MemberReportModal = ({ member, onClose }) => {
                                                             </span>
                                                         </p>
                                                         <p>
-                                                            <strong>ইনভেস্ট করেছেন:</strong> &#2547;
+                                                            <strong>বিনিয়োগঃ</strong> &#2547;
                                                             {matchedMember.amountInvested.toLocaleString()}
                                                         </p>
-                                                        <p>
-                                                            <strong>লাভ:</strong> &#2547;
-                                                            {matchedMember.willGetAmount.toLocaleString()} (
-                                                            {matchedMember.willGetPercentage}%)
+                                                        <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                            <span style={{ fontWeight: '500' }}>লাভ পাবেনঃ </span> &#2547; {matchedMember.willGetAmount.toLocaleString()}
                                                         </p>
+                                                        <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                            <span style={{ fontWeight: '500' }}>মোট পাবেনঃ </span> &#2547; {(matchedMember.amountInvested + matchedMember.willGetAmount).toLocaleString()}
+                                                        </p>
+                                                        <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                            <span style={{ fontWeight: '500' }}>পেয়েছেনঃ </span> &#2547; {totalPaid.toLocaleString()}
+                                                        </p>
+                                                        <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                            <span style={{ fontWeight: '500' }}>পার্সেন্টেজঃ </span> &#2547; {matchedMember.willGetPercentage}%
+                                                        </p>
+
                                                     </div>
-                                                ))}
+                                                })}
 
                                             {/* Other Members */}
                                             {project.members.some((projMember) => projMember.name !== member.name) && (
@@ -282,8 +291,9 @@ const MemberReportModal = ({ member, onClose }) => {
                                                     </h5>
                                                     {project?.members
                                                         ?.filter((projMember) => projMember.name !== member.name)
-                                                        ?.map((otherMember) => (
-                                                            <div
+                                                        ?.map((otherMember) => {
+                                                            const totalPaid = otherMember.payments.reduce((sum, payment) => sum + payment.amount, 0);
+                                                            return <div
                                                                 key={otherMember.memberId}
                                                                 style={{
                                                                     fontSize: "14px",
@@ -303,17 +313,26 @@ const MemberReportModal = ({ member, onClose }) => {
                                                                         {otherMember.name}
                                                                     </span>
                                                                 </p>
+
                                                                 <p>
-                                                                    <strong>ইনভেস্ট করেছেন:</strong> &#2547;
+                                                                    <strong>বিনিয়োগঃ</strong> &#2547;
                                                                     {otherMember.amountInvested.toLocaleString()}
                                                                 </p>
-                                                                <p>
-                                                                    <strong>লাভ:</strong> &#2547;
-                                                                    {otherMember.willGetAmount.toLocaleString()} (
-                                                                    {otherMember.willGetPercentage}%)
+                                                                <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                                    <span style={{ fontWeight: '500' }}>লাভ পাবেনঃ </span> &#2547; {otherMember.willGetAmount.toLocaleString()}
                                                                 </p>
+                                                                <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                                    <span style={{ fontWeight: '500' }}>মোট পাবেনঃ </span> &#2547; {(otherMember.amountInvested + otherMember.willGetAmount).toLocaleString()}
+                                                                </p>
+                                                                <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                                    <span style={{ fontWeight: '500' }}>পেয়েছেনঃ </span> &#2547; {totalPaid.toLocaleString()}
+                                                                </p>
+                                                                <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                                                    <span style={{ fontWeight: '500' }}>পার্সেন্টেজঃ </span> &#2547; {otherMember.willGetPercentage}%
+                                                                </p>
+
                                                             </div>
-                                                        ))}
+                                                        })}
                                                 </div>
                                             )}
                                         </>
@@ -345,7 +364,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                     marginBottom: "16px",
                                 }}
                             >
-                                {member.depositsInfo.map((deposit) => (
+                                {member.depositsInfo.map((deposit, index) => (
                                     <div
                                         key={deposit._id}
                                         style={{
@@ -359,6 +378,8 @@ const MemberReportModal = ({ member, onClose }) => {
                                             pageBreakInside: "avoid",
                                         }}
                                     >
+                                        <span style={{ fontSize: '14px', color: '#374151', textAlign: 'left', display: 'block' }}>আমানত নং- {convertToBanglaNumber(index + 1)}</span>
+
                                         <p style={{ fontSize: "14px", color: "#555" }}>
                                             <strong>পরিমাণঃ</strong> &#2547;{deposit.amount.toLocaleString()}
                                         </p>

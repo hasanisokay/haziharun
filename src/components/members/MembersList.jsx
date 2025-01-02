@@ -13,6 +13,7 @@ import AllMemberReportModal from "./AllMemberReposrtModal";
 import Delete from "../svg/Delete";
 import ConfirmModal from "../modal/ConfirmModal";
 import { Flip, toast, ToastContainer } from "react-toastify";
+import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
 
 const MembersList = ({ m = [] }) => {
     const [selectedMember, setSelectedMember] = useState(null);
@@ -98,6 +99,7 @@ const MembersList = ({ m = [] }) => {
         { value: "temporary_members_only", label: "আমানতহীন সদস্য" },
     ];
     const closeModal = () => setSelectedMember(null);
+    console.log(memorizedMembers)
     return (
         <div className="mt-4">
             <div >
@@ -108,11 +110,12 @@ const MembersList = ({ m = [] }) => {
             <SearchBox placeholder={'সদস্যের নাম, পিতা/মাতার নাম, মোবাইল নাম্বার ইত্যাদি দিয়ে সার্চ করুন'} />
             <DefaultSorting sortingOptionsProps={s} field="filter" />
             <div className="space-y-6">
-                {memorizedMembers.map((member) => (
+                {memorizedMembers.map((member, index) => (
                     <div
                         key={member._id}
                         className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
                     >
+                              <span style={{ fontSize: '14px', color: '#374151', marginBottom:'6px', textAlign:'center', display: 'block' }}>সদস্য নং- {convertToBanglaNumber(index + 1)}</span>
                         {/* Header Section */}
                         <div className="flex justify-between items-center mb-4">
                             <div>
@@ -181,12 +184,15 @@ const MembersList = ({ m = [] }) => {
                                 {member?.projectsInfo?.length > 0 && 'ব্যবসার বর্ণনাঃ'}
                             </h3>
                             <div className="space-y-4">
-                                {member?.projectsInfo?.map((project) => {
+                                {member?.projectsInfo?.map((project, index) => {
                                     const currentMember = project.members.filter(m => m.memberId === member._id)[0];
+                                    const totalPaid = currentMember.payments.reduce((sum, payment) => sum + payment.amount, 0);
                                     return (<div
                                         key={project?._id}
                                         className="p-4 bg-gray-100 dark:bg-gray-900 rounded-md border border-gray-200 dark:border-gray-700"
                                     >
+                                        <span style={{ fontSize: '14px', color: '#374151', marginBottom:'6px', display: 'block' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
+
                                         <h4 className="text-md font-semibold text-gray-800 dark:text-gray-100">
                                             {project.projectName}
                                         </h4>
@@ -196,11 +202,19 @@ const MembersList = ({ m = [] }) => {
                                                 : "বাইয়ে মুয়াজ্জাল"}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">ইনভেস্ট করেছেনঃ </span> &#2547;{currentMember.amountInvested.toLocaleString()}
+                                            <span className="font-medium">বিনিয়োগঃ </span> &#2547;{currentMember.amountInvested.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">পাবেনঃ </span> &#2547;{currentMember.willGetAmount.toLocaleString()} (
-                                            {currentMember.willGetPercentage}%)
+                                            <span className="font-medium">লাভ পাবেনঃ </span> &#2547;{currentMember.willGetAmount.toLocaleString()}
+                                        </p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                            <span className="font-medium">মোট পাবেনঃ </span> &#2547; {(currentMember.amountInvested + currentMember.willGetAmount).toLocaleString()}
+                                        </p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                            <span className="font-medium">পেয়েছেনঃ </span> &#2547; {totalPaid.toLocaleString()}
+                                        </p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                            <span className="font-medium">পার্সেন্টেজঃ </span> &#2547; {currentMember.willGetPercentage}%
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">মেয়াদ উত্তীর্ণের তারিখঃ </span> {formatDate(project.expiryDate)}
@@ -241,7 +255,7 @@ const MembersList = ({ m = [] }) => {
                 // message="Are you sure you want to delete this project? This action cannot be undone."
                 message={'আপনি কি নিশ্চিত যে আপনি এই মেম্বার ডিলিট করতে চান? ডিলিট করার পর আর এটা পুনরুদ্ধার করা যাবে না। ডিলিট করলে আমানত, ব্যবসা থেকেও মেম্বারের সমস্ত রেকর্ড মুছে যাবে।'}
             />
-               <ToastContainer transition={Flip} />
+            <ToastContainer transition={Flip} />
         </div>
     );
 };

@@ -124,6 +124,8 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                     {membersFromParent?.map((m, index) => {
                         return <div key={index} style={{ marginBottom: "100px" }}>
                             <div style={{ pageBreakInside: "avoid" }}>
+                                <span style={{ fontSize: '14px', color: '#374151', textAlign: 'center', display: 'block' }}>সদস্য নং- {convertToBanglaNumber(index + 1)}</span>
+
                                 <h3
                                     style={{
                                         fontSize: "20px",
@@ -134,8 +136,10 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                         paddingBottom: "8px",
                                     }}
                                 >
-                                    {m.name} -{" "}
-                                    {m.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"}
+                                    {m.name} {" "}
+                                    <span style={{ fontSize: '14px', textAlign:'right' }}>({m.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})
+                                    </span>
+
                                 </h3>
                                 <h4
                                     style={{
@@ -271,7 +275,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                         //     overflowX: "auto",
                                         // }}
                                         >
-                                            <span style={{ fontSize: '14px', display:'block', color: '#374151', pageBreakAfter:'avoid', marginBottom:'6px', marginTop:'6px' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
+                                            <span style={{ fontSize: '14px', display: 'block', color: '#374151', pageBreakAfter: 'avoid', marginBottom: '6px', marginTop: '6px' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
                                             <div
                                                 style={{
                                                     backgroundColor: "#f9f9f9",

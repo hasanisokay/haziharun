@@ -190,7 +190,6 @@ export const GET = async (req) => {
   .toArray();
 
     const totalCount = await membersCollection.countDocuments(matchStage);
-
     return successResponse({ members, totalCount }, "Members Found");
   } catch (e) {
     console.error(e);

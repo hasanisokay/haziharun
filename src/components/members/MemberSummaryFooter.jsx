@@ -11,7 +11,7 @@ const MemberSummaryFooter = ({ permanentMemberCount, tempMemberCount }) => {
    
     return (
         <>
-            <h3 style={{ fontWeight: '500', color: '#4B5563', fontSize: '1.125rem', marginBottom: '1rem', borderBottom: '1px solid #E5E7EB', paddingBottom: '0.5rem' }}>সদস্যের সারসংক্ষেপ</h3>
+            <h3 style={{ fontWeight: '500', color: '#4B5563', fontSize: '1.125rem', marginBottom: '1rem', borderBottom: '1px solid #E5E7EB', paddingBottom: '0.5rem' }}>সারসংক্ষেপ</h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center' }}>
                     <PermanentIcon />

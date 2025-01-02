@@ -1,6 +1,7 @@
 import formatDate from "@/utils/formatDate.mjs";
 import { useRef } from "react";
 import Print from "../svg/Print";
+import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
 
 const AllDepositsModal = ({ deposits, onClose }) => {
     const iframeRef = useRef(null);
@@ -98,39 +99,44 @@ const AllDepositsModal = ({ deposits, onClose }) => {
                             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
                             borderRadius: '0.5rem',
                             padding: '16px',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
                             marginTop: index !== 0 ? '16px' : '0', // Equivalent of space-y-4
                         }}>
-                            <div style={{ display: 'flex', gap: '16px' }}>
-                                <div style={{
-                                    fontSize: '1.125rem',
-                                    fontWeight: '600',
-                                    color: '#2D3748'
-                                }}>
-                                    {deposit.member.name}
+                            <span style={{ fontSize: '14px', color: '#374151', textAlign: 'left', display: 'block' }}>ক্রমিক নং- {convertToBanglaNumber(index + 1)}</span>
+
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            }}>
+                                <div style={{ display: 'flex', gap: '16px' }}>
+                                    <div style={{
+                                        fontSize: '1.125rem',
+                                        fontWeight: '600',
+                                        color: '#2D3748'
+                                    }}>
+                                        {deposit.member.name}
+                                    </div>
                                 </div>
-                            </div>
-                            <div style={{ textAlign: 'right' }}>
-                                <div style={{
-                                    fontSize: '1.25rem',
-                                    fontWeight: '500',
-                                    color: '#38A169',
-                                    marginBottom: '4px'
-                                }}>
-                                    &#2547; {deposit.amount.toFixed(2)}
-                                </div>
-                                <div style={{ fontSize: '0.75rem', color: '#A0AEC0', marginBottom: '4px' }}>
-                                    আমানতের তারিখঃ {formatDate(deposit.depositDate)}
-                                </div>
-                                <div style={{ fontSize: '0.75rem', color: '#A0AEC0' }}>
-                                    হিসাব উঠানো হয়েছেঃ {formatDate(deposit.addedOn)}
+                                <div style={{ textAlign: 'right' }}>
+                                    <div style={{
+                                        fontSize: '1.25rem',
+                                        fontWeight: '500',
+                                        color: '#38A169',
+                                        marginBottom: '4px'
+                                    }}>
+                                        &#2547; {deposit.amount.toFixed(2)}
+                                    </div>
+                                    <div style={{ fontSize: '0.75rem', color: '#A0AEC0', marginBottom: '4px' }}>
+                                        আমানতের তারিখঃ {formatDate(deposit.depositDate)}
+                                    </div>
+                                    <div style={{ fontSize: '0.75rem', color: '#A0AEC0' }}>
+                                        হিসাব উঠানো হয়েছেঃ {formatDate(deposit.addedOn)}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent:'end' }}>
+                    <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
                         <div>
                             <div style={{ color: '#6B7280' }}>মোট আমানত</div>
                             <div style={{ fontSize: '1.25rem', color: '#38A169', fontWeight: '600' }}>{totalDepositAmount} টাকা</div>

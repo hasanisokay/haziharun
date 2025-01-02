@@ -9,6 +9,7 @@ import ConfirmModal from "../modal/ConfirmModal";
 import { Button } from "../ui/button";
 import getDeposits from "@/utils/getDeposits.mjs";
 import AllDepositsModal from "../modal/AllDepositsModal";
+import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
 
 const Deposits = ({ d, limit }) => {
     const [deposits, setDeposits] = useState(d);
@@ -77,29 +78,33 @@ const Deposits = ({ d, limit }) => {
             <DateRangePicker endDateParam={'end_date'} startDateParam={'start_date'} />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white my-4">আমানত রেকর্ড</h2>
             <div className="space-y-4">
-                {deposits?.map((deposit) => (
-                    <div key={deposit._id} className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 flex justify-between items-center">
-                        <div className="flex space-x-4">
-                            <div className="text-lg font-semibold text-gray-800 dark:text-white">
-                                {deposit.member.name}
+                {deposits?.map((deposit, index) => (
+                    <div key={deposit._id} className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 ">
+                        <span style={{ fontSize: '14px', color: '#374151', textAlign: 'left', display: 'block' }}>ক্রমিক নং- {convertToBanglaNumber(index + 1)}</span>
+                        <div className="flex justify-between items-center">
+                            <div className="flex space-x-4">
+                                <div className="text-lg font-semibold text-gray-800 dark:text-white">
+                                    {deposit.member.name}
+                                </div>
                             </div>
+                            <div className="space-y-1 text-right">
+                                <div className="text-xl font-medium text-green-600 dark:text-green-400">
+                                    &#2547; {deposit.amount.toFixed(2)}
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                    আমানতের তারিখঃ {formatDate(deposit.depositDate)}
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                    হিসাব উঠানো হয়েছেঃ {formatDate(deposit.addedOn)}
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => handleDeleteClick(deposit._id)}
+                                className="ml-4 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600">
+                                Delete
+                            </button>
                         </div>
-                        <div className="space-y-1 text-right">
-                            <div className="text-xl font-medium text-green-600 dark:text-green-400">
-                                &#2547; {deposit.amount.toFixed(2)}
-                            </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">
-                                আমানতের তারিখঃ {formatDate(deposit.depositDate)}
-                            </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">
-                                হিসাব উঠানো হয়েছেঃ {formatDate(deposit.addedOn)}
-                            </div>
-                        </div>
-                        <button
-                            onClick={() => handleDeleteClick(deposit._id)}
-                            className="ml-4 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600">
-                            Delete
-                        </button>
+
                     </div>
                 ))}
             </div>

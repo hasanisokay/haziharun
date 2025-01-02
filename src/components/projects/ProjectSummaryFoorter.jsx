@@ -21,6 +21,12 @@ const MoneyIcon = () => (
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c1.11 0 2 .89 2 2v4c0 1.11-.89 2-2 2m0-8V4m0 4V4M4 6h16M4 10h16M4 14h16m0-4H4m16 8v4M4 18v4" />
     </svg>
 );
+const DebtIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ width: '24px', height: '24px', color: '#4B5563', marginRight: '8px' }}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c1.11 0 2 .89 2 2v4c0 1.11-.89 2-2 2m0-8V4m0 4V4M4 6h16M4 10h16M4 14h16m0-4H4m4 8v4m12-4v4" />
+    </svg>
+);
+
 const ChartIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ width: '24px', height: '24px', color: '#4B5563', marginRight: '8px' }}>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3v18h18M12 3L3 12m9-9l9 9" />
@@ -93,6 +99,13 @@ const ProjectSummaryFooter = ({ summary, amountsSummary }) => {
                     <div>
                         <div style={{ color: '#6B7280' }}>পরিশোধ করা হয়েছে</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>{amountsSummary.totalPayments} টাকা</div>
+                    </div>
+                </div>
+                <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center' }}>
+                    <DebtIcon />
+                    <div>
+                        <div style={{ color: '#6B7280' }}>বাকি আছে</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>{summary.totalProfit + summary.totalAmountInvested - amountsSummary.totalPayments} টাকা</div>
                     </div>
                 </div>
             </div>
