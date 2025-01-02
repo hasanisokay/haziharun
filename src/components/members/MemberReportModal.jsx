@@ -52,11 +52,12 @@ const MemberReportModal = ({ member, onClose }) => {
                         {member.type === "permanent" ? "স্থায়ী সদস্য" : "অস্থায়ী সদস্য"}
                     </h2>
                     <div className="flex gap-4">
+
                         <button
                             onClick={handlePrint}
-                            className="p-2"
+                            className="p-2 flex items-center gap-2"
                         >
-                            <Print />
+                            প্রিন্ট <Print />
                         </button>
                         <button
                             className="p-2"

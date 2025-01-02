@@ -75,7 +75,7 @@ const MembersList = ({ m = [] }) => {
                         </div>
 
                         {/* Contact Details */}
-                        <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-300">
+                        <div className="grid md:grid-cols-2 grid-cols-1 gap-4 text-sm text-gray-600 dark:text-gray-300">
                             <p>
                                 <span className="font-medium"></span> {member?.type === "permanent" ? "স্থায়ী সদস্য" : "অস্থায়ী সদস্য"}
                             </p>
@@ -110,7 +110,7 @@ const MembersList = ({ m = [] }) => {
                                     <span className="font-medium">বিনিয়োগের পরিমাণ:</span> &#2547;{member?.totalAmountInvested.toLocaleString()}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">মোট লাভ পাবেন:</span> &#2547;{member?.totalWillGetAmount.toLocaleString()}
+                                    <span className="font-medium">লাভ পাবেন:</span> &#2547;{member?.totalWillGetAmount.toLocaleString()}
                                 </p>
                             </div>
                         </div>
