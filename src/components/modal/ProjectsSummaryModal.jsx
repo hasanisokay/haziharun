@@ -47,11 +47,11 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
                 </body>
             </html>
         `);
-        printWindow.document.close(); 
+        // printWindow.document.close(); 
 
         printWindow.onload = function () {
             printWindow.print();  // Trigger the print dialog
-            printWindow.close();  // Close the print window after printing
+            // printWindow.close();  // Close the print window after printing
         };
     };
     
