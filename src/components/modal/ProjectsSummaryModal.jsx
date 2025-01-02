@@ -47,7 +47,7 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
                 </body>
             </html>
         `);
-        // printWindow.document.close(); 
+        printWindow.document.close(); 
 
         printWindow.onload = function () {
             printWindow.print();  // Trigger the print dialog
