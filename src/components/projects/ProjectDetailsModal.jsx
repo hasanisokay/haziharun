@@ -235,11 +235,10 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                         <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">
                                             {project.projectType === "mudaraba" ? "লাভ/লস পাবেন" : "লাভ পাবেন"}
                                         </th>
-                                        {project.projectType === "mudaraba" && (
-                                            <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">
-                                                পার্সেন্টেজ
-                                            </th>
-                                        )}
+                                        <th className="px-4 py-2 min-w-[130px] font-medium text-gray-600 dark:text-black">
+                                            পার্সেন্টেজ
+                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -291,11 +290,11 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
                                                 <td className="px-4 py-2 text-gray-700 dark:text-black">
                                                     &#2547;{member.willGetAmount.toLocaleString()}
                                                 </td>
-                                                {project.projectType === "mudaraba" && (
-                                                    <td className="px-4 py-2 text-gray-700 dark:text-black">
-                                                        {member.willGetPercentage}%
-                                                    </td>
-                                                )}
+
+                                                <td className="px-4 py-2 text-gray-700 dark:text-black">
+                                                    {member.willGetPercentage}%
+                                                </td>
+
                                             </tr>
                                         );
                                     })}

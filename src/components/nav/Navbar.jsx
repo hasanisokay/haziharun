@@ -113,7 +113,7 @@ const Navbar = () => {
               </svg>}
             </button>
           </div>
-          <div className="md:hidden block absolute inset-y-0 left-0 flex items-center">
+          <div className="md:hidden block absolute inset-y-0 left-0  items-center">
               {themeSwitch}
             </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
