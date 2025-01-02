@@ -11,7 +11,6 @@ const CurrentProjects = ({ p }) => {
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
     const [expandedProjectId, setExpandedProjectId] = useState(null);
-    console.log(p)
     const closeDetailsModal = () => {
         setIsDetailsModalOpen(false);
         setSelectedProject(null);

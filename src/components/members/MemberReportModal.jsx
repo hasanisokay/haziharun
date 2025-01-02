@@ -2,14 +2,49 @@
 
 import { useRef } from "react";
 import Print from "../svg/Print";
+import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
 
 const MemberReportModal = ({ member, onClose }) => {
     const iframeRef = useRef(null);
     const handlePrint = () => {
-        const printContent = iframeRef.current.contentDocument;
-        printContent.body.innerHTML = document.getElementById("printable-content").innerHTML;
-        iframeRef.current.contentWindow.print();
+        const printContent = document.getElementById("printable-content").innerHTML; // Grab the content to be printed
+
+        // Inline CSS for the printed content
+        const styles = `
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: white;
+          }
+
+        `;
+
+        // Open a new window for the print content
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+        // Write the styles and content into the print window
+        printWindow.document.open();
+        printWindow.document.write(`
+          <html>
+            <head>
+              <style>${styles}</style>
+            </head>
+            <body>
+              ${printContent}
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+
+        // Wait for the document to load and then print
+        printWindow.onload = () => {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        };
     };
+
 
     return (
         <div
@@ -88,6 +123,7 @@ const MemberReportModal = ({ member, onClose }) => {
                             gap: "12px",
                             color: "#555",
                             marginBottom: "16px",
+                            pageBreakInside: "avoid",
                         }}
                     >
                         <p><strong>পিতাঃ</strong> {member.father}</p>
@@ -98,29 +134,31 @@ const MemberReportModal = ({ member, onClose }) => {
                         <p><strong>জাতীয় পরিচয়পত্রঃ</strong> {member.nationalId}</p>
                     </div>
 
-                    <h3
-                        style={{
-                            fontSize: "18px",
-                            fontWeight: "500",
-                            color: "#444",
-                            marginBottom: "12px",
-                            borderBottom: "1px solid #ddd",
-                            paddingBottom: "8px",
-                        }}
-                    >
-                        সারসংক্ষেপ
-                    </h3>
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr",
-                            gap: "12px",
-                            color: "#555",
-                        }}
-                    >
-                        <p><strong>মোট ব্যবসায় বিনিয়োগঃ</strong> {member.projectCount}</p>
-                        <p><strong>বিনিয়োগের পরিমাণঃ</strong> &#2547;{member.totalAmountInvested.toLocaleString()}</p>
-                        <p><strong>মোট লাভঃ</strong> &#2547;{member.totalWillGetAmount.toLocaleString()}</p>
+                    <div style={{ pageBreakInside: "avoid", }}>
+                        <h3
+                            style={{
+                                fontSize: "18px",
+                                fontWeight: "500",
+                                color: "#444",
+                                marginBottom: "12px",
+                                borderBottom: "1px solid #ddd",
+                                paddingBottom: "8px",
+                            }}
+                        >
+                            সারসংক্ষেপ
+                        </h3>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 1fr",
+                                gap: "12px",
+                                color: "#555",
+                            }}
+                        >
+                            <p><strong>মোট ব্যবসায় বিনিয়োগঃ</strong> {member.projectCount}</p>
+                            <p><strong>বিনিয়োগের পরিমাণঃ</strong> &#2547;{member.totalAmountInvested.toLocaleString()}</p>
+                            <p><strong>মোট লাভঃ</strong> &#2547;{member.totalWillGetAmount.toLocaleString()}</p>
+                        </div>
                     </div>
 
                     {member.projectsInfo.length > 0 && (
@@ -138,7 +176,7 @@ const MemberReportModal = ({ member, onClose }) => {
                             >
                                 প্রকল্পের বিবরণ
                             </h3>
-                            {member.projectsInfo.map((project) => (
+                            {member.projectsInfo.map((project, index) => (
                                 <div
                                     key={project._id}
                                     style={{
@@ -149,27 +187,30 @@ const MemberReportModal = ({ member, onClose }) => {
                                         border: "1px solid #ddd",
                                     }}
                                 >
-                                    <h4
-                                        style={{
-                                            fontSize: "16px",
-                                            fontWeight: "600",
-                                            color: "#333",
-                                            marginBottom: "8px",
-                                        }}
-                                    >
-                                        {project.projectName}
-                                    </h4>
-                                    <p style={{ fontSize: "14px" }}>
-                                        <strong>প্রকল্পের ধরনঃ</strong>{" "}
-                                        {project.projectType === "mudaraba" ? "মুদারাবা" : "বাইয়ে মুয়াজ্জাল"}
-                                    </p>
-                                    <p style={{ fontSize: "14px" }}>
-                                        <strong>মোট পরিমাণঃ</strong> &#2547;{project.totalAmount.toLocaleString()}
-                                    </p>
-                                    <p style={{ fontSize: "14px" }}>
-                                        <strong>মেয়াদ উত্তীর্ণঃ</strong>{" "}
-                                        {new Date(project.expiryDate).toLocaleDateString()}
-                                    </p>
+                                             <span style={{ fontSize: '14px', color: '#374151', textAlign:'center', display:'block' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
+                                    <div style={{ pageBreakInside: "avoid" }}>
+                                        <h4
+                                            style={{
+                                                fontSize: "16px",
+                                                fontWeight: "600",
+                                                color: "#333",
+                                                marginBottom: "8px",
+                                            }}
+                                        >
+                                            {project.projectName}
+                                        </h4>
+                                        <p style={{ fontSize: "14px" }}>
+                                            <strong>প্রকল্পের ধরনঃ</strong>{" "}
+                                            {project.projectType === "mudaraba" ? "মুদারাবা" : "বাইয়ে মুয়াজ্জাল"}
+                                        </p>
+                                        <p style={{ fontSize: "14px" }}>
+                                            <strong>মোট পরিমাণঃ</strong> &#2547;{project.totalAmount.toLocaleString()}
+                                        </p>
+                                        <p style={{ fontSize: "14px" }}>
+                                            <strong>মেয়াদ উত্তীর্ণঃ</strong>{" "}
+                                            {new Date(project.expiryDate).toLocaleDateString()}
+                                        </p>
+                                    </div>
                                     <h5
                                         style={{
                                             fontSize: "14px",
@@ -193,6 +234,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                                             paddingLeft: "16px",
                                                             marginBottom: "8px",
                                                             color: "#555",
+                                                            pageBreakInside: "avoid",
                                                         }}
                                                     >
                                                         <p>
@@ -225,6 +267,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                                         marginTop: "16px",
                                                         paddingTop: "12px",
                                                         borderTop: "1px solid #ddd",
+                                                        pageBreakInside: "avoid",
                                                     }}
                                                 >
                                                     <h5
@@ -313,6 +356,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                             display: "flex",
                                             flexDirection: "column",
                                             gap: "8px",
+                                            pageBreakInside: "avoid",
                                         }}
                                     >
                                         <p style={{ fontSize: "14px", color: "#555" }}>

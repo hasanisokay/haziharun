@@ -18,6 +18,7 @@ import ConfirmModal from "../modal/ConfirmModal";
 import ProjectsSummaryModal from "../modal/ProjectsSummaryModal";
 import getProjects from "@/utils/getProjects.mjs";
 import getSummary from "@/utils/getSummary.mjs";
+import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
 
 const ProjectList = ({ p }) => {
   const [projects, setProjects] = useState(p)
@@ -35,6 +36,7 @@ const ProjectList = ({ p }) => {
   const [allProjects, setAllProjects] = useState([]);
   const [loadingAllProjects, setLoadingAllProjects] = useState(false);
   const [summary, setSummary] = useState(null);
+  const [amountsSummary, setAmountsSummary] = useState(null);
   const handleAllProjectsClick = async () => {
     setLoadingAllProjects(true)
     if (allProjects.length > 0) {
@@ -46,10 +48,15 @@ const ProjectList = ({ p }) => {
     if (d.status === 200) {
       setAllProjects(d?.data?.projects);
     }
-    
+
     const s = await getSummary();
     if (s.status === 200) {
       setSummary(s?.data);
+    }
+    const data = await fetch("/api/gets/amounts-summary");
+    const res = await data.json();
+    if (res.status === 200) {
+      setAmountsSummary(res?.data);
     }
 
     setLoadingAllProjects(false)
@@ -195,7 +202,7 @@ const ProjectList = ({ p }) => {
         <DefaultSorting sortingOptionsProps={sortOptions} field="sort" />
       </div>
       <div id="projects-section">
-        {memorizedProjects?.map((project) => {
+        {memorizedProjects?.map((project, index) => {
           const remainingDays = getRemainingDays(project.expiryDate);
           return (
             <div
@@ -203,6 +210,7 @@ const ProjectList = ({ p }) => {
               className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-custom1"
             >
               {/* Project Header */}
+              <span style={{ fontSize: '14px', color: '#374151', }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                   <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
@@ -379,8 +387,9 @@ const ProjectList = ({ p }) => {
         projects={allProjects}
         isOpen={isAllProjectsModalOpen}
         onClose={closeAllProjectsModal}
-      // showPaymentOption={showPaymentOption}
-      summary={summary}
+        // showPaymentOption={showPaymentOption}
+        summary={summary}
+        amountsSummary={amountsSummary}
       />
 
       <ConfirmModal

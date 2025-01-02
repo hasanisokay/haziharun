@@ -115,7 +115,6 @@ const NewProjectForm = ({ id }) => {
     setLoading(true);
     const res = await fetch(`/api/gets/project?id=${id}`);
     const data = await res.json();
-    console.log(data)
     if (data?.status === 200) {
       setUpdateable(true);
       const p = data.data;
@@ -171,7 +170,7 @@ const NewProjectForm = ({ id }) => {
       })
     }
   };
-  // console.log(members)
+
   return (
     <div className={`container mx-auto p-6 min-h-screen bg-gray-50 dark:bg-[#343541] shadow-lg rounded-lg max-w-3xl ${loading ? "form-disable" : ""}`}>
       <h2 className="text-3xl font-extrabold text-gray-800 dark:text-white mb-6 text-center">{updateable ? "এডিট করুন" : "নতুন প্রজেক্ট"}</h2>

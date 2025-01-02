@@ -5,19 +5,19 @@ import getRemainingDays from "@/utils/getRemainingDays.mjs";
 import Print from "../svg/Print";
 import getProjectName from "@/utils/getProjectName.mjs";
 import ProjectSummaryFooter from "../projects/ProjectSummaryFoorter";
+import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
 
-const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
+const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSummary }) => {
     const printAreaRef = useRef(null);
     const iframeRef = useRef(null);
-
     if (!isOpen) return null;
     const handlePrint = () => {
         // Get the content to be printed
         const content = printAreaRef.current.innerHTML;
-    
+
         // Create a new window for printing
         const printWindow = window.open('', '_blank', 'width=800,height=600');
-    
+
         // Define the styles to be applied to the printed content
         const styles = `
             <style>
@@ -33,7 +33,7 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
                 th, td { padding: 8px; border: 0.1px solid #e2e8f0; text-align: left; }
             </style>
         `;
-    
+
         // Open the new window and write content and styles
         printWindow.document.open();
         printWindow.document.write(`
@@ -47,16 +47,17 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
                 </body>
             </html>
         `);
-        printWindow.document.close(); 
+        printWindow.document.close();
 
         printWindow.onload = function () {
+            printWindow.focus();
             printWindow.print();  // Trigger the print dialog
-            // printWindow.close();  // Close the print window after printing
+            // printWindow.close();  
         };
     };
-    
 
-    
+
+
     return (
         <>
             <div
@@ -78,16 +79,17 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
                     </button>
                     <button
                         onClick={onClose}
-                        className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                        className="bg-red-500 text-white px-4 py-2 rounded-lg "
                     >
                         বন্ধ করুন
                     </button>
                 </div>
 
                 <div ref={printAreaRef}>
-                    {projects.map((project) => {
+                    {projects.map((project, index) => {
                         const remainingDays = getRemainingDays(project.expiryDate);
                         return <div key={project._id} className="p-6 single_project mb-6 bg-white rounded-lg shadow-md">
+                            <span style={{ fontSize: '14px', color: '#374151', textAlign:'center', display:'block' }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }} className="project_header md:flex-row flex-col">
                                 <div className="flex flex-col">
                                     <h2 className="text-lg font-semibold text-gray-800 ">
@@ -220,8 +222,8 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
                         </div>
                     })}
                     <div>
-                        
-                  <ProjectSummaryFooter summary={summary} />
+
+                        <ProjectSummaryFooter summary={summary} amountsSummary={amountsSummary}/>
                     </div>
                 </div>
             </div>

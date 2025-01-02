@@ -26,8 +26,17 @@ const ChartIcon = () => (
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3v18h18M12 3L3 12m9-9l9 9" />
     </svg>
 );
-
-const ProjectSummaryFooter = ({ summary }) => {
+const ProfitIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ width: '24px', height: '24px', color: '#4B5563', marginRight: '8px' }}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3v18h18M9 12l2 2 4-4" />
+    </svg>
+);
+const PaymentIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ width: '24px', height: '24px', color: '#4B5563', marginRight: '8px' }}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h4" />
+    </svg>
+);
+const ProjectSummaryFooter = ({ summary, amountsSummary }) => {
     return (
        <div style={{pageBreakBefore: 'always'}}>
           <h3 style={{ fontWeight: '500', color: '#4B5563', fontSize: '1.125rem', paddingLeft:'1rem', marginBottom: '1rem', borderBottom: '1px solid #E5E7EB', paddingBottom: '0.5rem' }}>প্রকল্পের সারসংক্ষেপ</h3>
@@ -65,10 +74,25 @@ const ProjectSummaryFooter = ({ summary }) => {
                 </div>
 
                 <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center' }}>
-                    <ChartIcon />
+                    <ProfitIcon />
                     <div>
                         <div style={{ color: '#6B7280' }}>মোট লাভ</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>{summary.totalProfit} টাকা</div>
+                    </div>
+                </div>
+      
+                <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center' }}>
+                    <ChartIcon />
+                    <div>
+                        <div style={{ color: '#6B7280' }}>মোট পরিশোধযোগ্য</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>{summary.totalProfit + summary.totalAmountInvested} টাকা</div>
+                    </div>
+                </div>
+                <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center' }}>
+                    <PaymentIcon />
+                    <div>
+                        <div style={{ color: '#6B7280' }}>পরিশোধ করা হয়েছে</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>{amountsSummary.totalPayments} টাকা</div>
                     </div>
                 </div>
             </div>

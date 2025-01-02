@@ -67,47 +67,62 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
 
     // Handle the print functionality
     const handlePrint = () => {
-        const iframe = iframeRef.current;
-        const iframeDocument = iframe.contentWindow.document;
-
+        const content = printAreaRef.current.innerHTML; // Grab the content inside the ref
+    
         // Inline CSS for the printed content
         const styles = `
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        padding: 0;
-        background-color: white;
-      }
-      .modal-content {
-        padding: 20px;
-        border-radius: 8px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 800px;
-        margin: 0 auto;
-        overflow-y: auto;
-      }
-      .text-lg { font-size: 1.125rem; font-weight: 600; }
-      .font-semibold { font-weight: 600; }
-      .text-gray-800 { color: #2d3748; }
-      .text-gray-600 { color: #718096; }
-      .text-sm { font-size: 0.875rem; }
-      .mt-4 { margin-top: 1rem; }
-      .mb-4 { margin-bottom: 1rem; }
-      .border-b { border-bottom: 1px solid #e2e8f0; }
-      table { width: 100%; border-collapse: collapse; }
-      th, td { padding: 8px; border: 1px solid #e2e8f0; text-align: left; }
-    `;
-
-        const content = printAreaRef.current.innerHTML; // Grab the content inside the ref
-
-        iframeDocument.open();
-        iframeDocument.write(`<style>${styles}</style>${content}`);
-        iframeDocument.close();
-
-        iframe.contentWindow.focus();
-        iframe.contentWindow.print();
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: white;
+          }
+          .modal-content {
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            overflow-y: auto;
+          }
+          .text-lg { font-size: 1.125rem; font-weight: 600; }
+          .font-semibold { font-weight: 600; }
+          .text-gray-800 { color: #2d3748; }
+          .text-gray-600 { color: #718096; }
+          .text-sm { font-size: 0.875rem; }
+          .mt-4 { margin-top: 1rem; }
+          .mb-4 { margin-bottom: 1rem; }
+          .border-b { border-bottom: 1px solid #e2e8f0; }
+          table { width: 100%; border-collapse: collapse; }
+          th, td { padding: 8px; border: 1px solid #e2e8f0; text-align: left; }
+        `;
+    
+        // Open a new window for the print content
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+    
+        // Write the styles and content into the print window
+        printWindow.document.open();
+        printWindow.document.write(`
+          <html>
+            <head>
+              <style>${styles}</style>
+            </head>
+            <body>
+              ${content}
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+    
+        // Wait for the document to load and then print
+        printWindow.onload = () => {
+          printWindow.focus();
+          printWindow.print();
+        //   printWindow.close();
+        };
     };
+    
 
     return (
         <>

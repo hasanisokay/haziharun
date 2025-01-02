@@ -52,7 +52,6 @@ const NewDeposit = () => {
                 body: JSON.stringify(data),
             });
             const responseData = await res.json();
-            console.log(responseData)
             if (responseData.status === 200) {
                 toast.success(responseData.message || 'জমা সফল হয়েছে!');
                 reset();

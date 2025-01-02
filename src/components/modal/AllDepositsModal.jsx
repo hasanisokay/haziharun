@@ -5,9 +5,42 @@ import Print from "../svg/Print";
 const AllDepositsModal = ({ deposits, onClose }) => {
     const iframeRef = useRef(null);
     const handlePrint = () => {
-        const printContent = iframeRef.current.contentDocument;
-        printContent.body.innerHTML = document.getElementById("printable-content").innerHTML;
-        iframeRef.current.contentWindow.print();
+        const printContent = document.getElementById("printable-content").innerHTML; // Grab the content to be printed
+
+        // Inline CSS for the printed content
+        const styles = `
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: white;
+          }
+
+        `;
+
+        // Open a new window for the print content
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+        // Write the styles and content into the print window
+        printWindow.document.open();
+        printWindow.document.write(`
+          <html>
+            <head>
+              <style>${styles}</style>
+            </head>
+            <body>
+              ${printContent}
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+
+        // Wait for the document to load and then print
+        printWindow.onload = () => {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        };
     };
     const totalDepositAmount = deposits.reduce((acc, deposit) => acc + deposit.amount, 0);
 

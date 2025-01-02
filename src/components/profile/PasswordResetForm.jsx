@@ -60,7 +60,7 @@ export default function PasswordResetForm() {
     }
     return (
         <div className="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">পাসওয়ার্ড রিসেট</h2>
+            <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">পাসওয়ার্ড পরিবর্তন</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Old Password */}
                 <div>
@@ -126,7 +126,7 @@ export default function PasswordResetForm() {
                     type="submit"
                     className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md dark:bg-blue-500 dark:hover:bg-blue-600"
                 >
-                    Reset Password
+                    পাসওয়ার্ড পরিবর্তন করুন
                 </button>
             </form>
             <ToastContainer transition={Flip} />

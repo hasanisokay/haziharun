@@ -2,7 +2,6 @@ import formatDate from "@/utils/formatDate.mjs";
 import getProjectName from "@/utils/getProjectName.mjs";
 
 const InvestmentTable = ({ projects, showMemberName }) => {
-    console.log(projects);
     return (
         <div
             style={{
