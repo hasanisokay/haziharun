@@ -87,9 +87,7 @@ const Navbar = () => {
                 duration-300 ${visible ? 'transform-none border-b border-border/40 shadow-md' : '-translate-y-full'
         }`} aria-label="Global">
         <div className="relative flex items-center justify-between h-16">
-        <p className="md:hidden block">
-            {themeSwitch}
-          </p>
+
           <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
             <button
               type="button"
@@ -116,6 +114,9 @@ const Navbar = () => {
               </svg>}
             </button>
           </div>
+          <div className="md:hidden block absolute inset-y-0 left-0 flex items-center">
+              {themeSwitch}
+            </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
               <Link href="/" className="text-2xl font-bold">
@@ -211,7 +212,7 @@ const Navbar = () => {
             {user && <Link href="/profile" >প্রোফাইল</Link>}
           </div>
           {user && <button className="dark:text-white text-black px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>লগ আউট</button>}
- 
+
         </div>
       </div>
     </div>
