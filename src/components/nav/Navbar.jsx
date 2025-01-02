@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname} from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "@/store/slices/themeSlice";
 import logOut from "@/utils/logOut.mjs";
@@ -10,7 +10,6 @@ import logo from "./../../../public/hazi_harun_logo1.png";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const currentPath = usePathname()
-  const route = useRouter();
   const [lastScrollY, setLastScrollY] = useState(0);
   const [visible, setVisible] = useState(true);
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -36,7 +35,7 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     logOut()
-    route.replace(`/login?redirectTo=${currentPath}`)
+    window.location.href = `/login?redirectTo=${currentPath}`
   }
   const getLinkClass = (p) => {
     let path = p;
