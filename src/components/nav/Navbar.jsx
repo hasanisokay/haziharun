@@ -169,7 +169,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       <div
-        className={`${menuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"} duration-500 transition-all absolute top-[64px] right-0 w-[200px] sm:hidden ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} rounded-lg shadow-lg backdrop-blur-lg`}
+        className={`${menuOpen ? "translate-x-0 opacity-100" : "-translate-y-full opacity-0"} duration-500 transition-all absolute top-[64px] right-0 w-[200px] sm:hidden ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} rounded-lg shadow-lg backdrop-blur-lg`}
         id="mobile-menu"
       >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
