@@ -35,9 +35,9 @@ const AllDepositsModal = ({ deposits, onClose }) => {
                     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                 }}>
                 <div className="flex justify-between items-center">
-                <button
+                    <button
                         onClick={handlePrint}
-   className="flex gap-2"
+                        className="flex gap-2"
                     >
                         প্রিন্ট করুন <Print />
                     </button>
@@ -57,7 +57,7 @@ const AllDepositsModal = ({ deposits, onClose }) => {
                     </button>
                 </div>
                 <div id="printable-content" style={{ marginTop: '16px' }}>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">আমানত রিপোর্ট</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">আমানত রিপোর্ট</h3>
                     {deposits?.map((deposit, index) => (
                         <div key={deposit._id} style={{
                             backgroundColor: '#ffffff',

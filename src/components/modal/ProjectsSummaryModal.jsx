@@ -4,13 +4,14 @@ import formatDate from "@/utils/formatDate.mjs";
 import getRemainingDays from "@/utils/getRemainingDays.mjs";
 import Print from "../svg/Print";
 import getProjectName from "@/utils/getProjectName.mjs";
+import SummaryCard from "../homepage/SummaryCard";
+import ProjectSummaryFooter from "../projects/ProjectSummaryFoorter";
 
-const ProjectsSummaryModal = ({ projects, isOpen, onClose }) => {
+const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary }) => {
     const printAreaRef = useRef(null);
     const iframeRef = useRef(null);
 
     if (!isOpen) return null;
-
     const handlePrint = () => {
         const iframe = iframeRef.current;
         const iframeDocument = iframe.contentWindow.document;
@@ -45,7 +46,6 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose }) => {
             <div
                 className="modal-overlay fixed inset-0 text-black bg-black/20 backdrop-blur-sm"
                 style={{ zIndex: 9999 }}
-                // onClick={onClose}
             ></div>
             <div
                 className="modal-content fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-custom1 overflow-y-auto"
@@ -203,6 +203,10 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose }) => {
                             </div>
                         </div>
                     })}
+                    <div>
+                        
+                  <ProjectSummaryFooter summary={summary} />
+                    </div>
                 </div>
             </div>
 

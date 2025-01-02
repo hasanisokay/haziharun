@@ -106,7 +106,23 @@ const SummaryCard = ({ d }) => {
           textColor={cardStyles.green.textColor}
           href="/projects"
         />
+        <div className="flex items-center justify-between gap-4 font-semibold text-gray-800 dark:text-gray-200 bg-red-100 dark:bg-red-600 px-4 py-2 rounded-md shadow">
+          <Link href="/deposits">আমানত</Link>
+          <Link href="/deposits/new">+</Link>
+        </div>
+
+        <div className="flex items-center justify-between gap-4 font-semibold text-gray-800 dark:text-gray-200 bg-red-100 dark:bg-red-600  px-4 py-2 rounded-md shadow">
+          <Link href="/members">সদস্য</Link>
+          <Link href="/members/new">+</Link>
+        </div>
+        <div className="flex items-center justify-between gap-4 font-semibold text-gray-800 dark:text-gray-200 bg-blue-100 dark:bg-blue-900 px-4 py-2 rounded-md shadow">
+          <Link href="/projects">প্রজেক্ট</Link>
+          <Link href="/projects/new">+</Link>
+        </div>
       </div>
+
+
+
     </div>
   );
 };

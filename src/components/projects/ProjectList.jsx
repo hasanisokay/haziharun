@@ -17,6 +17,7 @@ import Delete from "../svg/Delete";
 import ConfirmModal from "../modal/ConfirmModal";
 import ProjectsSummaryModal from "../modal/ProjectsSummaryModal";
 import getProjects from "@/utils/getProjects.mjs";
+import getSummary from "@/utils/getSummary.mjs";
 
 const ProjectList = ({ p }) => {
   const [projects, setProjects] = useState(p)
@@ -33,6 +34,7 @@ const ProjectList = ({ p }) => {
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [allProjects, setAllProjects] = useState([]);
   const [loadingAllProjects, setLoadingAllProjects] = useState(false);
+  const [summary, setSummary] = useState(null);
   const handleAllProjectsClick = async () => {
     setLoadingAllProjects(true)
     if (allProjects.length > 0) {
@@ -44,6 +46,12 @@ const ProjectList = ({ p }) => {
     if (d.status === 200) {
       setAllProjects(d?.data?.projects);
     }
+    
+    const s = await getSummary();
+    if (s.status === 200) {
+      setSummary(s?.data);
+    }
+
     setLoadingAllProjects(false)
     setIsAllProjectsModalOpen(true);
   };
@@ -372,6 +380,7 @@ const ProjectList = ({ p }) => {
         isOpen={isAllProjectsModalOpen}
         onClose={closeAllProjectsModal}
       // showPaymentOption={showPaymentOption}
+      summary={summary}
       />
 
       <ConfirmModal
