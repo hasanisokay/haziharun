@@ -223,17 +223,17 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                         // let totalPaid = project?.payments ? project.payments.reduce((acc, currentV) => acc + currentV?.amount, 0) : 0
                                         return <div
                                             key={project._id}
-                                            // style={{
-                                            //     backgroundColor: "#f9f9f9",
-                                            //     borderRadius: "6px",
-                                            //     // padding: "16px",
-                                            //     marginBottom: "16px",
-                                            //     border: "1px solid #ddd",
-                                            //     pageBreakInside: "avoid",
-                                            //     overflowX: "auto",
-                                            // }}
+                                        // style={{
+                                        //     backgroundColor: "#f9f9f9",
+                                        //     borderRadius: "6px",
+                                        //     // padding: "16px",
+                                        //     marginBottom: "16px",
+                                        //     border: "1px solid #ddd",
+                                        //     pageBreakInside: "avoid",
+                                        //     overflowX: "auto",
+                                        // }}
                                         >
-                                            <span>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
+                                            <span style={{ fontSize: '14px', color: '#374151', }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
                                             <div
                                                 style={{
                                                     backgroundColor: "#f9f9f9",
