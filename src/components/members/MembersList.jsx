@@ -10,15 +10,64 @@ import MemberReportModal from "./MemberReportModal";
 import { Button } from "../ui/button";
 import getMembersWithDetails from "@/utils/getMembersWithDetails.mjs";
 import AllMemberReportModal from "./AllMemberReposrtModal";
+import Delete from "../svg/Delete";
+import ConfirmModal from "../modal/ConfirmModal";
+import { Flip, toast, ToastContainer } from "react-toastify";
 
 const MembersList = ({ m = [] }) => {
     const [selectedMember, setSelectedMember] = useState(null);
-    const memorizedMembers = useMemo(() => m, [m])
+    const [members, setMembers] = useState(m);
+    const memorizedMembers = useMemo(() => members, [members]);
+
     const [allMembers, setAllMembers] = useState([]);
     const [loadingAllMembers, setLoadingAllMembers] = useState(false);
     const [isAllProjectsModalOpen, setIsAllProjectsModalOpen] = useState(false);
     const [permanentMemberCount, setPermantMemberCount] = useState(0);
     const [temopraryMemberCount, setTemporaryMemberCount] = useState(0);
+
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [memberIdToDelete, setMemberIdToDelete] = useState(null);
+
+    const handleDeleteClick = (projectId) => {
+        setMemberIdToDelete(projectId);
+        setIsConfirmModalOpen(true);
+    };
+    const confirmDelete = () => {
+        if (memberIdToDelete) {
+            deleteMember(memberIdToDelete);
+            setIsConfirmModalOpen(false);
+            setMemberIdToDelete(null);
+        }
+    };
+    const deleteMember = async (memberId) => {
+        try {
+            const res = await fetch("/api/deletes/delete-member", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: memberId }),
+            });
+            const data = await res.json();
+            if (data?.status === 200) {
+                setMembers((prevMembers) =>
+                    prevMembers.filter((m) => m._id !== memberId)
+                );
+                toast.success(data.message, {
+                    position: "top-right",
+                    autoClose: 2000
+                });
+            } else {
+                toast.error(data.message || data.error, {
+                    position: "top-right",
+                    autoClose: 2000
+                });
+            }
+        } catch (error) {
+            toast.error(error.message || "Error", {
+                position: "top-right",
+                autoClose: 2000
+            });
+        }
+    }
     const handleAllMembersClick = async () => {
         setLoadingAllMembers(true)
         if (allMembers.length > 0) {
@@ -36,7 +85,7 @@ const MembersList = ({ m = [] }) => {
             }
             return count;
         }, 0);
-        setPermantMemberCount(permanentMembers || 0);   
+        setPermantMemberCount(permanentMembers || 0);
         setTemporaryMemberCount(d?.data?.members?.length - permanentMembers || 0);
 
         setLoadingAllMembers(false)
@@ -160,6 +209,15 @@ const MembersList = ({ m = [] }) => {
                                 })}
                             </div>
                         </div>
+
+                        <Button
+                            onClick={() => handleDeleteClick(member._id)}
+                            className="mt-4 text-black dark:bg-gray-300"
+                            variant="outline"
+                        >
+                            ডিলিট করুন
+                            <Delete />
+                        </Button>
                     </div>
                 ))}
             </div>
@@ -176,6 +234,14 @@ const MembersList = ({ m = [] }) => {
                     onClose={closeModal}
                 />
             )}
+            <ConfirmModal
+                isOpen={isConfirmModalOpen}
+                onClose={() => setIsConfirmModalOpen(false)}
+                onConfirm={confirmDelete}
+                // message="Are you sure you want to delete this project? This action cannot be undone."
+                message={'আপনি কি নিশ্চিত যে আপনি এই মেম্বার ডিলিট করতে চান? ডিলিট করার পর আর এটা পুনরুদ্ধার করা যাবে না। ডিলিট করলে আমানত, ব্যবসা থেকেও মেম্বারের সমস্ত রেকর্ড মুছে যাবে।'}
+            />
+               <ToastContainer transition={Flip} />
         </div>
     );
 };
