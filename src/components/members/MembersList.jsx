@@ -25,11 +25,11 @@ const MembersList = ({ m = [] }) => {
     const [isAllProjectsModalOpen, setIsAllProjectsModalOpen] = useState(false);
     const [permanentMemberCount, setPermantMemberCount] = useState(0);
     const [temopraryMemberCount, setTemporaryMemberCount] = useState(0);
-
+    const [downloadExcel, setDownloadExcel] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [memberIdToDelete, setMemberIdToDelete] = useState(null);
 
-    const [amountsSummary, setAmountsSummary] = useState(null);
+    const [totalDepositAmount, setTotalDepositAmount] = useState(0);
 
     const handleDeleteClick = (projectId) => {
         setMemberIdToDelete(projectId);
@@ -81,6 +81,11 @@ const MembersList = ({ m = [] }) => {
         const d = await getMembersWithDetails(1, 999999999, "newest", '', '');
         if (d.status === 200) {
             setAllMembers(d?.data?.members);
+            const totalDeposit = getTotalDepositAmount(d?.data?.members);
+            setTotalDepositAmount(totalDeposit);
+        }
+        else {
+            return;
         }
         const permanentMembers = d?.data?.members?.reduce((count, m) => {
             if (m.type === "permanent") {
@@ -88,19 +93,21 @@ const MembersList = ({ m = [] }) => {
             }
             return count;
         }, 0);
-        
-        const data = await fetch("/api/gets/amounts-summary");
-        const res = await data.json();
-        if (res.status === 200) {
-          setAmountsSummary(res?.data);
-        }
 
         setPermantMemberCount(permanentMembers || 0);
         setTemporaryMemberCount(d?.data?.members?.length - permanentMembers || 0);
-
         setLoadingAllMembers(false)
         setIsAllProjectsModalOpen(true);
     };
+    function getTotalDepositAmount(data) {
+        return data.reduce((total, person) => {
+            if (person.depositsInfo && person.depositsInfo.length > 0) {
+                const personTotal = person.depositsInfo.reduce((personSum, deposit) => personSum + deposit.amount, 0);
+                return total + personTotal;
+            }
+            return total;
+        }, 0);
+    }
 
     const s = [
         { value: "permanent_members_only", label: "আমানতসহ সদস্য" },
@@ -252,7 +259,7 @@ const MembersList = ({ m = [] }) => {
                 onClose={() => setIsAllProjectsModalOpen(false)}
                 permanentMemberCount={permanentMemberCount}
                 tempMemberCount={temopraryMemberCount}
-                amountsSummary={amountsSummary}
+                totalDepositAmount={totalDepositAmount}
             />)}
             {selectedMember && (
                 <MemberReportModal

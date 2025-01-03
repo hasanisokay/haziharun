@@ -18,7 +18,7 @@ export const GET = async (req) => {
         $group: {
           _id: null,  // Group all data together (no need to group by project)
           totalWillGetAmount: { $sum: "$members.willGetAmount" },  
-          totalInvested: { $sum: "$members.amountInvested" },  
+          // totalInvested: { $sum: "$members.amountInvested" },  
           totalPayments: {  // Sum of all payments made by members
             $sum: {
               $reduce: {

@@ -6,15 +6,11 @@ import getProjectName from "@/utils/getProjectName.mjs";
 import formatDate from "@/utils/formatDate.mjs";
 import MemberSummaryFooter from "./MemberSummaryFooter";
 import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
+import ExcelJS from 'exceljs';
+import jsToExcelDate from "@/utils/jsToExcelDate.mjs";
 
-const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount, tempMemberCount, amountsSummary }) => {
+const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount, tempMemberCount, totalDepositAmount }) => {
     const iframeRef = useRef(null);
-
-    // const handlePrint = () => {
-    //     const printContent = iframeRef.current.contentDocument;
-    //     printContent.body.innerHTML = document.getElementById("printable-content").innerHTML;
-    //     iframeRef.current.contentWindow.print();
-    // };
     const handlePrint = () => {
         const printContent = document.getElementById("printable-content").innerHTML; // Grab the content to be printed
 
@@ -64,6 +60,123 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
         fontSize: '14px',
         borderRight: "1px solid #ddd",
     }
+
+    async function exportToExcel(data, filePath) {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Members');
+    
+        // Add header row
+        worksheet.columns = [
+            { header: 'Member ID', key: '_id', width: 25 },
+            { header: 'Name', key: 'name', width: 20 },
+            { header: 'Type', key: 'type', width: 15 },
+            { header: 'Father', key: 'father', width: 20 },
+            { header: 'Mother', key: 'mother', width: 20 },
+            { header: 'Village', key: 'village', width: 20 },
+            { header: 'Post', key: 'post', width: 15 },
+            { header: 'Police Station', key: 'policeStation', width: 20 },
+            { header: 'District', key: 'district', width: 20 },
+            { header: 'Mobile Number', key: 'mobileNumber', width: 20 },
+            { header: 'Email', key: 'email', width: 30 },
+            { header: 'National ID', key: 'nationalId', width: 20 },
+            { header: 'Added On', key: 'addedOn', width: 30 },
+            { header: 'Project Name', key: 'projectName', width: 30 },
+            { header: 'Project Id', key: 'projectId', width: 30 },
+            { header: 'Amount Invested', key: 'amountInvested', width: 20 },
+            { header: 'Profit', key: 'profit', width: 20 },
+            { header: 'Percentage', key: 'percentage', width: 15 },
+            { header: 'Payment Date', key: 'paymentDate', width: 30 },
+            { header: 'Payment Amount', key: 'paymentAmount', width: 20 },
+            { header: 'Deposit Date', key: 'depositDate', width: 30 },
+            { header: 'Deposit Amount', key: 'depositAmount', width: 20 },
+        ];
+    
+        // Add data rows
+        data.forEach(member => {
+            // Base member information
+            const baseInfo = {
+                _id: member._id,
+                name: member.name,
+                type: member.type,
+                father: member.father,
+                mother: member.mother,
+                village: member.village,
+                post: member.post,
+                policeStation: member.policeStation,
+                district: member.district,
+                mobileNumber: member.mobileNumber,
+                email: member.email,
+                nationalId: member.nationalId,
+                addedOn: jsToExcelDate(member.addedOn),
+            };
+    
+            // Add projects and payments information
+            if (member.projectsInfo && member.projectsInfo.length > 0) {
+                member.projectsInfo.forEach(project => {
+                    const projectInfo = {
+                        projectName: project.projectName,
+                        projectId: project._id,
+                    };
+    
+                    if (project.members && project.members.length > 0) {
+                        project.members.forEach(projectMember => {
+                            if(projectMember.memberId !== member._id) { 
+                                return;
+                             }
+                            worksheet.addRow({
+                                ...baseInfo,
+                                ...projectInfo,
+                                amountInvested: projectMember.amountInvested,
+                                profit: projectMember.willGetAmount,
+                                percentage: projectMember.willGetPercentage,
+                            });
+                            if (projectMember.payments && projectMember.payments.length > 0) {
+                                projectMember.payments.forEach(payment => {
+                                    worksheet.addRow({
+                                        ...baseInfo,
+                                        ...projectInfo,
+                                        paymentDate: jsToExcelDate(payment.date),
+                                        paymentAmount: payment.amount,
+                                    });
+                                });
+                            } else {
+                                worksheet.addRow({
+                                    ...baseInfo,
+                                    ...projectInfo,
+                                });
+                            }
+                        });
+                    } else {
+                        worksheet.addRow({
+                            ...baseInfo,
+                            ...projectInfo,
+                        });
+                    }
+                });
+            }
+    
+            // Add deposits info
+            if (member.depositsInfo && member.depositsInfo.length > 0) {
+                member.depositsInfo.forEach(deposit => {
+                    worksheet.addRow({
+                        ...baseInfo,
+                        depositDate: jsToExcelDate(deposit.depositDate),
+                        depositAmount: deposit.amount,
+                    });
+                });
+            }
+        });
+
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'AllMemberReport.xlsx';
+        link.click();
+    }
+
+
+    // console.log(membersFromParent)
     return (
         <div
             // onClick={onClose}
@@ -112,6 +225,12 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                             প্রিন্ট <Print />
                         </button>
                         <button
+                            onClick={()=>exportToExcel(membersFromParent, 'AllMemberReport.xlsx')}
+                            className="p-2 flex items-center gap-2"
+                        >
+                            এক্সেল ডাউনলোড
+                        </button>
+                        <button
                             className="p-2"
                             onClick={onClose}
                         >
@@ -137,7 +256,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                     }}
                                 >
                                     {m.name} {" "}
-                                    <span style={{ fontSize: '14px', textAlign:'right' }}>({m.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})
+                                    <span style={{ fontSize: '14px', textAlign: 'right' }}>({m.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})
                                     </span>
 
                                 </h3>
@@ -391,8 +510,8 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                             )}
                         </div>
                     })}
-                    <MemberSummaryFooter amountsSummary={amountsSummary} permanentMemberCount={permanentMemberCount} tempMemberCount={tempMemberCount} />
-                </div> 
+                    <MemberSummaryFooter totalDepositAmount={totalDepositAmount} permanentMemberCount={permanentMemberCount} tempMemberCount={tempMemberCount} />
+                </div>
 
                 <div
                     style={{
