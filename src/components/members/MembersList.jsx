@@ -14,6 +14,7 @@ import Delete from "../svg/Delete";
 import ConfirmModal from "../modal/ConfirmModal";
 import { Flip, toast, ToastContainer } from "react-toastify";
 import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
+import calculateDurationInDays from "@/utils/calculateDurationInDays.mjs";
 
 const MembersList = ({ m = [] }) => {
     const [selectedMember, setSelectedMember] = useState(null);
@@ -235,8 +236,15 @@ const MembersList = ({ m = [] }) => {
                                             <span style={{ fontWeight: '500' }}>বাকিঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid)?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">মেয়াদ উত্তীর্ণের তারিখঃ </span> {formatDate(project.expiryDate)}
+                                            <span className="font-medium">শুরুর তারিখঃ </span> {formatDate(project.expiryDate)}
                                         </p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                            <span className="font-medium">{new Date(project.expiryDate) < new Date() ? 'মেয়াদ শেষ হয়েছেঃ' : 'মেয়াদ শেষ হবেঃ'}</span> {formatDate(project.expiryDate)}
+                                        </p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                        <span >স্থায়ীত্বকালঃ </span>
+                                        {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
+                                    </p>
                                     </div>)
                                 })}
                             </div>
