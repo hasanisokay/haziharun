@@ -2,7 +2,8 @@ import formatDate from "@/utils/formatDate.mjs";
 import { useRef } from "react";
 import Print from "../svg/Print";
 import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
-
+import ExcelJS from 'exceljs';
+import jsToExcelDate from "@/utils/jsToExcelDate.mjs";
 const AllDepositsModal = ({ deposits, onClose }) => {
     const iframeRef = useRef(null);
     const handlePrint = () => {
@@ -45,6 +46,39 @@ const AllDepositsModal = ({ deposits, onClose }) => {
     };
     const totalDepositAmount = deposits.reduce((acc, deposit) => acc + deposit.amount, 0);
 
+    async function saveDataToExcel(data) {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Deposits");
+      
+        // Add headers
+        worksheet.columns = [
+          { header: "ID", key: "_id", width: 30 },
+          { header: "Member ID", key: "memberId", width: 20 },
+          { header: "Name", key: "name", width: 30 },
+          { header: "Amount", key: "amount", width: 15 },
+          { header: "Deposit Date", key: "depositDate", width: 25 },
+          { header: "Added On", key: "addedOn", width: 25 },
+        ];
+      
+        // Add rows to the worksheet
+        data.forEach((item) => {
+          worksheet.addRow({
+            _id: item._id,
+            memberId: item.member.memberId,
+            name: item.member.name,
+            amount: item.amount,
+            depositDate: jsToExcelDate(item.depositDate),
+            addedOn: jsToExcelDate(item.addedOn),
+          });
+        });
+      
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `DepositReport_${jsToExcelDate(new Date())}.xlsx`;
+        link.click();
+      }
     return (
         <div
             style={{
@@ -69,13 +103,19 @@ const AllDepositsModal = ({ deposits, onClose }) => {
                     position: "relative",
                     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                 }}>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center flex-wrap">
                     <button
                         onClick={handlePrint}
                         className="flex gap-2"
                     >
                         প্রিন্ট করুন <Print />
                     </button>
+                    <button
+                            onClick={()=>saveDataToExcel(deposits)}
+                            className="p-2 flex items-center gap-2"
+                        >
+                            এক্সেল ডাউনলোড
+                        </button>
                     <button
                         onClick={onClose}
                         style={{

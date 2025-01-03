@@ -6,11 +6,14 @@ import Print from "../svg/Print";
 import getProjectName from "@/utils/getProjectName.mjs";
 import ProjectSummaryFooter from "../projects/ProjectSummaryFoorter";
 import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
+import ExcelJS from 'exceljs';
+import jsToExcelDate from "@/utils/jsToExcelDate.mjs";
 
 const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSummary }) => {
     const printAreaRef = useRef(null);
     const iframeRef = useRef(null);
     if (!isOpen) return null;
+  
     const handlePrint = () => {
         // Get the content to be printed
         const content = printAreaRef.current.innerHTML;
@@ -56,7 +59,93 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSumma
         };
     };
 
-
+    async function exportProjectsToExcel(projects) {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Projects');
+    
+        // Define headers
+        worksheet.columns = [
+            { header: 'Project ID', key: '_id', width: 25 },
+            { header: 'Project Name', key: 'projectName', width: 30 },
+            { header: 'Project Type', key: 'projectType', width: 15 },
+            { header: 'Total Amount', key: 'totalAmount', width: 20 },
+            { header: 'Start Date', key: 'startDate', width: 25 },
+            { header: 'Expiry Date', key: 'expiryDate', width: 25 },
+            { header: 'Note', key: 'note', width: 30 },
+            { header: 'Added On', key: 'addedOn', width: 25 },
+            { header: 'Updated On', key: 'updatedOn', width: 25 },
+            { header: 'Member ID', key: 'memberId', width: 25 },
+            { header: 'Member Name', key: 'memberName', width: 25 },
+            { header: 'Amount Invested', key: 'amountInvested', width: 20 },
+            { header: 'Profit', key: 'willGetAmount', width: 20 },
+            { header: 'Will Get Percentage', key: 'willGetPercentage', width: 20 },
+            { header: 'Payment Amount', key: 'paymentAmount', width: 20 },
+            { header: 'Payment Date', key: 'paymentDate', width: 25 },
+        ];
+    
+        // Populate rows
+        projects.forEach(project => {
+            const baseProjectInfo = {
+                _id: project._id,
+                projectName: project.projectName,
+                projectType: project.projectType,
+                totalAmount: project.totalAmount,
+                startDate: jsToExcelDate(project.startDate) || '',
+                expiryDate: jsToExcelDate(project.expiryDate) || '',
+                note: project.note || '',
+                addedOn: jsToExcelDate(project.addedOn) || '',
+                updatedOn: jsToExcelDate(project.updatedOn) || '',
+            };
+    
+            if (project.members && project.members.length > 0) {
+                project.members.forEach(member => {
+                    const memberInfo = {
+                        memberId: member.memberId,
+                        memberName: member.name,
+                        amountInvested: member.amountInvested,
+                        willGetPercentage: member.willGetPercentage,
+                        willGetAmount: member.willGetAmount,
+                    };
+    
+                    if (member.payments && member.payments.length > 0) {
+                        member.payments.forEach(payment => {
+                            worksheet.addRow({
+                                ...baseProjectInfo,
+                                ...memberInfo,
+                                paymentAmount: payment.amount,
+                                paymentDate: jsToExcelDate(payment.date),
+                            });
+                        });
+                    } else {
+                        worksheet.addRow({
+                            ...baseProjectInfo,
+                            ...memberInfo,
+                            paymentAmount: '',
+                            paymentDate: '',
+                        });
+                    }
+                });
+            } else {
+                worksheet.addRow({
+                    ...baseProjectInfo,
+                    memberId: '',
+                    memberName: '',
+                    amountInvested: '',
+                    willGetPercentage: '',
+                    willGetAmount: '',
+                    paymentAmount: '',
+                    paymentDate: '',
+                });
+            }
+        });
+    
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `ProjectsReport_${jsToExcelDate(new Date())}.xlsx`;
+        link.click();
+    }
 
     return (
         <>
@@ -73,10 +162,16 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSumma
                     zIndex: 10000,
                 }}
             >
-                <div className="flex justify-between items-center mb-2 px-10 py-4">
+                <div className="flex justify-between items-center flex-wrap mb-2 px-10 py-4">
                     <button onClick={handlePrint} className="flex gap-2 text-black">
                         প্রিন্ট <Print />
                     </button>
+                    <button
+                            onClick={()=>exportProjectsToExcel(projects)}
+                            className="p-2 flex items-center gap-2"
+                        >
+                            এক্সেল ডাউনলোড
+                        </button>
                     <button
                         onClick={onClose}
                         className="bg-red-500 text-white px-4 py-2 rounded-lg "

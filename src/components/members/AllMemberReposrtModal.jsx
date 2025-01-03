@@ -171,7 +171,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
         const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'AllMemberReport.xlsx';
+        link.download = `AllMemberReport_${jsToExcelDate(new Date())}.xlsx`;
         link.click();
     }
 
@@ -205,7 +205,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                 }}
             >
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center flex-wrap mb-6">
                     <h2
                         style={{
                             fontSize: "24px",
@@ -217,6 +217,12 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                     >
                         সব সদস্যের রিপোর্ট
                     </h2>
+                    <button
+                            onClick={()=>exportToExcel(membersFromParent, 'AllMemberReport.xlsx')}
+                            className="p-2 flex items-center gap-2"
+                        >
+                            এক্সেল ডাউনলোড
+                        </button>
                     <div className="flex gap-4">
                         <button
                             onClick={handlePrint}
@@ -224,12 +230,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                         >
                             প্রিন্ট <Print />
                         </button>
-                        <button
-                            onClick={()=>exportToExcel(membersFromParent, 'AllMemberReport.xlsx')}
-                            className="p-2 flex items-center gap-2"
-                        >
-                            এক্সেল ডাউনলোড
-                        </button>
+
                         <button
                             className="p-2"
                             onClick={onClose}
