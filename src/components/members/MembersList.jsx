@@ -237,7 +237,7 @@ const MembersList = ({ m = [] }) => {
                                         </p>
 
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">শুরু হয়েছেঃ </span> {formatDate(project.expiryDate)}
+                                            <span className="font-medium">শুরু হয়েছেঃ </span> {formatDate(project.startDate)}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">{new Date(project.expiryDate) < new Date() ? 'শেষ হয়েছেঃ' : 'শেষ হবেঃ'}</span> {formatDate(project.expiryDate)}
