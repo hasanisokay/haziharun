@@ -386,12 +386,13 @@ const MemberReportModal = ({ member, onClose }) => {
                                     >
                                         <span style={{ fontSize: '14px', color: '#374151', textAlign: 'left', display: 'block' }}>আমানত নং- {convertToBanglaNumber(index + 1)}</span>
 
-                                        <p style={{ fontSize: "14px", color: "#555" }}>
-                                            <strong>পরিমাণঃ</strong> &#2547;{deposit.amount.toLocaleString()}
-                                        </p>
+                                      
                                         <p style={{ fontSize: "14px", color: "#555" }}>
                                             <strong>জমার তারিখঃ</strong>{" "}
                                             {new Date(deposit.depositDate).toLocaleDateString()}
+                                        </p>
+                                        <p style={{ fontSize: "14px", color: "#555" }}>
+                                            <strong>পরিমাণঃ</strong> &#2547;{deposit.amount.toLocaleString()}
                                         </p>
                                         {/* <p style={{ fontSize: "14px", color: "#555" }}>
                         <strong>সদস্যঃ</strong> {deposit.member.name}

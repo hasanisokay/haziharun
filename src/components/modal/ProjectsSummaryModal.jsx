@@ -123,15 +123,16 @@ const ProjectsSummaryModal = ({ projects, isOpen, onClose, summary, amountsSumma
                                 <div style={{ fontSize: '0.875rem', lineHeight: '1.25rem', color: '#4B5563' }}>
                                     <p style={{ marginBottom: '0.25rem' }}>{getProjectName(project.projectType)}</p>
 
-                                    <p style={{ marginBottom: '0.25rem' }}>
-                                        <span style={{ fontWeight: '500' }}>স্থায়িত্বকালঃ </span>
-                                        {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
-                                    </p>
+                                 
                                     <p style={{ marginBottom: '0.25rem' }}>
                                         <span style={{ fontWeight: '500' }}>শুরুর তারিখঃ</span> {formatDate(project.startDate)}
                                     </p>
                                     <p>
                                         <span style={{ fontWeight: '500' }}>মেয়াদ উত্তীর্ণ</span> {formatDate(project.expiryDate)}
+                                    </p>
+                                    <p style={{ marginBottom: '0.25rem' }}>
+                                        <span style={{ fontWeight: '500' }}>স্থায়ীত্বকালঃ </span>
+                                        {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
                                     </p>
                                 </div>
 

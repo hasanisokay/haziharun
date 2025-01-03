@@ -270,9 +270,7 @@ const ProjectList = ({ p }) => {
                   </span>{" "}
                   {project.note || "N/A"}
                 </p>
-                <p>
-                  <span className="font-medium">স্থায়িত্বকালঃ </span> {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
-                </p>
+         
                 <p>
                   <span className="font-medium">শুরুর তারিখঃ</span>{" "}
                   {formatDate(project.startDate)}
@@ -280,6 +278,9 @@ const ProjectList = ({ p }) => {
                 <p>
                   <span className="font-medium">মেয়াদ উত্তীর্ণের তারিখঃ</span>{" "}
                   {formatDate(project.expiryDate)}
+                </p>
+                <p>
+                  <span className="font-medium">স্থায়িত্বকালঃ </span> {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
                 </p>
               </div>
 
