@@ -39,7 +39,7 @@ const SummaryCard = ({ d, paymentsInfo }) => {
     },
     lemon: {
       bgColor: "bg-lime-100 ",
-      textColor: "text-black"
+      textColor: "text-gray-800 "
     }
   };
 
