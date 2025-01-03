@@ -65,10 +65,10 @@ const CurrentProjects = ({ p }) => {
                         {expandedProjectId === project._id && (
                             <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-b-lg ">
                                 <p className="text-gray-700 dark:text-gray-300">
-                                    <span className="font-semibold">মোট টাকা:</span> {project.totalAmount} টাকা
+                                    <span className="font-semibold">মোট টাকাঃ</span> {project.totalAmount} টাকা
                                 </p>
                                 <p className="text-gray-700 dark:text-gray-300">
-                                    <span className="font-semibold">শেষ তারিখ:</span>{' '}
+                                    <span className="font-semibold">শেষ তারিখঃ</span>{' '}
                                     {formatDate(project.expiryDate)}
                                 </p>
                                 <p className="text-gray-700 dark:text-gray-300">

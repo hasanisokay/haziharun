@@ -222,10 +222,10 @@ const ProjectDetailsModal = ({ project, isOpen, onClose, showPaymentOption }) =>
 
                              
                                 <p style={{ marginBottom: '0.25rem' }}>
-                                    <span style={{ fontWeight: '500' }}>শুরুর তারিখঃ</span> {formatDate(project.startDate)}
+                                    <span style={{ fontWeight: '500' }}>শুরু হয়েছেঃ</span> {formatDate(project.startDate)}
                                 </p>
                                 <p>
-                                    <span style={{ fontWeight: '500' }}>মেয়াদ উত্তীর্ণ</span> {formatDate(project.expiryDate)}
+                                    <span style={{ fontWeight: '500' }}>{new Date(project.expiryDate) < new Date() ? 'শেষ হয়েছেঃ' : 'শেষ হবেঃ'}</span> {formatDate(project.expiryDate)}
                                 </p>
                                 <p style={{ marginBottom: '0.25rem' }}>
                                     <span style={{ fontWeight: '500' }}>স্থায়ীত্বকালঃ </span>
