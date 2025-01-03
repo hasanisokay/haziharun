@@ -64,7 +64,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
     async function exportToExcel(data, filePath) {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Members');
-    
+
         // Add header row
         worksheet.columns = [
             { header: 'Member ID', key: '_id', width: 25 },
@@ -90,7 +90,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
             { header: 'Deposit Date', key: 'depositDate', width: 30 },
             { header: 'Deposit Amount', key: 'depositAmount', width: 20 },
         ];
-    
+
         // Add data rows
         data.forEach(member => {
             // Base member information
@@ -109,7 +109,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                 nationalId: member.nationalId,
                 addedOn: jsToExcelDate(member.addedOn),
             };
-    
+
             // Add projects and payments information
             if (member.projectsInfo && member.projectsInfo.length > 0) {
                 member.projectsInfo.forEach(project => {
@@ -117,12 +117,12 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                         projectName: project.projectName,
                         projectId: project._id,
                     };
-    
+
                     if (project.members && project.members.length > 0) {
                         project.members.forEach(projectMember => {
-                            if(projectMember.memberId !== member._id) { 
+                            if (projectMember.memberId !== member._id) {
                                 return;
-                             }
+                            }
                             worksheet.addRow({
                                 ...baseInfo,
                                 ...projectInfo,
@@ -154,7 +154,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                     }
                 });
             }
-    
+
             // Add deposits info
             if (member.depositsInfo && member.depositsInfo.length > 0) {
                 member.depositsInfo.forEach(deposit => {
@@ -205,25 +205,8 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                 }}
             >
-                <div className="flex justify-between items-center flex-wrap mb-6">
-                    <h2
-                        style={{
-                            fontSize: "24px",
-                            fontWeight: "600",
-                            color: "#333",
-                            marginBottom: "16px",
-                            textAlign: "center",
-                        }}
-                    >
-                        সব সদস্যের রিপোর্ট
-                    </h2>
-                    <button
-                            onClick={()=>exportToExcel(membersFromParent, 'AllMemberReport.xlsx')}
-                            className="p-2 flex items-center gap-2"
-                        >
-                            এক্সেল ডাউনলোড
-                        </button>
-                    <div className="flex gap-4">
+                <div className=" mb-6">
+                    <div className="flex gap-4 justify-between">
                         <button
                             onClick={handlePrint}
                             className="p-2 flex items-center gap-2"
@@ -238,6 +221,24 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                             &#10006;
                         </button>
                     </div>
+
+                    <h2
+                        style={{
+                            fontSize: "24px",
+                            fontWeight: "600",
+                            color: "#333",
+                            marginBottom: "16px",
+                            textAlign: "center",
+                        }}
+                    >
+                        সব সদস্যের রিপোর্ট
+                    </h2>
+                    <button
+                        onClick={() => exportToExcel(membersFromParent, 'AllMemberReport.xlsx')}
+                        className="p-2 flex items-center gap-2"
+                    >
+                        এক্সেল ডাউনলোড
+                    </button>
                 </div>
 
                 <div id="printable-content">
