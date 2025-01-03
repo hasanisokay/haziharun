@@ -7,7 +7,7 @@ const PermanentIcon = () => (
 );
 const TempIcon = () => ( <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ width: '24px', height: '24px', color: '#4B5563', marginRight: '8px' }}> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4h4" /> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 12h4" /> <circle cx="12" cy="12" r="10" /> </svg> );
 
-const MemberSummaryFooter = ({ permanentMemberCount, tempMemberCount }) => {
+const MemberSummaryFooter = ({ permanentMemberCount, tempMemberCount, amountsSummary }) => {
    
     return (
         <>

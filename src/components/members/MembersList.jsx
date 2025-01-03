@@ -29,6 +29,8 @@ const MembersList = ({ m = [] }) => {
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [memberIdToDelete, setMemberIdToDelete] = useState(null);
 
+    const [amountsSummary, setAmountsSummary] = useState(null);
+
     const handleDeleteClick = (projectId) => {
         setMemberIdToDelete(projectId);
         setIsConfirmModalOpen(true);
@@ -80,12 +82,19 @@ const MembersList = ({ m = [] }) => {
         if (d.status === 200) {
             setAllMembers(d?.data?.members);
         }
-        const permanentMembers = d?.data?.members.reduce((count, m) => {
+        const permanentMembers = d?.data?.members?.reduce((count, m) => {
             if (m.type === "permanent") {
                 return count + 1;
             }
             return count;
         }, 0);
+        
+        const data = await fetch("/api/gets/amounts-summary");
+        const res = await data.json();
+        if (res.status === 200) {
+          setAmountsSummary(res?.data);
+        }
+
         setPermantMemberCount(permanentMembers || 0);
         setTemporaryMemberCount(d?.data?.members?.length - permanentMembers || 0);
 
@@ -99,7 +108,7 @@ const MembersList = ({ m = [] }) => {
         { value: "temporary_members_only", label: "আমানতহীন সদস্য" },
     ];
     const closeModal = () => setSelectedMember(null);
-    console.log(memorizedMembers)
+
     return (
         <div className="mt-4">
             <div >
@@ -170,10 +179,10 @@ const MembersList = ({ m = [] }) => {
                                     <span className="font-medium">মোট ব্যবসায় বিনিয়োগ:</span> {member?.projectCount}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">বিনিয়োগের পরিমাণ:</span> &#2547;{member?.totalAmountInvested.toLocaleString()}
+                                    <span className="font-medium">বিনিয়োগের পরিমাণ:</span> &#2547;{member?.totalAmountInvested?.toLocaleString()}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">লাভ পাবেন:</span> &#2547;{member?.totalWillGetAmount.toLocaleString()}
+                                    <span className="font-medium">লাভ পাবেন:</span> &#2547;{member?.totalWillGetAmount?.toLocaleString()}
                                 </p>
                             </div>
                         </div>
@@ -185,8 +194,8 @@ const MembersList = ({ m = [] }) => {
                             </h3>
                             <div className="space-y-4">
                                 {member?.projectsInfo?.map((project, index) => {
-                                    const currentMember = project.members.filter(m => m.memberId === member._id)[0];
-                                    const totalPaid = currentMember.payments.reduce((sum, payment) => sum + payment.amount, 0);
+                                    const currentMember = project?.members?.filter(m => m.memberId === member._id)[0];
+                                    const totalPaid = currentMember?.payments?.reduce((sum, payment) => sum + payment.amount, 0);
                                     return (<div
                                         key={project?._id}
                                         className="p-4 bg-gray-100 dark:bg-gray-900 rounded-md border border-gray-200 dark:border-gray-700"
@@ -202,22 +211,22 @@ const MembersList = ({ m = [] }) => {
                                                 : "বাইয়ে মুয়াজ্জাল"}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">বিনিয়োগঃ </span> &#2547;{currentMember.amountInvested.toLocaleString()}
+                                            <span className="font-medium">বিনিয়োগঃ </span> &#2547;{currentMember?.amountInvested?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">লাভঃ </span> &#2547;{currentMember.willGetAmount.toLocaleString()}
+                                            <span className="font-medium">লাভঃ </span> &#2547;{currentMember?.willGetAmount?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">মোটঃ </span> &#2547; {(currentMember.amountInvested + currentMember.willGetAmount).toLocaleString()}
+                                            <span className="font-medium">মোটঃ </span> &#2547; {(currentMember?.amountInvested + currentMember?.willGetAmount)?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">পেয়েছেনঃ </span> &#2547; {totalPaid.toLocaleString()}
+                                            <span className="font-medium">পেয়েছেনঃ </span> &#2547; {totalPaid?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">পার্সেন্টেজঃ </span> &#2547; {currentMember.willGetPercentage}%
+                                            <span className="font-medium">পার্সেন্টেজঃ </span> &#2547; {currentMember?.willGetPercentage}%
                                         </p>
                                         <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
-                                            <span style={{ fontWeight: '500' }}>বাকিঃ </span> &#2547; {(currentMember.willGetAmount + currentMember.amountInvested - totalPaid).toLocaleString()}
+                                            <span style={{ fontWeight: '500' }}>বাকিঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid)?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">মেয়াদ উত্তীর্ণের তারিখঃ </span> {formatDate(project.expiryDate)}
@@ -243,7 +252,7 @@ const MembersList = ({ m = [] }) => {
                 onClose={() => setIsAllProjectsModalOpen(false)}
                 permanentMemberCount={permanentMemberCount}
                 tempMemberCount={temopraryMemberCount}
-
+                amountsSummary={amountsSummary}
             />)}
             {selectedMember && (
                 <MemberReportModal

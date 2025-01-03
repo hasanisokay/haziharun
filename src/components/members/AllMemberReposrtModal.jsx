@@ -7,7 +7,7 @@ import formatDate from "@/utils/formatDate.mjs";
 import MemberSummaryFooter from "./MemberSummaryFooter";
 import convertToBanglaNumber from "@/utils/convertToBanglaNumber.mjs";
 
-const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount, tempMemberCount }) => {
+const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount, tempMemberCount, amountsSummary }) => {
     const iframeRef = useRef(null);
 
     // const handlePrint = () => {
@@ -391,8 +391,8 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                             )}
                         </div>
                     })}
-                    <MemberSummaryFooter permanentMemberCount={permanentMemberCount} tempMemberCount={tempMemberCount} />
-                </div>
+                    <MemberSummaryFooter amountsSummary={amountsSummary} permanentMemberCount={permanentMemberCount} tempMemberCount={tempMemberCount} />
+                </div> 
 
                 <div
                     style={{
