@@ -229,17 +229,18 @@ const MembersList = ({ m = [] }) => {
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">পেয়েছেনঃ </span> &#2547; {totalPaid?.toLocaleString()}
                                         </p>
+                                        <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
+                                            <span style={{ fontWeight: '500' }}>বাকি আছেঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid)?.toLocaleString()}
+                                        </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">পার্সেন্টেজঃ </span> &#2547; {currentMember?.willGetPercentage}%
                                         </p>
-                                        <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
-                                            <span style={{ fontWeight: '500' }}>বাকিঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid)?.toLocaleString()}
+
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                            <span className="font-medium">শুরু হয়েছেঃ </span> {formatDate(project.expiryDate)}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">শুরুর তারিখঃ </span> {formatDate(project.expiryDate)}
-                                        </p>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            <span className="font-medium">{new Date(project.expiryDate) < new Date() ? 'মেয়াদ শেষ হয়েছেঃ' : 'মেয়াদ শেষ হবেঃ'}</span> {formatDate(project.expiryDate)}
+                                            <span className="font-medium">{new Date(project.expiryDate) < new Date() ? 'শেষ হয়েছেঃ' : 'শেষ হবেঃ'}</span> {formatDate(project.expiryDate)}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                         <span >স্থায়ীত্বকালঃ </span>
