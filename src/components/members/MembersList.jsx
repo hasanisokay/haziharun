@@ -25,7 +25,6 @@ const MembersList = ({ m = [] }) => {
     const [isAllProjectsModalOpen, setIsAllProjectsModalOpen] = useState(false);
     const [permanentMemberCount, setPermantMemberCount] = useState(0);
     const [temopraryMemberCount, setTemporaryMemberCount] = useState(0);
-    const [downloadExcel, setDownloadExcel] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [memberIdToDelete, setMemberIdToDelete] = useState(null);
 

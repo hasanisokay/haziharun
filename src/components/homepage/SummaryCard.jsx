@@ -17,7 +17,7 @@ const SummaryCardItem = ({ title, value, bgColor, textColor, href = "/" }) => {
   );
 };
 
-const SummaryCard = ({ d }) => {
+const SummaryCard = ({ d, paymentsInfo }) => {
 
   // Defining reusable color schemes
   const cardStyles = {
@@ -36,6 +36,10 @@ const SummaryCard = ({ d }) => {
     green: {
       bgColor: "bg-green-100 dark:bg-green-700",
       textColor: "text-gray-800 dark:text-gray-200"
+    },
+    lemon: {
+      bgColor: "bg-lime-100 ",
+      textColor: "text-black"
     }
   };
 
@@ -104,6 +108,20 @@ const SummaryCard = ({ d }) => {
           value={d?.totalProfit || 0}
           bgColor={cardStyles.green.bgColor}
           textColor={cardStyles.green.textColor}
+          href="/projects"
+        />
+        <SummaryCardItem
+          title="মোট পেয়েছেন"
+          value={paymentsInfo.totalPayments || 0}
+          bgColor={cardStyles.lemon.bgColor}
+          textColor={cardStyles.lemon.textColor}
+          href="/projects"
+        />
+        <SummaryCardItem
+          title="মোট বাকি আছে"
+          value={d?.totalAmountInvested+d?.totalProfit- paymentsInfo.totalPayments || 0}
+          bgColor={cardStyles.lemon.bgColor}
+          textColor={cardStyles.lemon.textColor}
           href="/projects"
         />
         <div className="flex items-center justify-between gap-4 font-semibold text-gray-800 dark:text-gray-200 bg-red-100 dark:bg-red-600 px-4 py-2 rounded-md shadow">
