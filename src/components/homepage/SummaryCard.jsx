@@ -2,14 +2,14 @@ import Link from "next/link";
 import React from "react";
 
 // Reusable Card Component for displaying each stat
-const SummaryCardItem = ({ title, value, bgColor, textColor, href = "/" }) => {
+const SummaryCardItem = ({ title, value, bgColor, textColor, href = "/", addBdtSign }) => {
   return (
     <Link href={href}>
       <div className={`flex flex-col justify-between items-center px-4 py-2 ${bgColor} rounded-md shadow`}>
 
         <p className={`font-semibold w-full text-center ${textColor}`}>{title}</p>
         <p className={`font-bold text-xl ${textColor}`}>
-          {value.toLocaleString()} {/* Formatting the number */}
+          {addBdtSign && <span>&#2547;</span> }{value.toLocaleString()} {/* Formatting the number */}
         </p>
 
       </div>
@@ -61,6 +61,7 @@ const SummaryCard = ({ d, paymentsInfo }) => {
           bgColor={cardStyles.red.bgColor}
           textColor={cardStyles.red.textColor}
           href="/projects"
+
         />
         {/* Permanent Members */}
         <SummaryCardItem
@@ -101,6 +102,7 @@ const SummaryCard = ({ d, paymentsInfo }) => {
           bgColor={cardStyles.green.bgColor}
           textColor={cardStyles.green.textColor}
           href="/projects"
+          addBdtSign={true}
         />
         {/* Total Profit */}
         <SummaryCardItem
@@ -109,6 +111,7 @@ const SummaryCard = ({ d, paymentsInfo }) => {
           bgColor={cardStyles.green.bgColor}
           textColor={cardStyles.green.textColor}
           href="/projects"
+          addBdtSign={true}
         />
         <SummaryCardItem
           title="মোট পেয়েছেন"
@@ -116,6 +119,7 @@ const SummaryCard = ({ d, paymentsInfo }) => {
           bgColor={cardStyles.lemon.bgColor}
           textColor={cardStyles.lemon.textColor}
           href="/projects"
+          addBdtSign={true}
         />
         <SummaryCardItem
           title="মোট বাকি আছে"
@@ -123,6 +127,7 @@ const SummaryCard = ({ d, paymentsInfo }) => {
           bgColor={cardStyles.lemon.bgColor}
           textColor={cardStyles.lemon.textColor}
           href="/projects"
+          addBdtSign={true}
         />
         <div className="flex items-center justify-between gap-4 font-semibold text-gray-800 dark:text-gray-200 bg-red-100 dark:bg-red-600 px-4 py-2 rounded-md shadow">
           <Link href="/deposits">আমানত</Link>
