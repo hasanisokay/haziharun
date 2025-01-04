@@ -202,7 +202,7 @@ const MembersList = ({ m = [] }) => {
                             <div className="space-y-4">
                                 {member?.projectsInfo?.map((project, index) => {
                                     const currentMember = project?.members?.filter(m => m.memberId === member._id)[0];
-                                    const totalPaid = currentMember?.payments?.reduce((sum, payment) => sum + payment.amount, 0) || 0;
+                                    const totalPaid = currentMember?.payments?.length > 0 ? currentMember?.payments?.reduce((sum, payment) => sum + payment?.amount, 0) : 0;
                                     return (<div
                                         key={project?._id}
                                         className="p-4 bg-gray-100 dark:bg-gray-900 rounded-md border border-gray-200 dark:border-gray-700"

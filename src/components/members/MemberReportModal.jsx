@@ -236,7 +236,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                             {project.members
                                                 .filter((projMember) => projMember.name === member.name)
                                                 .map((matchedMember) => {
-                                                    const totalPaid = matchedMember.payments.reduce((sum, payment) => sum + payment.amount, 0);
+                                                    const totalPaid = matchedMember?.payments?.length >0? matchedMember?.payments?.reduce((sum, payment) => sum + payment?.amount, 0) : 0;
                                                     return <div
                                                         key={matchedMember.memberId}
                                                         style={{
