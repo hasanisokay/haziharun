@@ -7,8 +7,8 @@ const SummaryCardItem = ({ title, value, bgColor, textColor, href = "/" }) => {
     <Link href={href}>
       <div className={`flex flex-col justify-between items-center px-4 py-2 ${bgColor} rounded-md shadow`}>
 
-        <p className={`font-semibold pb-2 border-b border-b-black w-full text-center ${textColor}`}>{title}</p>
-        <p className={`font-bold text-xl pt-2 ${textColor}`}>
+        <p className={`font-semibold w-full text-center ${textColor}`}>{title}</p>
+        <p className={`font-bold text-xl ${textColor}`}>
           {value.toLocaleString()} {/* Formatting the number */}
         </p>
 
