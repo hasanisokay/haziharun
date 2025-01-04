@@ -202,7 +202,7 @@ const MembersList = ({ m = [] }) => {
                             <div className="space-y-4">
                                 {member?.projectsInfo?.map((project, index) => {
                                     const currentMember = project?.members?.filter(m => m.memberId === member._id)[0];
-                                    const totalPaid = currentMember?.payments?.reduce((sum, payment) => sum + payment.amount, 0);
+                                    const totalPaid = currentMember?.payments?.reduce((sum, payment) => sum + payment.amount, 0) || 0;
                                     return (<div
                                         key={project?._id}
                                         className="p-4 bg-gray-100 dark:bg-gray-900 rounded-md border border-gray-200 dark:border-gray-700"
@@ -230,7 +230,7 @@ const MembersList = ({ m = [] }) => {
                                             <span className="font-medium">পেয়েছেনঃ </span> &#2547; {totalPaid?.toLocaleString()}
                                         </p>
                                         <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
-                                            <span style={{ fontWeight: '500' }}>বাকি আছেঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid)?.toLocaleString()}
+                                            <span style={{ fontWeight: '500' }}>বাকি আছেঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid )?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">পার্সেন্টেজঃ </span> &#2547; {currentMember?.willGetPercentage}%
