@@ -152,7 +152,7 @@ const Navbar = () => {
                   : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
        flex gap-4 `}>
                   <Link className="text-inherit" href="/projects">
-                    প্রজেক্ট
+                    প্রোজেক্ট
                   </Link>
                   <Link className="text-inherit" href="/projects/new">
                     +
@@ -201,7 +201,7 @@ const Navbar = () => {
             : "dark:text-white text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
        flex gap-4 `}>
             <Link className="text-inherit" href="/projects">
-              প্রজেক্ট
+              প্রোজেক্ট
             </Link>
             <Link className="text-inherit" href="/projects/new">
               +

@@ -187,7 +187,7 @@ const MembersList = ({ m = [] }) => {
                                     <span className="font-medium">মোট আমানতঃ</span> &#2547;{totalDepositAmount}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">মোট প্রজেক্টে বিনিয়োগঃ</span> {member?.projectCount}
+                                    <span className="font-medium">মোট প্রোজেক্টে বিনিয়োগঃ</span> {member?.projectCount}
                                 </p>
                                 <p className="text-sm">
                                     <span className="font-medium">বিনিয়োগের পরিমাণঃ</span> &#2547;{member?.totalAmountInvested?.toLocaleString()}

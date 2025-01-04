@@ -193,7 +193,7 @@ const ProjectList = ({ p }) => {
     <div className="space-y-6 mt-4 ">
       <div >
         <Button onClick={handleAllProjectsClick} className="bg-blue-500 text-white">
-          {loadingAllProjects ? "লোড হচ্ছে..." : "সকল প্রজেক্ট রিপোর্ট দেখুন"}
+          {loadingAllProjects ? "লোড হচ্ছে..." : "সকল প্রোজেক্ট রিপোর্ট দেখুন"}
         </Button>
       </div>
       <SearchBox placeholder={"নাম, মেম্বার, বর্ণনা অনুযায়ী সার্চ করুন"} />
@@ -398,7 +398,7 @@ const ProjectList = ({ p }) => {
         onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={confirmDelete}
         // message="Are you sure you want to delete this project? This action cannot be undone."
-        message={'আপনি কি নিশ্চিত যে আপনি এই প্রজেক্ট ডিলিট করতে চান? ডিলিট করার পর এটা পুনরুদ্ধার করা যাবে না।'}
+        message={'আপনি কি নিশ্চিত যে আপনি এই প্রোজেক্ট ডিলিট করতে চান? ডিলিট করার পর এটা পুনরুদ্ধার করা যাবে না।'}
       />
       <PaymentModal
         isOpen={isModalOpen}

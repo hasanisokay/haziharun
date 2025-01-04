@@ -134,6 +134,7 @@ const NewProjectForm = ({ id }) => {
     if (id) {
       getProjectDetails()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   const onSubmit = async (d) => {
@@ -173,7 +174,7 @@ const NewProjectForm = ({ id }) => {
 
   return (
     <div className={`container mx-auto p-6 min-h-screen bg-gray-50 dark:bg-[#343541] shadow-lg rounded-lg max-w-3xl ${loading ? "form-disable" : ""}`}>
-      <h2 className="text-3xl font-extrabold text-gray-800 dark:text-white mb-6 text-center">{updateable ? "এডিট করুন" : "নতুন প্রজেক্ট"}</h2>
+      <h2 className="text-3xl font-extrabold text-gray-800 dark:text-white mb-6 text-center">{updateable ? "এডিট করুন" : "নতুন প্রোজেক্ট"}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Project Name */}
         <div>

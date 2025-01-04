@@ -64,7 +64,7 @@ const ProjectSummaryFooter = ({ summary, amountsSummary }) => {
                 <div style={{ backgroundColor: '#FFFFFF', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)', borderRadius: '0.5rem', padding: '1rem', display: 'flex', alignItems: 'center' }}>
                     <BusinessIcon />
                     <div>
-                        <div style={{ color: '#6B7280' }}>মোট প্রজেক্ট</div>
+                        <div style={{ color: '#6B7280' }}>মোট প্রোজেক্ট</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>{summary.totalProjects}</div>
                     </div>
                 </div>

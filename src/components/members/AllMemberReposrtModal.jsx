@@ -361,7 +361,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                     pageBreakInside: "avoid",
                                 }}
                             >
-                                <p><strong>মোট প্রজেক্টে বিনিয়োগঃ</strong> {m.projectCount}</p>
+                                <p><strong>মোট প্রোজেক্টে বিনিয়োগঃ</strong> {m.projectCount}</p>
                                 <p><strong>বিনিয়োগের পরিমাণঃ</strong> &#2547;{m.totalAmountInvested.toLocaleString()}</p>
                                 <p><strong>মোট লাভ হয়েছেঃ</strong> &#2547;{m.totalWillGetAmount.toLocaleString()}</p>
                             </div>
