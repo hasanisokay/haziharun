@@ -115,7 +115,7 @@ const MembersList = ({ m = [] }) => {
         { value: "temporary_members_only", label: "আমানতহীন সদস্য" },
     ];
     const closeModal = () => setSelectedMember(null);
-
+    console.log(memorizedMembers)
     return (
         <div className="mt-4">
             <div >
@@ -126,8 +126,9 @@ const MembersList = ({ m = [] }) => {
             <SearchBox placeholder={'সদস্যের নাম, পিতা/মাতার নাম, মোবাইল নাম্বার ইত্যাদি দিয়ে সার্চ করুন'} />
             <DefaultSorting sortingOptionsProps={s} field="filter" />
             <div className="space-y-6">
-                {memorizedMembers.map((member, index) => (
-                    <div
+                {memorizedMembers.map((member, index) => {
+                    const totalDepositAmount = member?.depositsInfo?.length > 0 ? member?.depositsInfo?.reduce((total, item) => total + item.amount, 0) :0;
+                    return <div
                         key={member._id}
                         className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
                     >
@@ -183,13 +184,16 @@ const MembersList = ({ m = [] }) => {
                             </h3>
                             <div className="grid grid-cols-3 gap-4">
                                 <p className="text-sm">
-                                    <span className="font-medium">মোট ব্যবসায় বিনিয়োগ:</span> {member?.projectCount}
+                                    <span className="font-medium">মোট আমানতঃ</span> &#2547;{totalDepositAmount}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">বিনিয়োগের পরিমাণ:</span> &#2547;{member?.totalAmountInvested?.toLocaleString()}
+                                    <span className="font-medium">মোট ব্যবসায় বিনিয়োগঃ</span> {member?.projectCount}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">লাভ পাবেন:</span> &#2547;{member?.totalWillGetAmount?.toLocaleString()}
+                                    <span className="font-medium">বিনিয়োগের পরিমাণঃ</span> &#2547;{member?.totalAmountInvested?.toLocaleString()}
+                                </p>
+                                <p className="text-sm">
+                                    <span className="font-medium">লাভ পাবেনঃ</span> &#2547;{member?.totalWillGetAmount?.toLocaleString()}
                                 </p>
                             </div>
                         </div>
@@ -230,7 +234,7 @@ const MembersList = ({ m = [] }) => {
                                             <span className="font-medium">পেয়েছেনঃ </span> &#2547; {totalPaid?.toLocaleString()}
                                         </p>
                                         <p style={{ fontSize: '0.875rem', color: '#4B5563' }}>
-                                            <span style={{ fontWeight: '500' }}>বাকি আছেঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid )?.toLocaleString()}
+                                            <span style={{ fontWeight: '500' }}>বাকি আছেঃ </span> &#2547; {(currentMember?.willGetAmount + currentMember?.amountInvested - totalPaid)?.toLocaleString()}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-medium">পার্সেন্টেজঃ </span> &#2547; {currentMember?.willGetPercentage}%
@@ -243,9 +247,9 @@ const MembersList = ({ m = [] }) => {
                                             <span className="font-medium">{new Date(project.expiryDate) < new Date() ? 'শেষ হয়েছেঃ' : 'শেষ হবেঃ'}</span> {formatDate(project.expiryDate)}
                                         </p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                        <span >স্থায়ীত্বকালঃ </span>
-                                        {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
-                                    </p>
+                                            <span >স্থায়ীত্বকালঃ </span>
+                                            {calculateDurationInDays(project.startDate, project.expiryDate) + " দিন"}
+                                        </p>
                                     </div>)
                                 })}
                             </div>
@@ -260,7 +264,7 @@ const MembersList = ({ m = [] }) => {
                             <Delete />
                         </Button>
                     </div>
-                ))}
+                })}
             </div>
             {allMembers.length > 0 && isAllProjectsModalOpen && (<AllMemberReportModal
                 membersFromParent={allMembers}

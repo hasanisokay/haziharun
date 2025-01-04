@@ -47,7 +47,8 @@ const MemberReportModal = ({ member, onClose }) => {
         };
     };
 
-
+    const totalDepositAmount = member?.depositsInfo?.length > 0 ? member?.depositsInfo?.reduce((total, item) => total + item.amount, 0) :0;
+                                              
     return (
         <div
             className="text-black"
@@ -157,9 +158,10 @@ const MemberReportModal = ({ member, onClose }) => {
                                 color: "#555",
                             }}
                         >
-                            <p><strong>মোট ব্যবসায় বিনিয়োগঃ</strong> {member.projectCount}</p>
-                            <p><strong>বিনিয়োগের পরিমাণঃ</strong> &#2547;{member.totalAmountInvested.toLocaleString()}</p>
-                            <p><strong>মোট লাভঃ</strong> &#2547;{member.totalWillGetAmount.toLocaleString()}</p>
+                            <p><strong>মোট আমানতঃ </strong>&#2547;{totalDepositAmount}</p>
+                            <p><strong>মোট ব্যবসায় বিনিয়োগঃ </strong>{member.projectCount}</p>
+                            <p><strong>বিনিয়োগের পরিমাণঃ </strong> &#2547;{member.totalAmountInvested.toLocaleString()}</p>
+                            <p><strong>মোট লাভঃ </strong> &#2547;{member.totalWillGetAmount.toLocaleString()}</p>
                         </div>
                     </div>
 
