@@ -316,7 +316,7 @@ const NewProjectForm = ({ id }) => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="willGet" className="block text-gray-700 dark:text-white mb-2">{projectType === "mudaraba" ? "পার্সেন্টেজ পাবেনঃ" : "লাভ পাবেনঃ"}</Label>
+                      <Label htmlFor="willGet" className="block text-gray-700 dark:text-white mb-2">{projectType === "mudaraba" ? "পার্সেন্টেজ পাবেনঃ" : "মোট লাভ হয়েছেঃ"}</Label>
                       <Input
                         type="number"
                         id="willGet"

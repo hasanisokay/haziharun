@@ -159,9 +159,9 @@ const MemberReportModal = ({ member, onClose }) => {
                             }}
                         >
                             <p><strong>মোট আমানতঃ </strong>&#2547;{totalDepositAmount}</p>
-                            <p><strong>মোট ব্যবসায় বিনিয়োগঃ </strong>{member.projectCount}</p>
+                            <p><strong>মোট প্রজেক্টে বিনিয়োগঃ </strong>{member.projectCount}</p>
                             <p><strong>বিনিয়োগের পরিমাণঃ </strong> &#2547;{member.totalAmountInvested.toLocaleString()}</p>
-                            <p><strong>মোট লাভঃ </strong> &#2547;{member.totalWillGetAmount.toLocaleString()}</p>
+                            <p><strong>মোট লাভ হয়েছেঃ </strong> &#2547;{member.totalWillGetAmount.toLocaleString()}</p>
                         </div>
                     </div>
 

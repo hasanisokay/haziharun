@@ -187,13 +187,13 @@ const MembersList = ({ m = [] }) => {
                                     <span className="font-medium">মোট আমানতঃ</span> &#2547;{totalDepositAmount}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">মোট ব্যবসায় বিনিয়োগঃ</span> {member?.projectCount}
+                                    <span className="font-medium">মোট প্রজেক্টে বিনিয়োগঃ</span> {member?.projectCount}
                                 </p>
                                 <p className="text-sm">
                                     <span className="font-medium">বিনিয়োগের পরিমাণঃ</span> &#2547;{member?.totalAmountInvested?.toLocaleString()}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-medium">লাভ পাবেনঃ</span> &#2547;{member?.totalWillGetAmount?.toLocaleString()}
+                                    <span className="font-medium">মোট লাভ হয়েছেঃ</span> &#2547;{member?.totalWillGetAmount?.toLocaleString()}
                                 </p>
                             </div>
                         </div>
