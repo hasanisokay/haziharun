@@ -44,7 +44,9 @@ body {
     box-sizing: border-box;
     animation: rotation_spinner 1s linear infinite;
     }
-
+    /* .react-calendar{
+      width: 200px !important;
+    } */
     @keyframes rotation_spinner {
     0% {
         transform: rotate(0deg);
@@ -99,5 +101,20 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+
+/* Add this to your CSS file */
+.custom-date-picker {
+  width: 100%;
+  padding: 8px;
+}
+
+@media (max-width: 600px) {
+  .custom-date-picker {
+    width: 100%;
+    padding: 0; 
+    font-size: 12px; 
   }
 }

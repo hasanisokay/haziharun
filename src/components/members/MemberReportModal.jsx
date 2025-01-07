@@ -47,8 +47,8 @@ const MemberReportModal = ({ member, onClose }) => {
         };
     };
 
-    const totalDepositAmount = member?.depositsInfo?.length > 0 ? member?.depositsInfo?.reduce((total, item) => total + item.amount, 0) :0;
-                                              
+    const totalDepositAmount = member?.depositsInfo?.length > 0 ? member?.depositsInfo?.reduce((total, item) => total + item.amount, 0) : 0;
+
     return (
         <div
             className="text-black"
@@ -77,20 +77,6 @@ const MemberReportModal = ({ member, onClose }) => {
                 }}
             >
                 <div className="flex justify-between items-center">
-                    <h2
-                        style={{
-                            fontSize: "24px",
-                            fontWeight: "600",
-                            color: "#333",
-                            marginBottom: "16px",
-                            textAlign: "center",
-                        }}
-                    >
-                        {member.name} -{" "}
-                        {member.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"}
-                    </h2>
-                    <div className="flex gap-4">
-
                         <button
                             onClick={handlePrint}
                             className="p-2 flex items-center gap-2"
@@ -103,10 +89,21 @@ const MemberReportModal = ({ member, onClose }) => {
                         >
                             &#10006;
                         </button>
-                    </div>
                 </div>
 
                 <div id="printable-content">
+                    <h2
+                        style={{
+                            fontSize: "24px",
+                            fontWeight: "600",
+                            color: "#333",
+                            marginBottom: "16px",
+                            textAlign: "left",
+                        }}
+                    >
+                        {member.name} {" "}
+                        <span style={{fontSize:'14px', fontWeight:500}}>({member.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})</span>
+                    </h2>
                     <h3
                         style={{
                             fontSize: "18px",
@@ -238,7 +235,7 @@ const MemberReportModal = ({ member, onClose }) => {
                                             {project.members
                                                 .filter((projMember) => projMember.name === member.name)
                                                 .map((matchedMember) => {
-                                                    const totalPaid = matchedMember?.payments?.length >0? matchedMember?.payments?.reduce((sum, payment) => sum + payment?.amount, 0) : 0;
+                                                    const totalPaid = matchedMember?.payments?.length > 0 ? matchedMember?.payments?.reduce((sum, payment) => sum + payment?.amount, 0) : 0;
                                                     return <div
                                                         key={matchedMember.memberId}
                                                         style={{

@@ -19,7 +19,7 @@ const CustomDatePicker = ({ showDateIcon = true, onDateChange, placeholder, widt
     };
 
     return (
-        <div style={{ width: width || "100%" }} className={classNames}>
+        <div style={{ width: width || "100%" }} className={`${classNames} custom-date-picker`}>
             {showDateIcon ? (
                 <DatePicker
                     value={selectedDate}
