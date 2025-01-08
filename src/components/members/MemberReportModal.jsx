@@ -77,22 +77,22 @@ const MemberReportModal = ({ member, onClose }) => {
                 }}
             >
                 <div className="flex justify-between items-center">
-                        <button
-                            onClick={handlePrint}
-                            className="p-2 flex items-center gap-2"
-                        >
-                            প্রিন্ট <Print />
-                        </button>
-                        <button
-                            className="p-2"
-                            onClick={onClose}
-                        >
-                            &#10006;
-                        </button>
+                    <button
+                        onClick={handlePrint}
+                        className="p-2 flex items-center gap-2"
+                    >
+                        প্রিন্ট <Print />
+                    </button>
+                    <button
+                        className="p-2"
+                        onClick={onClose}
+                    >
+                        &#10006;
+                    </button>
                 </div>
 
-                <div id="printable-content">
-                    <h2
+                <div id="printable-content" className="mt-4">
+                    {/* <h2
                         style={{
                             fontSize: "24px",
                             fontWeight: "600",
@@ -102,8 +102,8 @@ const MemberReportModal = ({ member, onClose }) => {
                         }}
                     >
                         {member.name} {" "}
-                        <span style={{fontSize:'14px', fontWeight:500}}>({member.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})</span>
-                    </h2>
+                        <span style={{ fontSize: '14px', fontWeight: 500 }}>({member.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})</span>
+                    </h2> */}
                     <h3
                         style={{
                             fontSize: "18px",
@@ -126,12 +126,18 @@ const MemberReportModal = ({ member, onClose }) => {
                             pageBreakInside: "avoid",
                         }}
                     >
-                        <p><strong>পিতাঃ</strong> {member.father}</p>
-                        <p><strong>মাতাঃ</strong> {member.mother}</p>
-                        <p><strong>গ্রামঃ</strong> {member.village}</p>
+                        <p>
+                            <strong>নামঃ </strong> {member.name} {" "}
+                            <span style={{ fontSize: '12px', fontWeight: 500 }}>({member.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})</span>
+                        </p>
                         <p><strong>মোবাইলঃ</strong> {member.mobileNumber}</p>
+                        <p><strong>পিতাঃ</strong> {member.father}</p>
                         <p><strong>ইমেইলঃ</strong> {member.email}</p>
+                        <p><strong>মাতাঃ</strong> {member.mother}</p>
                         <p><strong>জাতীয় পরিচয়পত্রঃ</strong> {member.nationalId}</p>
+                        <p><strong>ঠিকানাঃ </strong>
+                            {member.village}, {member.post}, {member.policeStation}, {member.district}
+                        </p>
                     </div>
 
                     <div style={{ pageBreakInside: "avoid", }}>

@@ -247,7 +247,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                             <div style={{ pageBreakInside: "avoid" }}>
                                 <span style={{ fontSize: '14px', color: '#374151', textAlign: 'center', display: 'block' }}>সদস্য নং- {convertToBanglaNumber(index + 1)}</span>
 
-                                <h3
+                                {/* <h3
                                     style={{
                                         fontSize: "20px",
                                         fontWeight: "500",
@@ -261,7 +261,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                     <span style={{ fontSize: '14px', textAlign: 'right' }}>({m.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})
                                     </span>
 
-                                </h3>
+                                </h3> */}
                                 <h4
                                     style={{
                                         fontSize: "18px",
@@ -284,7 +284,7 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                     }}
 
                                 >
-                                    <p
+                                    {/* <p
                                         title={m.father}
                                         style={{
                                             whiteSpace: 'nowrap',
@@ -336,7 +336,19 @@ const AllMemberReportModal = ({ membersFromParent, onClose, permanentMemberCount
                                             wordWrap: 'break-word',
                                             overflow: 'hidden',
                                             maxWidth: '300px'
-                                        }}><strong>জাতীয় পরিচয়পত্রঃ</strong> {m.nationalId}</p>
+                                        }}><strong>জাতীয় পরিচয়পত্রঃ</strong> {m.nationalId}</p> */}
+                                            <p>
+                            <strong>নামঃ </strong> {m.name} {" "}
+                            <span style={{ fontSize: '12px', fontWeight: 500 }}>({m.type === "permanent" ? "আমানতসহ সদস্য" : "আমানতহীন সদস্য"})</span>
+                        </p>
+                        <p><strong>মোবাইলঃ</strong> {m.mobileNumber}</p>
+                        <p><strong>পিতাঃ</strong> {m.father}</p>
+                        <p><strong>ইমেইলঃ</strong> {m.email}</p>
+                        <p><strong>মাতাঃ</strong> {m.mother}</p>
+                        <p><strong>জাতীয় পরিচয়পত্রঃ</strong> {m.nationalId}</p>
+                        <p><strong>ঠিকানাঃ </strong>
+                            {m.village}, {m.post}, {m.policeStation}, {m.district}
+                        </p>
                                 </div>
                             </div>
 
