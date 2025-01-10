@@ -204,6 +204,7 @@ const ProjectList = ({ p }) => {
       <div id="projects-section">
         {memorizedProjects?.map((project, index) => {
           const remainingDays = getRemainingDays(project.expiryDate);
+          // let showPaymentOption = true;
           return (
             <div
               key={project._id}
@@ -229,12 +230,12 @@ const ProjectList = ({ p }) => {
                       ? `মেয়াদ উত্তীর্ণের বাকি ${remainingDays} দিন`
                       : `মেয়াদ উত্তীর্ণ হয়েছে ${remainingDays * -1} দিন আগে`}
                   </span>
-                  <button
+                  {new Date(project.expiryDate) > new Date() && <button
                     onClick={() => openModal(project.members, project._id)}
                     className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
                   >
                     পেমেন্ট দিন
-                  </button>
+                  </button>}
                 </div>
                 <div className="space-y-2">
 
@@ -270,7 +271,7 @@ const ProjectList = ({ p }) => {
                   </span>{" "}
                   {project.note || "N/A"}
                 </p>
-         
+
                 <p>
                   <span className="font-medium">শুরু হয়েছেঃ</span>{" "}
                   {formatDate(project.startDate)}

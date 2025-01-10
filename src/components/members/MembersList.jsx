@@ -1,7 +1,7 @@
 'use client'
 import formatDate from "@/utils/formatDate.mjs";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Edit from "../svg/Edit";
 import DefaultSorting from "../selects/DefaultSoring";
 import SearchBox from "../forms/SearchBox";
@@ -20,7 +20,6 @@ const MembersList = ({ m = [] }) => {
     const [selectedMember, setSelectedMember] = useState(null);
     const [members, setMembers] = useState(m);
     const memorizedMembers = useMemo(() => members, [members]);
-
     const [allMembers, setAllMembers] = useState([]);
     const [loadingAllMembers, setLoadingAllMembers] = useState(false);
     const [isAllProjectsModalOpen, setIsAllProjectsModalOpen] = useState(false);
@@ -115,7 +114,9 @@ const MembersList = ({ m = [] }) => {
         { value: "temporary_members_only", label: "আমানতহীন সদস্য" },
     ];
     const closeModal = () => setSelectedMember(null);
-    console.log(memorizedMembers)
+    useEffect(()=>{
+        setMembers(m)
+    },[m])
     return (
         <div className="mt-4">
             <div >

@@ -12,7 +12,7 @@ const SearchBox = ({ placeholder }) => {
             const query = new URLSearchParams(window.location.search);
             query.set('keyword', keyword);
             router.replace(`${window.location.pathname}?${query.toString()}`, { scroll: false });
-            window.location.reload()
+            // window.location.reload()
         } else {
             setHasMounted(true)
         }
