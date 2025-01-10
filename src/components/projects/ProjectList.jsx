@@ -204,21 +204,27 @@ const ProjectList = ({ p }) => {
       <div id="projects-section">
         {memorizedProjects?.map((project, index) => {
           const remainingDays = getRemainingDays(project.expiryDate);
-          // let showPaymentOption = true;
+        const paymentDue =  project?.members?.some((member) => {
+            let totalPaid = member?.payments ? member?.payments?.reduce((acc, currentV) => acc + currentV?.amount, 0) : 0;
+            if (totalPaid < 1 || member?.amountInvested + member?.willGetAmount - totalPaid > 0) {
+              return true; 
+            }
+            return false; 
+          });
           return (
             <div
               key={project._id}
               className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-custom1"
             >
               {/* Project Header */}
-              <span style={{ fontSize: '14px', color: '#374151', }}>প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
+              <span style={{ fontSize: '14px', color: '#374151', }} className="dark:text-white text-[#374151]" >প্রকল্প নং- {convertToBanglaNumber(index + 1)}</span>
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                   <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                     {project.projectName}
                   </h2>
 
-                  <span
+                {paymentDue &&  <span
                     className={`text-sm mt-2 ${remainingDays <= 0
                       ? "text-red-500"
                       : remainingDays <= 7
@@ -229,8 +235,8 @@ const ProjectList = ({ p }) => {
                     {remainingDays > 0
                       ? `মেয়াদ উত্তীর্ণের বাকি ${remainingDays} দিন`
                       : `মেয়াদ উত্তীর্ণ হয়েছে ${remainingDays * -1} দিন আগে`}
-                  </span>
-                  {new Date(project.expiryDate) > new Date() && <button
+                  </span>}
+                  {paymentDue && <button
                     onClick={() => openModal(project.members, project._id)}
                     className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
                   >
